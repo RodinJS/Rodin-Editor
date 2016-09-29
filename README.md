@@ -12,6 +12,14 @@ Install node modules
 ```sh
 $ npm install
 ```
+Install [**bower**](https://github.com/bower/bower/blob/master/README.md)
+```sh
+$ npm install --global bower
+```
+Install bower modules
+```sh
+$ bower install
+```
 
 ## Build
 Run watcher and server
