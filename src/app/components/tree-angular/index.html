@@ -1,0 +1,25 @@
+<div class="file-tree clearfix" id="rodin-tree-container">
+	<script type="text/ng-template" id="nodes_renderer.html">
+		<div data-ui-tree-handle class="tree-node tree-node-content">
+			<a class="btn btn-success btn-xs" data-ng-if="child.children && child.children.length > 0" data-nodrag data-ng-click="$ctrl.toggle(this)">
+				<span
+					class="glyphicon"
+					data-ng-class="{
+          'glyphicon-chevron-right': collapsed,
+          'glyphicon-chevron-down': !collapsed
+        }"></span>
+			</a>
+			{{child.name}}
+		</div>
+		<ol data-ui-tree-nodes="" data-ng-model="child.children" data-ng-class="{'hidden': collapsed}">
+			<li data-ng-repeat="child in child.children" data-ui-tree-node data-ng-include="'nodes_renderer.html'">
+			</li>
+		</ol>
+	</script>
+
+	<div ui-tree id="tree-root">
+		<ol ui-tree-nodes data-ng-model="$ctrl.data">
+			<li ng-repeat="child in $ctrl.data" ui-tree-node data-nodrag ng-include="'nodes_renderer.html'"></li>
+		</ol>
+	</div>
+</div>

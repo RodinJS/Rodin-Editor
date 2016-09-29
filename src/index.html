@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title data-ng-bind="pageTitle"></title>
+
+	<link rel="stylesheet" href="/scripts/vendor/font-awesome/css/font-awesome.css">
+	<link rel="stylesheet" href="/styles/style.css">
+	<base href="/">
+</head>
+<body class="page">
+
+<div data-ui-view class="page__wrapper"></div>
+
+<script type="text/javascript" src="/scripts/systemjs/system.src.js"></script>
+<script>
+
+	(function (System) {
+		var systemnormalize = System.normalize;
+		var blacklist = ['systemjs-json'];
+
+		function shouldReverse(parts) {
+			return parts.every(function (part) {
+				return blacklist.indexOf(part) === -1;
+			});
+		}
+
+		System.normalize = function (name, parentName) {
+			var parts = name.split('!');
+
+			if (parts.length > 1 && shouldReverse(parts)) {
+				name = parts.reverse().join('!');
+			}
+
+			return systemnormalize.call(this, name, parentName);
+		};
+	})(System);
+
+	System.config({
+		map: {
+			css: '/scripts/systemjs/css.js'  // path to css.js file
+		},
+		paths: {
+			'*': 'scripts/vendor/*',
+			'app/*': 'app/*',
+			'scripts/*': 'scripts/*'
+		},
+		packages: {
+			"/scripts": {  // path to your project root
+				"defaultJSExtensions": true,
+				meta: {
+					'*.css': {loader: 'css'}
+				}
+			},
+			"/app": {  // path to your project root
+				"defaultJSExtensions": true
+			}
+		}
+	});
+
+	System.import('app/app.js');
+
+</script>
+</body>
+</html>

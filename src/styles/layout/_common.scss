@@ -1,0 +1,187 @@
+// Common styles of the project
+
+html, body {
+    height: 100%;
+}
+
+.page {
+	font-size: $font-base;
+	font-family: $fontOpenSans;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	background-color: $colorBodyBg;
+	position: relative;
+	color: white;
+}
+
+.page__wrapper {
+    min-height: 100%;
+}
+
+* html .page__wrapper {
+    height: 100%;
+}
+
+.page-index{
+	.pages-list{
+		padding: 0;
+		margin: 0;
+		list-style-type: none;
+		padding-top: 30px;
+		li{
+			margin-bottom: 10px;
+			a{
+				color: $white;
+				text-decoration: none;
+				transition: all .3s;
+				&:hover{
+					color: $colorSemiWhite;
+				}
+			}
+		}
+	}
+}
+
+.main-container{
+	padding-left: 30px;
+	padding-right: 30px;
+}
+
+h1.box-title{
+	font-size: 18px;
+	line-height: 1.333;
+}
+
+h1.main-title{
+	font-size: 24px;
+	line-height: 1.333;
+	margin-top: 30px;
+	margin-bottom: 30px;
+}
+
+h2{
+	font-size: 18px;
+	line-height: 1.333;
+	font-weight: 700;
+	&.section-title{
+		font-weight: 400;
+		text-transform: capitalize;
+		color: $white;
+		margin-top: 0;
+		margin-bottom: 15px;
+	}
+}
+
+h5{
+	font-size: 14px;
+	line-height: 1.36;
+	font-weight: 700;
+}
+
+.text-action{
+	font-size: 12px;
+	line-height: 1.42;
+	font-weight: 700;
+}
+
+.text-primary{
+	font-size: 12px;
+	line-height: 1.42;
+}
+
+.text-small{
+	font-size: 10px;
+	line-height: 1.4;
+}
+
+.main-content-info{
+	padding: 18px 20px;
+	border-radius: 60px;
+	background-color: rgba(255, 255, 255, .08);
+	box-shadow: 0 1px 4px 0 rgba(0, 0, 0, .5);
+	margin-bottom: 30px;
+	p{
+		margin-bottom: 0;
+		color: $white;
+		a{
+			text-decoration: none;
+			color: $colorBlue;
+			transition: all .3s;
+			&:hover{
+				color: darken($colorBlue, 15%);
+			}
+		}
+		i{
+			font-size: 24px;
+			color: $colorOrange;
+			vertical-align: middle;
+			margin-right: 5px;
+		}
+	}
+}
+
+.nav-menu-wrapper{
+	margin-bottom: 30px;
+	.nav-tabs{
+		border-color: rgba($white, .1);
+		border-width: 2px;
+		>li{
+			padding: 0 16px;
+			margin-bottom: -2px;
+			&:first-child{
+				padding-left: 0;
+				>a{
+					padding-left: 0;
+				}
+			}
+			&.active{
+				>a{
+					background-color: transparent;
+					color: $white;
+					font-weight: 700;
+					border: none;
+					border-bottom: 2px solid $white;
+					&:hover{
+						color: $white;
+					}
+				}
+			}
+			>a{
+				border: none;
+				border-radius: 0;
+				font-size: 14px;
+				line-height: 1.36;
+				color: $colorSemiWhite;
+				padding: 0 3px 20px 3px;
+				margin: 0;
+				border-bottom: 2px solid transparent;
+				transition: all .3s;
+				&:hover{
+					color: $colorBlue;
+					background-color: transparent;
+				}
+			}
+		}
+	}
+}
+
+
+//======================= MEDIA QUERIES ==============================//
+
+// medium
+@media (min-width: $screen-md-min) and (max-width: $screen-md-max) {
+
+}
+// tablet
+@media (min-width: $screen-sm-min) and (max-width: $screen-sm-max) {
+
+}
+// phone + tablet
+@media (max-width: $screen-sm-max) {
+
+}
+// phone
+@media (max-width: $screen-xs-max) {
+
+}
+

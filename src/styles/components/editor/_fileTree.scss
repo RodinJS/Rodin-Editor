@@ -1,0 +1,40 @@
+#rodin-tree-container {
+  @import "../../../../build/scripts/vendor/angular-ui-tree/dist/angular-ui-tree.min";
+
+
+  .btn {
+    margin-right: 8px;
+  }
+
+
+  /* --- Tree --- */
+  .tree-node {
+    color: #ffffff;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+
+  .nodrop {
+    opacity: 0.5;
+  }
+
+  .tree-node-content {
+    margin: 10px;
+  }
+  .tree-handle {
+    padding: 10px;
+    color: #FFF;
+    margin-right: 10px;
+  }
+
+  .angular-ui-tree-handle:hover {
+  }
+
+  .angular-ui-tree-placeholder {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+  }
+}
