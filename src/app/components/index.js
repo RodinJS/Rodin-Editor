@@ -12,6 +12,9 @@ componentsModule.directive('aceEditor', AceEditor);
 import FileTree from './tree-angular/index';
 componentsModule.directive('fileTree', FileTree);
 
+import EditorTabs from './editor-tabs-angular/index';
+componentsModule.directive('editorTabs', EditorTabs);
+
 import RodinIDEA from './rodin-IDEA/index';
 componentsModule.directive('rodinIdea', RodinIDEA);
 

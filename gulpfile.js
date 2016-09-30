@@ -45,8 +45,8 @@ const JS =            [ 'src/app/**/*.js', '!src/systemjs/system.js', '!src/scri
 const HTML =          [ 'src/app/**/*.html'];
 const SYSTEMJS =      [ 'src/systemjs/*.js' ];
 const SASS =          [ 'src/styles/**/*.scss', '!src/styles/{vendor,vendor/**}' ];
-const FONT =          [ 'src/fonts/**/*.{ttf,woff,woff2,eof,svg}' ];
-const IMG =           [ 'src/images/**/*.{jpg,jpeg,ico,png}' ];
+const FONT =          [ 'src/fonts/**/*.{ttf,woff,woff2,eof,svg,eot,json}' ];
+const IMG =           [ 'src/images/**/*.{jpg,jpeg,ico,png,svg,gif}' ];
 
 const AUTOPREFIXER_BROWSERS = [
   'ie >= 10',

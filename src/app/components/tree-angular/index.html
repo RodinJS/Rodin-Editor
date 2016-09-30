@@ -1,25 +1,61 @@
-<div class="file-tree clearfix" id="rodin-tree-container">
-	<script type="text/ng-template" id="nodes_renderer.html">
-		<div data-ui-tree-handle class="tree-node tree-node-content">
-			<a class="btn btn-success btn-xs" data-ng-if="child.children && child.children.length > 0" data-nodrag data-ng-click="$ctrl.toggle(this)">
-				<span
-					class="glyphicon"
-					data-ng-class="{
-          'glyphicon-chevron-right': collapsed,
-          'glyphicon-chevron-down': !collapsed
-        }"></span>
-			</a>
-			{{child.name}}
-		</div>
-		<ol data-ui-tree-nodes="" data-ng-model="child.children" data-ng-class="{'hidden': collapsed}">
-			<li data-ng-repeat="child in child.children" data-ui-tree-node data-ng-include="'nodes_renderer.html'">
-			</li>
-		</ol>
+<div class="sidebar-wrapper">
+	<script type="text/ng-template" id="children_renderer.html">
+		<a data-ui-tree-handle class="text-small tree-node tree-node-content"
+		   data-ng-class="::{'menu-item-header btn-menu-drop':$ctrl.isFolder(child)}"
+		   data-ng-dblclick="$ctrl.open(this, child)"
+		   data-ng-click="$ctrl.toggle(this)">
+
+		  <span data-ng-class="::{'item-header-inner':$ctrl.isFolder(child)}">
+
+
+			<i class="ion ion-android-arrow-dropdown dropdown-icon color-icon-dark"
+			   data-ng-show="$ctrl.isFolder(child)"></i>
+
+
+			<i data-ng-init="opts = $ctrl.getFileOptions(child)"
+			   data-ng-class="::opts.class" data-ng-bind="::opts.content"></i>
+
+		    <span class="file-name">{{::child.name}}</span>
+
+		  </span>
+
+		</a>
+
+
+		<ul class="sidebar-submenu"
+		    data-ng-if="::(child.type == 'directory')"
+		    data-ui-tree-nodes=""
+		    data-ng-model="child.children">
+
+			<li data-ng-repeat="child in child.children"
+			    data-ui-tree-node
+			    data-ng-class="{
+		    'menu-item':$ctrl.isFolder(child),
+				'open': collapsed
+				}"
+			    data-ng-include="'children_renderer.html'"></li>
+
+		</ul>
 	</script>
 
-	<div ui-tree id="tree-root">
-		<ol ui-tree-nodes data-ng-model="$ctrl.data">
-			<li ng-repeat="child in $ctrl.data" ui-tree-node data-nodrag ng-include="'nodes_renderer.html'"></li>
-		</ol>
+	<div class="drag-handle"></div>
+	<h3 class="text-primary sidebar-title dropdown">
+		Folder
+		<a href=""><i class="icon icon-more"></i></a>
+	</h3>
+	<div class="clearfix" data-ui-tree id="tree-root">
+		<ul class="sidebar-menu" data-ui-tree-nodes data-ng-model="$ctrl.data">
+			<li data-ng-repeat="child in $ctrl.data"
+			    data-ui-tree-node
+			    data-nodrag
+			    data-ng-class="{
+			    'menu-item':(child.type == 'directory'),
+					'open': collapsed
+					}"
+			    ng-include="'children_renderer.html'"></li>
+		</ul>
+	</div>
+	<div class="form-group filter-group">
+		<input type="search" class="form-control" placeholder="&#xF002; Filter">
 	</div>
 </div>

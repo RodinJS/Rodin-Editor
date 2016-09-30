@@ -1,4 +1,4 @@
-import RIDEALink from './link';
+// import RIDEALink from './link';
 import RIDEACtrl from './controller';
 
 function RIDEAEditor() {
@@ -11,8 +11,10 @@ function RIDEAEditor() {
 		controllerAs: "$ctrl",
 		replace: true,
 		controller: RIDEACtrl,
-		link: RIDEALink,
-		scope:{}
+		// link: RIDEALink,
+		scope: {
+			projectId: "="
+		}
 	};
 }
 

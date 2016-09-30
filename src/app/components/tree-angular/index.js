@@ -1,4 +1,4 @@
-import TreeLink from './link';
+// import TreeLink from './link';
 import TreeCtrl from './controller';
 
 function TreeEditor() {
@@ -6,13 +6,16 @@ function TreeEditor() {
 
 	return {
 		restrict: 'EA',
-		require: '?ngModel',
 		templateUrl: 'components/tree-angular/index.html',
 		controllerAs: "$ctrl",
 		replace: true,
 		controller: TreeCtrl,
-		link: TreeLink,
-		scope:{}
+		// link: TreeLink,
+		scope: {
+			projectId: "=",
+			callback: "=",
+			checker: "="
+		}
 	};
 }
 

@@ -1,24 +1,107 @@
-<nav class="navbar">
-  	<div class="container-fluid">
-	    <!-- Brand and toggle get grouped for better mobile display -->
-	    <div class="navbar-header">
-	      	<button type="button" class="navbar-toggle collapsed" ng-click="isNavbarCollapsed = !isNavbarCollapsed">
-	        	<span class="sr-only">Toggle navigation</span>
-	        	<span class="icon-bar"></span>
-	        	<span class="icon-bar"></span>
-	        	<span class="icon-bar"></span>
-	      	</button>
-	      	<a class="navbar-brand" data-ui-sref="app.editor">
-	      		<img src="images/rodin-logo.png" width="90" alt="logo">
-	      	</a>
-	    </div>
-
-    	<!-- Collect the nav links, forms, and other content for toggling -->
-    	<div class="collapse navbar-collapse" data-uib-collapse="isNavbarCollapsed">
-      		<ul class="nav navbar-nav">
-        		<li><a data-ui-sref-active="active" data-ui-sref="app.editor">Editor</a></li>
-			      <li><a data-ui-sref-active="active" data-ui-sref="app.error">Error</a></li>
-		      </ul>
-    	</div><!-- /.navbar-collapse -->
-  	</div><!-- /.container-fluid -->
-</nav>
+<div class="header work-space-header">
+	<div class="container-fluid">
+		<a class="work-space-logo" data-ui-sref="app">
+			<img src="images/general/rodin-logo.svg" width="52" alt="">
+		</a>
+		<div class="folder-name dropdown">
+			<a href="#" class="dropdown-toggle btn-folder-name" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+				/threejs-lab
+				<i class="fa fa-angle-down"></i>
+			</a>
+			<div class="dropdown-menu dropdown-menu-folder">
+			</div>
+		</div>
+		<ul class="header-work-menu">
+			<li>
+				<a href="" class="text-primary">File</a>
+			</li>
+			<li>
+				<a href="" class="text-primary">Edit</a>
+			</li>
+			<li>
+				<a href="" class="text-primary">Find</a>
+			</li>
+			<li>
+				<a href="" class="text-primary">Goto</a>
+			</li>
+			<li>
+				<a href="" class="text-primary">Run</a>
+			</li>
+			<li>
+				<a href="" class="text-primary">Tools</a>
+			</li>
+			<li>
+				<a href="" class="text-primary">View</a>
+			</li>
+			<li>
+				<a href="" class="text-primary">Window</a>
+			</li>
+			<li>
+				<a href="" class="text-primary">Help</a>
+			</li>
+		</ul>
+		<ul class="navbar-right navbar-account">
+			<li class="dropdown new-notifi">
+				<a href="#" class="dropdown-toggle btn-notifi" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+					<i class="icon icon-notifi"></i>
+					<span class="new-notifi-badge">
+                        <i class="icon icon-dot"></i>
+                    </span>
+				</a>
+				<div class="dropdown-menu dropdown-menu-notifi">
+					<h5>Notifications</h5>
+					<ul>
+						<li class="red">
+							<a href="#">
+								<p>It sometimes seems everyone on the planet is using Windows.</p>
+								<span class="notifi-date text-small">6 hours ago</span>
+							</a>
+						</li>
+						<li class="orange">
+							<a href="#">
+								<p>Photographs are a way of preserving a moment in our lives for the rest of our lives. Many of us have at least been</p>
+								<span class="notifi-date text-small">2 hours ago</span>
+							</a>
+						</li>
+						<li class="blue">
+							<a href="#">
+								<p>Many of us have at least been</p>
+								<span class="notifi-date text-small">6 hours ago</span>
+							</a>
+						</li>
+						<li class="orange">
+							<a href="#">
+								<p>Photographs are a way of preserving a moment in our lives for the rest of our lives. Many of us have at least been</p>
+								<span class="notifi-date text-small">2 hours ago</span>
+							</a>
+						</li>
+					</ul>
+				</div>
+			</li>
+			<li class="dropdown">
+				<a href="#" class="dropdown-toggle text-action btn-account-drop" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                            <span class="avatar">
+                        <span class="avatar-name">RS</span>
+                            </span>
+					Ryan Schneider
+					<i class="fa fa-angle-down"></i>
+				</a>
+				<ul class="dropdown-menu dropdown-menu-account">
+					<li>
+						<h2>Ryan Schneider</h2>
+						<a href="mailto:lwarren@quinu.info" class="mail-link">lwarren@quinu.info</a>
+					</li>
+					<li>
+						<a href="#">EDIT Profile</a>
+					</li>
+					<li>
+						<a href="#" class="plan-link">Upgrade Your Plan</a>
+					</li>
+					<li>
+						<a href="#" class="signout-link">Sign Out</a>
+					</li>
+				</ul>
+			</li>
+		</ul>
+	</div>
+</div>

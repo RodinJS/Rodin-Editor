@@ -8,6 +8,7 @@ function EditorConfig($stateProvider) {
 			controllerAs: '$ctrl',
 			templateUrl: 'pages/editor/editor.html',
 			title: 'Editor',
+			pageClass:"page-work-space",
 			resolve: {
 				auth: function (User) {
 					return User.ensureAuthIs(true);

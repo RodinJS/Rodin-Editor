@@ -4,6 +4,9 @@ import angular from 'angular/index';
 let servicesModule = angular.module('app.services', []);
 
 
+import FileUtilsService from './fileUtils.service';
+servicesModule.service('FileUtils', FileUtilsService);
+
 import ValidatorService from './validator.service';
 servicesModule.factory('Validator', ValidatorService);
 

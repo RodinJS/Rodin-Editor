@@ -26,6 +26,8 @@ function AppRun(AppConstants, $rootScope, Restangular, JWT, $state) {
 	// change page title based on state
 	$rootScope.$on('$stateChangeSuccess', (event, toState) => {
 		$rootScope.setPageTitle(toState.title);
+
+		$rootScope.setPageClass(toState.pageClass);
 	});
 
 	$rootScope.$on("$stateChangeStart", function (event, toState, toParams, fromState, fromParams) {
@@ -44,6 +46,11 @@ function AppRun(AppConstants, $rootScope, Restangular, JWT, $state) {
 			$rootScope.pageTitle += ' \u2014 ';
 		}
 		$rootScope.pageTitle += AppConstants.appName;
+	};
+
+	// Helper method for setting the page's class
+	$rootScope.setPageClass = (pageClass) => {
+		$rootScope.pageClass = pageClass;
 	};
 
 

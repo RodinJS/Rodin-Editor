@@ -4,6 +4,8 @@ class EditorCtrl {
 
 		this.appName = AppConstants.appName;
 		this._$stateParams = $stateParams;
+
+		this.projectId = this._$stateParams.projectId || null;
 	}
 
 

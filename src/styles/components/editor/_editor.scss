@@ -1,6 +1,13 @@
 #rodin-ace-editor-container {
+  width: calc(100% + 50px);
   .ace_editor {
     display: block;
-    height: 200px;
+    min-height: calc(100vh - 63px);
+
+    background-color: #28282b !important;
+
+    .ace_gutter {
+      background-color: #28282b !important;
+    }
   }
 }
