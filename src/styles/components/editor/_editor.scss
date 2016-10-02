@@ -1,10 +1,14 @@
 #rodin-ace-editor-container {
   width: calc(100% + 50px);
+  height: calc(100vh - 63px);
   .ace_editor {
     display: block;
-    min-height: calc(100vh - 63px);
 
+    width: 100%;
     background-color: #28282b !important;
+
+    position: relative;
+    min-height: 100%;
 
     .ace_gutter {
       background-color: #28282b !important;

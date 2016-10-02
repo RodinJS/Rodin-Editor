@@ -3,8 +3,6 @@
 <head>
 	<meta charset="utf-8">
 	<title data-ng-bind="pageTitle"></title>
-
-	<link rel="stylesheet" href="/scripts/vendor/font-awesome/css/font-awesome.css">
 	<link rel="stylesheet" href="/styles/style.css">
 	<base href="/">
 </head>
@@ -38,18 +36,22 @@
 
 	System.config({
 		map: {
-			css: '/scripts/systemjs/css.js'  // path to css.js file
+			css: '/scripts/systemjs/css.js',  // path to css.js file
+			snippets: '/scripts/systemjs/snippets.js'  // path to snippets.js file
 		},
 		paths: {
 			'*': 'scripts/vendor/*',
 			'app/*': 'app/*',
-			'scripts/*': 'scripts/*'
+			'scripts/*': 'scripts/*',
+			'scripts/vendor/ace/ext/*': 'scripts/vendor/ace/lib/ace/ext/*'
 		},
+
 		packages: {
 			"/scripts": {  // path to your project root
 				"defaultJSExtensions": true,
 				meta: {
-					'*.css': {loader: 'css'}
+					'*.css': {loader: 'css'},
+					'*.snippets': {loader: 'snippets'}
 				}
 			},
 			"/app": {  // path to your project root

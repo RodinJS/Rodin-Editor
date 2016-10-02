@@ -14,5 +14,11 @@
     "angular-ui-ace": "bower",
     "angular-ui-tree": "^2.22.1",
     "ace": "^1.2.5"
+  },
+  "install" : {
+    "path" : "build/scripts/vendor",
+    "sources" : {
+      "ace" : "bower_components/ace/lib/ace/**"
+    }
   }
 }

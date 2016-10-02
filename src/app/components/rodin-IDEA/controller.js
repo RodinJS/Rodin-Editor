@@ -23,8 +23,21 @@ class RIDEACtrl {
 		this.openedFileIndex = 0;
 
 		this.aceOptions = {
+			workerPath: "/scripts/vendor/ace/lib/ace",
 			theme: 'monokai',
 			mode: 'javascript',
+			showGutter: true,
+			// cursorPosition: 0,
+			advanced: {
+				basePath: "/scripts/vendor/ace/lib/",
+				fontSize: "12px",
+				tabSize: 4,
+				wrap: true,
+				readOnly: false,
+				enableBasicAutocompletion: true,
+				enableLiveAutocompletion: true,
+				autoScrollEditorIntoView: true,
+			},
 			onLoad: function (_ace) {
 				console.log("onLoad")
 			},

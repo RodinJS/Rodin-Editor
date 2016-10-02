@@ -3,11 +3,8 @@
  */
 
 import ace from "ace/lib/ace/ace";
-
-ace.config.set('basePath', "ace/lib/ace");
-ace.config.set("modePath", "ace/lib/ace");
-ace.config.set("workerPath", "ace/lib/ace");
-ace.config.set("themePath", "ace/lib/ace");
+import "ace/lib/ace/ext/language_tools";
+import {UndoManager} from "ace/lib/ace/undomanager";
 
 /**
  * Sets editor options such as the wrapping mode or the syntax checker.
@@ -40,6 +37,7 @@ function setOptions(acee, session, opts) {
 			ace.require(n);
 		});
 	}
+
 	// Boolean options
 	if (angular.isDefined(opts.showGutter)) {
 		acee.renderer.setShowGutter(opts.showGutter);
@@ -60,21 +58,14 @@ function setOptions(acee, session, opts) {
 		acee.setShowPrintMargin(opts.showPrintMargin);
 	}
 
-	// commands
-	if (angular.isDefined(opts.disableSearch) && opts.disableSearch) {
-		acee.commands.addCommands([
-			{
-				name: 'unfind',
-				bindKey: {
-					win: 'Ctrl-F',
-					mac: 'Command-F'
-				},
-				exec: function () {
-					return false;
-				},
-				readOnly: true
+	if (angular.isDefined(opts.commands) && angular.isArray(opts.commands)) {
+		for (let i = 0, ln = opts.commands.length; i < ln; ++i) {
+			if (angular.isObject(opts.commands[i])) {
+				acee.commands.addCommand(opts.commands[i]);
+			} else {
+				console.warn("command must be an object");
 			}
-		]);
+		}
 	}
 
 	// Basic options
@@ -84,14 +75,6 @@ function setOptions(acee, session, opts) {
 	if (angular.isString(opts.mode)) {
 		session.setMode('ace/lib/ace/mode/' + opts.mode);
 	}
-	// Advanced options
-	if (angular.isDefined(opts.firstLineNumber)) {
-		if (angular.isNumber(opts.firstLineNumber)) {
-			session.setOption('firstLineNumber', opts.firstLineNumber);
-		} else if (angular.isFunction(opts.firstLineNumber)) {
-			session.setOption('firstLineNumber', opts.firstLineNumber());
-		}
-	}
 
 	// advanced options
 	let key, obj;
@@ -100,7 +83,8 @@ function setOptions(acee, session, opts) {
 			// create a javascript object with the key and value
 			obj = {name: key, value: opts.advanced[key]};
 			// try to assign the option to the ace editor
-			acee.setOption(obj.name, obj.value);
+			acee.setOption(opts.advanced);
+			console.log(obj.name, obj.value)
 		}
 	}
 
@@ -120,6 +104,17 @@ function setOptions(acee, session, opts) {
 			cb(acee);
 		}
 	});
+
+	session.setUndoManager(new UndoManager());
+
+	if (angular.isDefined(opts.cursorPosition)) {
+		acee.moveCursorToPosition(opts.cursorPosition);
+	}
+
+	acee.$blockScrolling = Infinity;
+
+	acee.focus();
+
 }
 
 
@@ -133,46 +128,6 @@ function AceLink(scope, elm, attrs, ngModel) {
 	 * @type object
 	 */
 	let acee = ace.edit(elm[0]);
-
-
-	/*****************/
-
-	acee.$blockScrolling = Infinity;
-	// enable autocompletion and snippets
-	window.acee = acee;
-	acee.setOptions({
-		enableLiveAutocompletion: true,
-		enableMultiselect: true,
-		enableEmmet: true,
-		enableBasicAutocompletion: true,
-		enableSnippets: true,
-		spellcheck: true,
-		useElasticTabstops: true,
-
-		hScrollBarAlwaysVisible: false,
-		vScrollBarAlwaysVisible: false,
-		highlightGutterLine: true,
-		animatedScroll: true,
-		// showInvisibles:,
-		showPrintMargin: false, /// sahmani zibil gic@
-		// printMarginColumn:,
-		// printMargin:,
-
-		fadeFoldWidgets: false, /// misht cuyc ta minimize slaq@
-		showFoldWidgets: true, /// cuyc ta minimize slaq@
-		showLineNumbers: true, /// cuc ta toxi hamar@
-		showGutter: true, /// cuc ta hamarneri bar@
-		displayIndentGuides: true,
-		fontSize: 16,
-		// fontFamily:,
-		maxLines: Infinity,
-		minLines: 1,
-		// scrollPastEnd: ,
-		fixedWidthGutter: false,
-
-	});
-
-	/*****************/
 
 
 	/**
