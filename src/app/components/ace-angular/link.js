@@ -2,9 +2,9 @@
  * Created by kh.levon98 on 24-Sep-16.
  */
 
-import ace from "ace/lib/ace/ace";
-import "ace/lib/ace/ext/language_tools";
-import {UndoManager} from "ace/lib/ace/undomanager";
+import ace from "ace/ace";
+import "ace/ext/language_tools";
+import {UndoManager} from "ace/undomanager";
 
 /**
  * Sets editor options such as the wrapping mode or the syntax checker.
@@ -24,11 +24,10 @@ import {UndoManager} from "ace/lib/ace/undomanager";
  * @param {object} opts Options to be set
  */
 function setOptions(acee, session, opts) {
-
 	// sets the ace worker path, if running from concatenated
 	// or minified source
 	if (angular.isDefined(opts.workerPath)) {
-		let config = ace.require('ace/lib/ace/config');
+		let config = ace.require('ace/config');
 		config.set('workerPath', opts.workerPath);
 	}
 	// ace requires loading
@@ -70,10 +69,10 @@ function setOptions(acee, session, opts) {
 
 	// Basic options
 	if (angular.isString(opts.theme)) {
-		acee.setTheme('ace/lib/ace/theme/' + opts.theme);
+		acee.setTheme('ace/theme/' + opts.theme);
 	}
 	if (angular.isString(opts.mode)) {
-		session.setMode('ace/lib/ace/mode/' + opts.mode);
+		session.setMode('ace/mode/' + opts.mode);
 	}
 
 	// advanced options
@@ -83,8 +82,7 @@ function setOptions(acee, session, opts) {
 			// create a javascript object with the key and value
 			obj = {name: key, value: opts.advanced[key]};
 			// try to assign the option to the ace editor
-			acee.setOption(opts.advanced);
-			console.log(obj.name, obj.value)
+			acee.setOption(obj.name, obj.value);
 		}
 	}
 

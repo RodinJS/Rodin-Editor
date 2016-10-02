@@ -1,4 +1,4 @@
-import ace from "ace/lib/ace/ace";
+import ace from "ace/ace";
 import AceLink from './link';
 import AceCtrl from './controller';
 
