@@ -25,3 +25,7 @@ Array.prototype.last = function () {
 Array.prototype.first = function () {
 	return this[0];
 };
+
+String.prototype.toCapitalize = function() {
+	return this.charAt(0).toUpperCase() + this.slice(1);
+}

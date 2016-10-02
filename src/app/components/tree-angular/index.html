@@ -3,6 +3,9 @@
 		<a data-ui-tree-handle class="text-small tree-node tree-node-content"
 		   data-ng-class="::{'menu-item-header btn-menu-drop':$ctrl.isFolder(child)}"
 		   data-ng-dblclick="$ctrl.open(this, child)"
+		   data-context-menu="$ctrl[child.type+'MenuOptions']"
+		   data-model="child"
+		   data-ng-init="opts = $ctrl.getFileOptions(child)"
 		   data-ng-click="$ctrl.toggle(this)">
 
 		  <span data-ng-class="::{'item-header-inner':$ctrl.isFolder(child)}">
@@ -12,8 +15,7 @@
 			   data-ng-show="$ctrl.isFolder(child)"></i>
 
 
-			<i data-ng-init="opts = $ctrl.getFileOptions(child)"
-			   data-ng-class="::opts.class" data-ng-bind="::opts.content"></i>
+			<i data-ng-class="::opts.class" data-ng-bind="::opts.content"></i>
 
 		    <span class="file-name">{{::child.name}}</span>
 
@@ -24,7 +26,7 @@
 
 		<ul class="sidebar-submenu"
 		    data-ng-if="::(child.type == 'directory')"
-		    data-ui-tree-nodes=""
+		    data-ui-tree-nodes
 		    data-ng-model="child.children">
 
 			<li data-ng-repeat="child in child.children"

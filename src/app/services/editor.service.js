@@ -33,7 +33,15 @@ class Editor {
 	createFile(projectId = null, fields = {}) {
 		let Analyser = new this._Analyser();
 		fields.id = projectId;
-		this._Editors.one("serve").remove(fields).then(Analyser.resolve, Analyser.reject);
+		this._Editors.all("serve").post(fields).then(Analyser.resolve, Analyser.reject);
+
+		return Analyser.promise;
+	}
+
+	updateFile(projectId = null, fields = {}) {
+		let Analyser = new this._Analyser();
+		fields.id = projectId;
+		this._Editors.one("serve").put(fields).then(Analyser.resolve, Analyser.reject);
 
 		return Analyser.promise;
 	}

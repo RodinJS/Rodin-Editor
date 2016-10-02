@@ -127,6 +127,12 @@ function AceLink(scope, elm, attrs, ngModel) {
 	 */
 	let acee = ace.edit(elm[0]);
 
+	acee.container.addEventListener("contextmenu", function(e) {
+		e.preventDefault();
+		// alert('success!');
+		return false;
+	}, false);
+
 
 	/**
 	 * ACE editor session.

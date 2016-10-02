@@ -25,7 +25,7 @@ class RIDEACtrl {
 		this.aceOptions = {
 			workerPath: "/scripts/vendor/ace",
 			theme: 'monokai',
-			mode: 'javascript',
+			mode: 'text',
 			showGutter: true,
 			// cursorPosition: 0,
 			advanced: {

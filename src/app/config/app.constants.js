@@ -8,6 +8,10 @@ const AppConstants = {
 	jwtKey: 'jwtToken',
 	appName: 'Rodin',
 	ERRORCODES: {
+		"400": {
+			"message": "BAD_REQUEST",
+			"field": ""
+		},
 		"404": {
 			"message": "NOT_FOUND",
 			"field": ""
@@ -85,6 +89,45 @@ const AppConstants = {
 			"message": "SOMETHING_WENT_WRONG",
 			"field": ""
 		},
+
+		"328": {
+			"message": "COULD_NOT_DELETE_OBJECT",
+			"field": ""
+		},
+		"329": {
+			"message": "COULD_NOT_LIST_FILES",
+			"field": ""
+		},
+		"330": {
+			"message": "COULD_NOT_READ_FILE",
+			"field": ""
+		},
+		"331": {
+			"message": "COULD_NOT_CREATE_COPY",
+			"field": ""
+		},
+		"332": {
+			"message": "PATH_DOES_NOT_EXIST",
+			"field": ""
+		},
+		"333": {
+			"message": "FILE_DOES_NOT_EXIST",
+			"field": ""
+		},
+		"334": {
+			"message": "FILE_OR_PATH_DOES_NOT_EXIST",
+			"field": ""
+		},
+		"335": {
+			"message": "COULD_NOT_WRITE_TO_FILE",
+			"field": ""
+		},
+		"336": {
+			"message": "NOT_A_FILE",
+			"field": ""
+		},
+
+
 		"601": {
 			"message": "UNKNOWN_SOCKET_CHANNEL",
 			"field": ""

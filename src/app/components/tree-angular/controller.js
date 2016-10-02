@@ -1,11 +1,12 @@
 /**
  * Created by kh.levon98 on 24-Sep-16.
  */
+let self;
 
 class TreeCtrl {
 	constructor($scope, $timeout, Editor, $log, FileUtils) {
 		'ngInject';
-
+		self = this;
 		this._$scope = $scope;
 		this._$timeout = $timeout;
 		this._Editor = Editor;
@@ -21,6 +22,20 @@ class TreeCtrl {
 		}
 
 		this.data = [];
+
+		this.fileMenuOptions = [
+			['Rename...', this._rename],
+			['Delete File', this._delete]
+		];
+
+		this.directoryMenuOptions = [
+			['New File', this._createFile],
+			['Rename...', this._rename],
+			null,
+			['New Folder', this._createFolder],
+			['Delete Folder', this._delete],
+			// ['Find in Folder', this._findInFolder]
+		];
 
 		/// Get project tree
 		this.updateTree();
@@ -70,6 +85,68 @@ class TreeCtrl {
 
 	isFolder(node) {
 		return (node.type == 'directory');
+	}
+
+	_delete($itemScope, $event, node, text, $li) {
+		let ans = confirm("Are you sure delete file: " + node.name);
+
+		if (ans) {
+			self._Editor.deleteFile(this.projectId, {
+				filename: node.path
+			}).then((data)=> {
+				self.updateTree();
+			}, (errors)=> {
+				alert("Error delete file!");
+			})
+		}
+	}
+
+	_rename($itemScope, $event, node, text, $li) {
+		let name = prompt("Change file name.", node.name);
+
+		if (name) {
+			self._Editor.updateFile(this.projectId, {
+				action: "rename",
+				filename: node.path,
+				newName: name,
+			}).then((data)=> {
+				self.updateTree();
+			}, (errors)=> {
+				alert("Error rename file!");
+			})
+		}
+	}
+
+	_createFolder($itemScope, $event, node, text, $li) {
+		let name = prompt("Folder name.");
+
+		if (name) {
+			self._Editor.createFile(this.projectId, {
+				type: "folder",
+				path: node.path,
+				name: name,
+			}).then((data)=> {
+				self.updateTree();
+			}, (errors)=> {
+				alert("Error to create folder!");
+			})
+		}
+	}
+
+	_createFile($itemScope, $event, node, text, $li) {
+		let name = prompt("File name.");
+
+		if (name) {
+			self._Editor.createFile(this.projectId, {
+				type: "file",
+				path: node.path,
+				name: name,
+			}).then((data)=> {
+				self.updateTree();
+			}, (errors)=> {
+				alert("Error to create file!");
+			})
+		}
 	}
 }
 
