@@ -13,6 +13,7 @@ import appRun     from './config/app.run';
 import 'angular-animate/angular-animate.min';
 import 'angular-touch/angular-touch.min';
 import 'angular-cookies/angular-cookies.min';
+import 'angular-sanitize/angular-sanitize.min';
 
 import 'angular-ui-router/release/angular-ui-router.min';
 import 'a0-angular-storage/dist/angular-storage.min';
@@ -35,6 +36,7 @@ const requires = [
 	'ngAnimate',
 	'ngTouch',
 	'ngCookies',
+	'ngSanitize',
 
 	'angular-storage',
 	'ui.router',

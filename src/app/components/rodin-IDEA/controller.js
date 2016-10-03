@@ -4,7 +4,7 @@
 let self;
 
 class RIDEACtrl {
-	constructor($scope, FileUtils, Editor, AppConstants, User, $stateParams) {
+	constructor($scope, FileUtils, Editor, AppConstants, User, $stateParams, $sce) {
 		'ngInject';
 		self = this;
 
@@ -13,6 +13,7 @@ class RIDEACtrl {
 		this._Editor = Editor;
 		this._User = User;
 		this._AppConstants = AppConstants;
+		this._$sce = $sce;
 
 		this.tabs = [{
 			name: "untitled",
@@ -117,6 +118,10 @@ class RIDEACtrl {
 
 	refreshPreview() {
 		this.iframeUrl = this.previewUrl + '?refreshTime=' + Date.now();
+	}
+
+	trustSrc(src) {
+		return this._$sce.trustAsResourceUrl(src);
 	}
 
 }
