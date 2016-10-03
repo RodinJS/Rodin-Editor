@@ -60,7 +60,7 @@ class RIDEACtrl {
 			return this.currentUser;
 		}, (newVal)=> {
 			if (newVal) {
-				this.previewUrl = AppConstants[AppConstants.env + "Preview"] + this.currentUser.username + "/" + $stateParams.projectFolder;
+				this.previewUrl = AppConstants[AppConstants.env + "Preview"] + this.currentUser.username + "/" + $stateParams.projectFolder + "/";
 				this.iframeUrl = this.previewUrl + '?refreshTime=' + Date.now();
 			}
 		});

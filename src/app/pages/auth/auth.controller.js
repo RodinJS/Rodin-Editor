@@ -1,13 +1,15 @@
 class AuthCtrl {
-	constructor(User, $state) {
+	constructor(User, $state, AppConstants) {
 		'ngInject';
 
 		this._User = User;
 		this._$state = $state;
+		this._AppConstants = AppConstants;
 
 		this.title = $state.current.title;
 		this.authType = $state.current.name.replace('app.', '');
 
+		window.location.href = this._AppConstants[this._AppConstants.env + "Domain"];
 	}
 
 	submitForm() {
