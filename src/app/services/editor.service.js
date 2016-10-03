@@ -39,10 +39,10 @@ class Editor {
 		return Analyser.promise;
 	}
 
-	updateFile(projectId = null, fields = {}) {
+	updateFile(projectId = null, body = {}, fields = {}) {
 		let Analyser = new this._Analyser();
 		fields.id = projectId;
-		this._Editors.one("serve").put(fields).then(Analyser.resolve, Analyser.reject);
+		this._Editors.one("serve").customPUT(body, undefined, fields).then(Analyser.resolve, Analyser.reject);
 
 		return Analyser.promise;
 	}

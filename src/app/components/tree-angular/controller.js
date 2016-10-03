@@ -41,7 +41,7 @@ class TreeCtrl {
 		/// Get project tree
 
 		this._$scope.$watch("projectId", (newVal)=> {
-			if(newVal){
+			if (newVal) {
 				this.projectId = this._$scope.projectId;
 				this.updateTree();
 			}
@@ -113,7 +113,7 @@ class TreeCtrl {
 		let name = prompt("Change file name.", node.name);
 
 		if (name) {
-			self._Editor.updateFile(this.projectId, {
+			self._Editor.updateFile(this.projectId, {}, {
 				action: "rename",
 				filename: node.path,
 				newName: name,

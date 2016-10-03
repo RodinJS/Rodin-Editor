@@ -63,10 +63,11 @@ class RIDEACtrl {
 	}
 
 	saveFile(editor) {
-		self._Editor.updateFile(self.projectId, {
-			action: "save",
-			filename: self.tabs[self.openedFileIndex].path,
+		self._Editor.updateFile(self._$scope.projectId, {
 			content: self.fileContent
+		}, {
+			action: "save",
+			filename: self.tabs[self.openedFileIndex].path
 		}).then((data)=> {
 
 		});
