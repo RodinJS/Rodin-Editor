@@ -5,7 +5,7 @@ const AppConstants = {
 	env: "dev",
 	prodAPI: 'https://api.rodinapp.com/api',
 	devAPI: 'http://localhost:3000/api',
-	prodDomain: 'https://api.rodinapp.com/',
+	prodDomain: 'https://rodinapp.com/',
 	devDomain: 'http://localhost:8585',
 	jwtKey: 'token',
 	appName: 'Rodin',
