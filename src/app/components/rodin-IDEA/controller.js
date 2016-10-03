@@ -22,6 +22,7 @@ class RIDEACtrl {
 		this.currentUser = User.current;
 		this.fileContent = '';
 		this.openedFileIndex = 0;
+		this.iframeUrl = "";
 
 		this.aceOptions = {
 			workerPath: "/scripts/vendor/ace",
@@ -59,7 +60,7 @@ class RIDEACtrl {
 		}, (newVal)=> {
 			if (newVal) {
 				this.previewUrl = AppConstants[AppConstants.env + "Preview"] + this.currentUser.username + "/" + $stateParams.projectFolder;
-				this.refreshTime = Date.now();
+				this.iframeUrl = this.previewUrl + '?refreshTime=' + Date.now();
 			}
 		});
 	}
@@ -114,8 +115,8 @@ class RIDEACtrl {
 		})[0];
 	}
 
-	refreshPreview(){
-		this.refreshTime = Date.now();
+	refreshPreview() {
+		this.iframeUrl = this.previewUrl + '?refreshTime=' + Date.now();
 	}
 
 }
