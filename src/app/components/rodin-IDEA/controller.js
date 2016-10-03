@@ -79,8 +79,7 @@ class RIDEACtrl {
 
 	updateEditor(data) {
 		const editorMode = self._FileUtils.getFileOptions(data).editorMode;
-		this.openedFileIndex = data.index;
-		console.log("this.openedFileIndex", this.openedFileIndex)
+		self.openedFileIndex = data.index;
 		self.fileContent = data.content || "";
 		self.aceOptions.mode = editorMode;
 	}
