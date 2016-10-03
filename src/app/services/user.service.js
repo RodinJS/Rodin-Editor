@@ -126,7 +126,7 @@ class User {
 		let deferred = this._$q.defer();
 		this.verifyAuth().then((authValid) => {
 			if (authValid !== bool) {
-				this._$state.go('app.login');
+				window.location.href = this._AppConstants[this._AppConstants.env + "Domain"];
 				deferred.resolve(false);
 			} else {
 				deferred.resolve(true);

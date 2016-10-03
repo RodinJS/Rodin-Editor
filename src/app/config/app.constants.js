@@ -3,9 +3,11 @@
  */
 const AppConstants = {
 	env: "dev",
-	prodAPI: 'http://dev.yvn.io/api',
+	prodAPI: 'https://api.rodinapp.com/api',
 	devAPI: 'http://localhost:3000/api',
-	jwtKey: 'jwtToken',
+	prodDomain: 'https://api.rodinapp.com/',
+	devDomain: 'http://localhost:8585',
+	jwtKey: 'token',
 	appName: 'Rodin',
 	ERRORCODES: {
 		"400": {

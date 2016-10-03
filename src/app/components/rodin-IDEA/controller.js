@@ -4,15 +4,13 @@
 let self;
 
 class RIDEACtrl {
-	constructor($scope, FileUtils) {
+	constructor($scope, FileUtils, Editor) {
 		'ngInject';
+		self = this;
 
 		this._$scope = $scope;
 		this._FileUtils = FileUtils;
-
-		self = this;
-
-		this.projectId = this._$scope.projectId || null;
+		this._Editor = Editor;
 
 		this.tabs = [{
 			name: "untitled",
@@ -28,6 +26,11 @@ class RIDEACtrl {
 			mode: 'text',
 			showGutter: true,
 			// cursorPosition: 0,
+			commands: [{
+				name: 'save',
+				bindKey: {win: 'Ctrl-S', mac: 'Command-S'},
+				exec: this.saveFile
+			}],
 			advanced: {
 				basePath: "/scripts/vendor/",
 				fontSize: "12px",
@@ -57,6 +60,16 @@ class RIDEACtrl {
 		data.index = this.tabs.length;
 		this.tabs.push(data);
 		this.updateEditor(data);
+	}
+
+	saveFile(editor) {
+		self._Editor.updateFile(self.projectId, {
+			action: "save",
+			filename: self.tabs[self.openedFileIndex].path,
+			content: self.fileContent
+		}).then((data)=> {
+
+		});
 	}
 
 	updateEditor(data) {

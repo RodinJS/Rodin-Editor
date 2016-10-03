@@ -7,7 +7,7 @@ class Project {
 		this._JWT = JWT;
 		this._AppConstants = AppConstants;
 
-		this._Projects = Restangular.all('projects');
+		this._Projects = Restangular.all('project');
 		this._$state = $state;
 		this._$q = $q;
 		this._Validator = new Validator();

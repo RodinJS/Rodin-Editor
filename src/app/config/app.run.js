@@ -15,7 +15,7 @@ function AppRun(AppConstants, $rootScope, Restangular, JWT, $state) {
 	Restangular.setErrorInterceptor(function (response, deferred, responseHandler) {
 		if (response.status === 401) {
 			JWT.destroy();
-			$state.go("app.login");
+			window.location.href = this._AppConstants[this._AppConstants.env + "Domain"];
 			return false; // error handled
 		}
 

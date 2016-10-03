@@ -13,7 +13,7 @@ class TreeCtrl {
 		this._FileUtils = FileUtils;
 		this._$log = $log;
 
-		this.projectId = this._$scope.projectId || null;
+		this.projectId = this._$scope.projectId;
 		this.callbackFn = this._$scope.callback;
 		this.checkerFn = this._$scope.checker;
 
@@ -22,6 +22,7 @@ class TreeCtrl {
 		}
 
 		this.data = [];
+		this.treeFilter = "";
 
 		this.fileMenuOptions = [
 			['Rename...', this._rename],
@@ -38,11 +39,13 @@ class TreeCtrl {
 		];
 
 		/// Get project tree
-		this.updateTree();
-	}
 
-	remove(scope) {
-		scope.remove();
+		this._$scope.$watch("projectId", (newVal)=> {
+			if(newVal){
+				this.projectId = this._$scope.projectId;
+				this.updateTree();
+			}
+		});
 	}
 
 	toggle(scope) {
@@ -87,6 +90,11 @@ class TreeCtrl {
 		return (node.type == 'directory');
 	}
 
+	isVisible(node) {
+		return !(this.treeFilter && this.treeFilter.length > 0 && node.name.indexOf(this.treeFilter) == -1);
+	}
+
+
 	_delete($itemScope, $event, node, text, $li) {
 		let ans = confirm("Are you sure delete file: " + node.name);
 
@@ -122,9 +130,10 @@ class TreeCtrl {
 
 		if (name) {
 			self._Editor.createFile(this.projectId, {
-				type: "folder",
+				type: "directory",
 				path: node.path,
 				name: name,
+				action: "create"
 			}).then((data)=> {
 				self.updateTree();
 			}, (errors)=> {
@@ -141,11 +150,12 @@ class TreeCtrl {
 				type: "file",
 				path: node.path,
 				name: name,
+				action: "create"
 			}).then((data)=> {
 				self.updateTree();
 			}, (errors)=> {
 				alert("Error to create file!");
-			})
+			});
 		}
 	}
 }
