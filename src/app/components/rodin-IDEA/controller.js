@@ -25,6 +25,7 @@ class RIDEACtrl {
 			theme: 'monokai',
 			mode: 'text',
 			showGutter: true,
+			showPrintMargin: false,
 			// cursorPosition: 0,
 			commands: [{
 				name: 'save',
@@ -63,21 +64,24 @@ class RIDEACtrl {
 	}
 
 	saveFile(editor) {
+		let activeTab = self.tabs[self.openedFileIndex];
+		let fileContent = self.fileContent;
+
 		self._Editor.updateFile(self._$scope.projectId, {
-			content: self.fileContent
+			content: fileContent
 		}, {
 			action: "save",
-			filename: self.tabs[self.openedFileIndex].path
+			filename: activeTab.path
 		}).then((data)=> {
-
+			activeTab.content = fileContent;
 		});
 	}
 
 	updateEditor(data) {
 		const editorMode = self._FileUtils.getFileOptions(data).editorMode;
-
 		this.openedFileIndex = data.index;
-		self.fileContent = data.content;
+		console.log("this.openedFileIndex", this.openedFileIndex)
+		self.fileContent = data.content || "";
 		self.aceOptions.mode = editorMode;
 	}
 

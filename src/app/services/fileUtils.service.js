@@ -19,6 +19,11 @@ const typeToIconMap = {
 		"content": "",
 		"editorMode": "javascript"
 	},
+	"css": {
+		"class": "fa fa-file-text-o color-icon-green",
+		"content": "",
+		"editorMode": "css"
+	},
 	"txt": {
 		"class": "fa fa-file-text-o color-icon-green",
 		"content": "",

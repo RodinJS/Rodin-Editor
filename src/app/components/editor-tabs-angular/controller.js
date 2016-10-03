@@ -10,7 +10,6 @@ class TabsCtrl {
 		this._FileUtils = FileUtils;
 		this._$log = $log;
 
-		this.openedFileIndex = this._$scope.openedFileIndex;
 		this.tabs = this._$scope.tabs;
 		this.updateEditorFn = this._$scope.updateEditor;
 
@@ -36,17 +35,22 @@ class TabsCtrl {
 		if (this.tabs.length == 0) {
 			this.tabs.push({
 				name: "untitled",
-				isBlank: true
+				isBlank: true,
+				index: this.tabs.length
 			});
 		}
+
+
 
 		let nextTab = this.tabs[index];
 
 		if (nextTab) {
-			this.openedFileIndex = nextTab.index;
+			this._$scope.openedFileIndex = nextTab.index;
 		} else {
-			this.openedFileIndex = this.tabs[index - 1].index;
+			this._$scope.openedFileIndex = this.tabs[index - 1].index;
 		}
+
+		this.updateEditorFn(this.tabs[this._$scope.openedFileIndex]);
 	}
 
 }
