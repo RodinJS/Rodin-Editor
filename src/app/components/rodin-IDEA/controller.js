@@ -4,19 +4,22 @@
 let self;
 
 class RIDEACtrl {
-	constructor($scope, FileUtils, Editor) {
+	constructor($scope, FileUtils, Editor, AppConstants, User, $stateParams) {
 		'ngInject';
 		self = this;
 
 		this._$scope = $scope;
 		this._FileUtils = FileUtils;
 		this._Editor = Editor;
+		this._User = User;
+		this._AppConstants = AppConstants;
 
 		this.tabs = [{
 			name: "untitled",
 			isBlank: true
 		}];
 
+		this.currentUser = User.current;
 		this.fileContent = '';
 		this.openedFileIndex = 0;
 
@@ -50,6 +53,15 @@ class RIDEACtrl {
 				console.log("onChange")
 			}
 		};
+
+		this._$scope.$watch(()=> {
+			return this.currentUser;
+		}, (newVal)=> {
+			if (newVal) {
+				this.previewUrl = AppConstants[AppConstants.env + "Preview"] + this.currentUser.username + "/" + $stateParams.projectFolder;
+				this.refreshTime = Date.now();
+			}
+		});
 	}
 
 	openFile(data) {
@@ -102,6 +114,9 @@ class RIDEACtrl {
 		})[0];
 	}
 
+	refreshPreview(){
+		this.refreshTime = Date.now();
+	}
 
 }
 
