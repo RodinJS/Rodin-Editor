@@ -1,5 +1,5 @@
 export default class JWT {
-	constructor(AppConstants, store, $cookies, $state, $q, Restangular, $location) {
+	constructor(AppConstants, store, $cookies, $state, $q, Restangular) {
 		'ngInject';
 
 		this._AppConstants = AppConstants;
@@ -9,11 +9,14 @@ export default class JWT {
 		this._$q = $q;
 		this._Auth = Restangular.all("auth");
 		this._token = null;
-		this._$location = null;
 	}
 
 	save(token) {
-		this._$cookies.put(this._AppConstants.jwtKey, token, {});
+		console.trace("set");
+		Cookies.set(this._AppConstants.jwtKey, token, {
+			expires: 7,
+			domain: (extractDomain() == "localhost" ? "localhost" : ".rodinapp.com")
+		});
 		this._update();
 	}
 
@@ -25,11 +28,14 @@ export default class JWT {
 	}
 
 	_update() {
-		this._token = this._$cookies.get(this._AppConstants.jwtKey) || null;
+		this._token = Cookies.get(this._AppConstants.jwtKey) || null;
 	}
 
 	destroy() {
-		this._$cookies.remove(this._AppConstants.jwtKey);
+		// console.trace("remove");
+		Cookies.remove(this._AppConstants.jwtKey, {
+			domain: (extractDomain() == "localhost" ? "localhost" : ".rodinapp.com")
+		});
 		this._update();
 	}
 

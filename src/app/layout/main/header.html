@@ -91,8 +91,8 @@
 						<h2>{{$ctrl.currentUser.username}}</h2>
 						<a href="mailto:lwarren@quinu.info" class="mail-link">{{$ctrl.currentUser.email}}</a>
 					</li>
-					<li><a data-ng-src="{{::$root.trustSrc($ctrl.SITE + 'profile')}}">EDIT Profile</a></li>
-					<li><a data-ng-click="$ctrl.logout()" class="signout-link">Sign Out</a></li>
+					<li><a data-ng-href="{{::$root.trustSrc($ctrl.SITE + 'profile')}}">EDIT Profile</a></li>
+					<li><a href="" data-ng-click="$ctrl.logout()" class="signout-link">Sign Out</a></li>
 				</ul>
 			</li>
 		</ul>
