@@ -28,7 +28,7 @@
 						<a href="#" class="btn-warning">
 							<i class="icon icon-info"></i>
 						</a>
-						<input type="text" class="form-control" data-ng-value="$ctrl.previewUrl" disabled>
+						<input type="text" class="form-control" data-ng-value="$ctrl.previewUrl" readonly>
 					</div>
 					<a href="#" class="btn-fulscreen">
 						<i class="icon icon-fullscreen"></i>
@@ -37,7 +37,7 @@
 			</div>
 
 			<div class="space-box-content-bottom">
-				<iframe data-ng-src="{{trustSrc($ctrl.iframeUrl)}}"
+				<iframe data-ng-src="{{$root.trustSrc($ctrl.iframeUrl)}}"
 				        frameborder="0" width="100%" height="100%"
 				        style="height: 100vh;" type="text/html" allowfullscreen>
 				</iframe>
