@@ -55,6 +55,27 @@ class TreeCtrl {
 	updateTree() {
 		this._Editor.getProject(this.projectId).then((data)=> {
 			this.data.splice(0, 1, data.tree);
+
+			let node = data.tree.children.filter((item)=> {
+				return (item.parent == "" && item.name == "index.js")
+			})[0];
+
+			if (node) {
+				this._Editor.getFile(this.projectId, {
+					filename: node.path
+				}).then((data)=> {
+					const file = {
+						name: node.name,
+						path: node.path,
+						type: node.type,
+						content: data.content
+					};
+
+					this.callbackFn("opennew", file);
+				});
+			}
+
+
 		});
 	}
 
