@@ -29,17 +29,3 @@ Array.prototype.first = function () {
 String.prototype.toCapitalize = function () {
 	return this.charAt(0).toUpperCase() + this.slice(1);
 };
-
-window.extractDomain = function () {
-	const url = window.location.href;
-	let domain;
-	if (url.indexOf("://") > -1) {
-		domain = url.split('/')[2];
-	}
-	else {
-		domain = url.split('/')[0];
-	}
-
-	domain = domain.split(':')[0];
-	return domain;
-};

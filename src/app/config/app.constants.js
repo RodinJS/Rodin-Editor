@@ -3,14 +3,42 @@
  */
 const AppConstants = {
 	env: "dev",
-	prodAPI: 'https://api.rodinapp.com/api',
-	devAPI: 'http://localhost:3000/api',
-	prodDomain: 'https://rodinapp.com/',
-	devPreview: 'https://api.rodinapp.com/preview/',
-	prodPreview: 'https://api.rodinapp.com/preview/',
-	devDomain: 'http://localhost:8585',
 	jwtKey: 'token',
 	appName: 'Rodin',
+
+	dev: {
+		// API: 'http://localhost:3000/api',
+		API: 'https://api.rodinapp.com/api',
+		// SITE: 'http://localhost:3000/api',
+		SITE: 'http://localhost:8585/#/',
+		PREVIEW: 'https://api.rodinapp.com/preview/',
+		EDITOR: 'http://localhost:8000/#/',
+	},
+	prod: {
+		API: 'https://api.rodinapp.com/api',
+		SITE: 'https://rodinapp.com/',
+		PREVIEW: 'https://api.rodinapp.com/preview/',
+		EDITOR: 'https://editor.rodinapp.com/',
+	},
+
+
+	get API() {
+		return this[this.env].API;
+	},
+
+	get SITE() {
+		return this[this.env].SITE;
+	},
+
+	get PREVIEW() {
+		return this[this.env].PREVIEW;
+	},
+
+	get EDITOR() {
+		return this[this.env].EDITOR;
+	},
+
+
 	ERRORCODES: {
 		"400": {
 			"message": "BAD_REQUEST",
@@ -70,9 +98,9 @@ const AppConstants = {
 			"field": "username"
 		},
 		"322": {
-		 "message": "INVALID_PASSWORD",
-		 "field": ""
-		 },
+			"message": "INVALID_PASSWORD",
+			"field": ""
+		},
 		"323": {
 			"message": "ORGANIZATION_PERMISSION_DENIED",
 			"field": ""

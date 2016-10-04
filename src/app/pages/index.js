@@ -3,19 +3,17 @@
  */
 import angular from 'angular/index';
 
-import './auth/index';
-
-import './error/index';
 
 import './editor/index';
 
+import './error/index';
 
 // Create the module where our functionality can attach to
 let pagesModule = angular.module('app.pages', [
-	'app.auth',
 	'app.error',
 
 	'app.editor',
+
 ]);
 
 

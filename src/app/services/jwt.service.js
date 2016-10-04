@@ -1,5 +1,5 @@
 export default class JWT {
-	constructor(AppConstants, store, $cookies, $state, $q, Restangular) {
+	constructor(AppConstants, store, $cookies, $state, $q, Restangular, $location) {
 		'ngInject';
 
 		this._AppConstants = AppConstants;
@@ -9,6 +9,7 @@ export default class JWT {
 		this._$q = $q;
 		this._Auth = Restangular.all("auth");
 		this._token = null;
+		this._$location = null;
 	}
 
 	save(token) {
@@ -40,7 +41,7 @@ export default class JWT {
 				return res;
 			}, (err)=> {
 				this.destroy();
-				window.location.href = this._AppConstants[this._AppConstants.env + "Domain"];
+				this._$location.href = this._AppConstants.SITE;
 				return err;
 			});
 		}

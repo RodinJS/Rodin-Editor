@@ -1,7 +1,7 @@
 /**
  * Created by kh.levon98 on 13-Sep-16.
  */
-function AppRun(AppConstants, $rootScope, Restangular, JWT, $state) {
+function AppRun(AppConstants, $rootScope, Restangular, JWT, $state, $location, $sce) {
 	'ngInject';
 
 	Restangular.addFullRequestInterceptor(function (element, operation, route, url, headers, params, httpConfig) {
@@ -15,7 +15,7 @@ function AppRun(AppConstants, $rootScope, Restangular, JWT, $state) {
 	Restangular.setErrorInterceptor(function (response, deferred, responseHandler) {
 		if (response.status === 401) {
 			JWT.destroy();
-			window.location.href = this._AppConstants[this._AppConstants.env + "Domain"];
+			$location.href = this._AppConstants.SITE;
 			return false; // error handled
 		}
 
@@ -53,6 +53,11 @@ function AppRun(AppConstants, $rootScope, Restangular, JWT, $state) {
 		$rootScope.pageClass = pageClass;
 	};
 
+	///
+	$rootScope.trustSrc = function (src) {
+		return $sce.trustAsResourceUrl(src);
+
+	};
 
 	////// debuging /////
 	$rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {

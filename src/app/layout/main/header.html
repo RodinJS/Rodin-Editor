@@ -1,6 +1,6 @@
 <div class="header work-space-header">
 	<div class="container-fluid">
-		<a class="work-space-logo" href="http://rodinapp.com">
+		<a class="work-space-logo" data-ng-href="{{::trustSrc($ctrl.SITE)}}">
 			<img src="images/general/rodin-logo.svg" width="52" alt="">
 		</a>
 		<div class="folder-name dropdown">
@@ -41,14 +41,14 @@
 			</li>
 		</ul>
 		<ul class="navbar-right navbar-account">
-			<li class="new-notifi" uib-dropdown>
-				<a href="" class="dropdown-toggle btn-notifi" uib-dropdown-toggle role="button">
+			<li class="new-notifi" data-uib-dropdown>
+				<a href="" class="dropdown-toggle btn-notifi" data-uib-dropdown-toggle role="button">
 					<i class="icon icon-notifi"></i>
 					<!--<span class="new-notifi-badge">-->
 					<!--<i class="icon icon-dot"></i>-->
 					<!--</span>-->
 				</a>
-				<div class="dropdown-menu dropdown-menu-notifi" uib-dropdown-menu>
+				<div class="dropdown-menu dropdown-menu-notifi" data-uib-dropdown-menu>
 					<h5>Notifications</h5>
 					<!--<ul>-->
 					<!--<li class="red">-->
@@ -78,20 +78,21 @@
 					<!--</ul>-->
 				</div>
 			</li>
-			<li class="dropdown" uib-dropdown>
-				<a href="" class="dropdown-toggle text-action btn-account-drop" uib-dropdown-toggle role="button">
+			<li class="dropdown" data-uib-dropdown>
+				<a href="" class="dropdown-toggle text-action btn-account-drop" data-uib-dropdown-toggle role="button">
           <span class="avatar">
-          					<span class="avatar-name">R</span>
-          				</span>
+            <span class="avatar-name">R</span>
+          </span>
 					{{$ctrl.currentUser.username}}
 					<i class="fa fa-angle-down"></i>
-					
 				</a>
-				<ul class="dropdown-menu dropdown-menu-account" uib-dropdown-menu>
+				<ul class="dropdown-menu dropdown-menu-account" data-uib-dropdown-menu>
 					<li>
 						<h2>{{$ctrl.currentUser.username}}</h2>
 						<a href="mailto:lwarren@quinu.info" class="mail-link">{{$ctrl.currentUser.email}}</a>
 					</li>
+					<li><a data-ng-src="{{::trustSrc($ctrl.SITE + 'profile')}}">EDIT Profile</a></li>
+					<li><a data-ng-click="$ctrl.logout()" class="signout-link">Sign Out</a></li>
 				</ul>
 			</li>
 		</ul>

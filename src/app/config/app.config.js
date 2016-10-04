@@ -5,7 +5,7 @@
 function AppConfig(RestangularProvider, $stateProvider, $locationProvider, $urlRouterProvider, AppConstants) {
 	'ngInject';
 
-	RestangularProvider.setBaseUrl(AppConstants[AppConstants.env + "API"]);
+	RestangularProvider.setBaseUrl(AppConstants.API);
 
 	// In this case we are mapping the id of each element to the _id field.
 	RestangularProvider.setRestangularFields({

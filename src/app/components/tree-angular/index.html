@@ -35,7 +35,7 @@
 			    data-ui-tree-node
 			    data-ng-class="{
 		    'menu-item':$ctrl.isFolder(child),
-				'open': child.collapsed
+				'open': collapsed
 				}"
 			    data-ng-include="'children_renderer.html'"></li>
 
@@ -52,10 +52,9 @@
 			<li data-ng-repeat="child in $ctrl.data"
 			    data-ui-tree-node
 			    data-nodrag
-			    data-ng-init="child.collapsed = true"
 			    data-ng-class="{
 			    'menu-item':(child.type == 'directory'),
-					'open': child.collapsed
+					'open': true
 					}"
 			    data-ng-include="'children_renderer.html'"></li>
 		</ul>
