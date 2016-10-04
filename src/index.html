@@ -43,6 +43,15 @@
 		};
 	})(System);
 
+	var systemLocate = System.locate;
+	System.locate = function(load) {
+		var System = this;
+		return Promise.resolve(systemLocate.call(this, load)).then(function(address) {
+			return address + System.cacheBust;
+		});
+	};
+	System.cacheBust = '?v=0.0.5';
+
 	System.config({
 		map: {
 			css: '/scripts/systemjs/css.js',  // path to css.js file
@@ -53,7 +62,6 @@
 			'app/*': 'app/*',
 			'scripts/*': 'scripts/*'
 		},
-
 		packages: {
 			"/scripts": {  // path to your project root
 				"defaultJSExtensions": true,
