@@ -4,11 +4,12 @@
 let self;
 
 class RIDEACtrl {
-	constructor($scope, FileUtils, Editor, AppConstants, User, $stateParams, $sce) {
+	constructor($scope, FileUtils, Editor, AppConstants, User, $stateParams, $rootScope) {
 		'ngInject';
 		self = this;
 
 		this._$scope = $scope;
+		this._$rootScope = $rootScope;
 		this._FileUtils = FileUtils;
 		this._Editor = Editor;
 		this._User = User;
@@ -63,6 +64,10 @@ class RIDEACtrl {
 				this.iframeUrl = this.previewUrl + '?refreshTime=' + Date.now();
 			}
 		});
+
+		$rootScope.saveFuckinFile = ()=> {
+			self.saveFile();
+		};
 	}
 
 	openFile(data) {
@@ -76,18 +81,21 @@ class RIDEACtrl {
 		this.updateEditor(data);
 	}
 
-	saveFile(editor) {
+	saveFile(...args) {
 		let activeTab = self.tabs[self.openedFileIndex];
 		let fileContent = self.fileContent;
 
-		self._Editor.updateFile(self._$scope.projectId, {
-			content: fileContent
-		}, {
-			action: "save",
-			filename: activeTab.path
-		}).then((data)=> {
-			activeTab.content = fileContent;
-		});
+		if (activeTab) {
+			self._Editor.updateFile(self._$scope.projectId, {
+				content: fileContent
+			}, {
+				action: "save",
+				filename: activeTab.path
+			}).then((data)=> {
+				activeTab.content = fileContent;
+			});
+		}
+
 	}
 
 	updateEditor(data) {

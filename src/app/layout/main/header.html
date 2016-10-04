@@ -12,8 +12,22 @@
 			</div>
 		</div>
 		<ul class="header-work-menu">
-			<li>
-				<a href="" class="text-primary">File</a>
+			<!--<li data-uib-dropdown>
+				<a href="" class="text-primary" data-uib-dropdown-toggle>File</a>
+				<ul class="dropdown-menu header-work-menu" data-uib-dropdown-menu role="menu">
+					<li role="menuitem">
+						<a role="button" data-ng-click="$parent.$ctrl.fileSave()">Save</a>
+					</li>
+				</ul>
+			</li>-->
+
+			<li data-uib-dropdown>
+				<a href class="text-primary" data-uib-dropdown-toggle>File</a>
+				<ul class="dropdown-menu header-work-menu" data-uib-dropdown-menu role="menu">
+					<li role="menuitem">
+						<a role="button" data-ng-click="$ctrl.fileSave()">Save</a>
+					</li>
+				</ul>
 			</li>
 			<li>
 				<a href="" class="text-primary">Edit</a>

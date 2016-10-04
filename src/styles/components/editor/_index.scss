@@ -7,6 +7,32 @@
   }
 }
 
+.dropdown-menu.header-work-menu {
+  margin: 5px 0 0;
+  padding: 0;
+  border-radius: 0;
+  border: none;
+  background: #29292b;
+  min-width: 100px;
+
+  li {
+    display: block !important;
+    margin: 0 !important;
+    a {
+      padding: 5px 10px !important;
+      font-size: 12px;
+      font-weight: 400;
+      color: #fff;
+
+      &:hover,
+      &:active,
+      &:focus {
+        background: #5f5f5f;
+      }
+    }
+  }
+}
+
 .angular-bootstrap-contextmenu.dropdown {
   background-color: transparent;
   .dropdown-menu {
