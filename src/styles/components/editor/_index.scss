@@ -7,6 +7,18 @@
   }
 }
 
+li.dropdown {
+  .dropdown-menu.header-work-menu {
+    display: none;
+  }
+
+  &.open {
+    .dropdown-menu.header-work-menu {
+      display: block;
+    }
+  }
+}
+
 .dropdown-menu.header-work-menu {
   margin: 5px 0 0;
   padding: 0;
