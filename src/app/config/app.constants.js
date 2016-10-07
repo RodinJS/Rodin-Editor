@@ -12,13 +12,20 @@ const AppConstants = {
 		// SITE: 'http://localhost:3000/api',
 		SITE: 'http://localhost:8585/#/',
 		PREVIEW: 'https://api.rodinapp.com/preview/',
+		PUBLIC: 'https://api.rodinapp.com/public/',
 		EDITOR: 'http://localhost:8000/#/',
 	},
 	prod: {
-		API: 'https://api.rodinapp.com/api',
-		SITE: 'https://rodinapp.com/',
-		PREVIEW: 'https://api.rodinapp.com/preview/',
-		EDITOR: 'https://editor.rodinapp.com/',
+		// API: 'https://api.rodinapp.com/api',
+		// SITE: 'https://rodinapp.com/',
+		// PREVIEW: 'https://api.rodinapp.com/preview/',
+		// PUBLIC: 'https://api.rodinapp.com/public/',
+		// EDITOR: 'https://editor.rodinapp.com/',
+		API: 'https://api.rodin.space/api',
+		SITE: 'https://rodin.space/',
+		PREVIEW: 'https://api.rodin.space/preview/',
+		PUBLIC: 'https://api.rodin.space/public/',
+		EDITOR: 'https://editor.rodin.space/',
 	},
 
 
@@ -32,6 +39,10 @@ const AppConstants = {
 
 	get PREVIEW() {
 		return this[this.env].PREVIEW;
+	},
+
+	get PUBLIC() {
+		return this[this.env].PUBLIC;
 	},
 
 	get EDITOR() {
