@@ -56,7 +56,11 @@ function AppRun(AppConstants, $rootScope, Restangular, JWT, $state, $location, $
 	///
 	$rootScope.trustSrc = function (src) {
 		return $sce.trustAsResourceUrl(src);
+	};
 
+	///
+	$rootScope.trustedHtml = function (html) {
+		return $sce.trustedHtml(html);
 	};
 
 	////// debuging /////

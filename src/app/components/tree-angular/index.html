@@ -15,7 +15,7 @@
 			   data-ng-show="$ctrl.isFolder(child)"></i>
 
 
-			<i data-ng-class="::opts.class" data-ng-bind="::opts.content"></i>
+			<i data-ng-class="::opts.class" class="file-icon" data-ng-bind="::opts.content"></i>
 
 		    <span class="file-name">{{::child.name}}</span>
 
@@ -47,7 +47,7 @@
 		Folder
 		<a href=""><i class="icon icon-more"></i></a>
 	</h3>
-	<div class="clearfix" data-ui-tree id="tree-root">
+	<div class="clearfix sidebar-menu-wrapper" data-ui-tree id="tree-root">
 		<ul class="sidebar-menu" data-ui-tree-nodes data-ng-model="$ctrl.data">
 			<li data-ng-repeat="child in $ctrl.data"
 			    data-ui-tree-node

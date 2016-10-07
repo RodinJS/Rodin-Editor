@@ -12,10 +12,6 @@ class AppHeaderCtrl {
 		};
 
 	}
-
-	fileSave() {
-		this._$rootScope.saveFuckinFile && this._$rootScope.saveFuckinFile('rodin-idea:file-save');
-	}
 }
 
 let AppHeader = {

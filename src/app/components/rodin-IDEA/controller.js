@@ -4,26 +4,30 @@
 let self;
 
 class RIDEACtrl {
-	constructor($scope, FileUtils, Editor, AppConstants, User, $stateParams, $rootScope) {
+	constructor($scope, FileUtils, Editor, AppConstants, User, $stateParams, $on, $emit, store) {
 		'ngInject';
 		self = this;
 
 		this._$scope = $scope;
-		this._$rootScope = $rootScope;
 		this._FileUtils = FileUtils;
 		this._Editor = Editor;
 		this._User = User;
 		this._AppConstants = AppConstants;
-
+		this._$on = $on;
+		this._$emit = $emit;
+		this._store = store;
 		this.tabs = [{
 			name: "untitled",
-			isBlank: true
+			isBlank: true,
+			isUnsaved: false
 		}];
 
 		this.currentUser = User.current;
 		this.fileContent = '';
 		this.openedFileIndex = 0;
 		this.iframeUrl = "";
+		this.openedWindows = {};
+		this.isEnabledAutoReload = true;//this._store.get("isEnabledAutoReload");
 
 		this.aceOptions = {
 			workerPath: "/scripts/vendor/ace",
@@ -49,12 +53,73 @@ class RIDEACtrl {
 				autoScrollEditorIntoView: true,
 			},
 			onLoad: function (_ace) {
-				console.log("onLoad")
+				console.log("load")
+				self.tabs[self.openedFileIndex].isUnsaved = false;
 			},
 			onChange: function (_ace) {
-				console.log("onChange")
+				self.tabs[self.openedFileIndex].isUnsaved = true;
 			}
 		};
+
+		this.menuList = [{
+			"name": "File",
+			"subMenus": [{
+				"name": "<span class='text'>New File</span><i class='hotkey'>Ctrl+N</i>",
+				"event": "newfile"
+			}, {
+				"name": "<span class='text'>New Folder</span><i class='hotkey'>Ctrl+Shift+N</i>",
+				"event": "newFolder"
+			}, {
+				"name": "<span class='text'>Open File</span><i class='hotkey'>Ctrl+O</i>",
+				"event": "openFile"
+			}, {
+				"name": "<span class='text'>Open Folder</span><i class='hotkey'>Ctrl+Shift+O</i>",
+				"event": "openFolder"
+			}, {
+				"name": "<span class='text'>Save</span><i class='hotkey'>Ctrl+S</i>",
+				"event": "save"
+			}, {
+				"name": "<span class='text'>Save As</span><i class='hotkey'>Ctrl+Shift+S</i>",
+				"event": "saveAs"
+			}, {"name": "<span class='text'>Save All</span><i class='hotkey'>Ctrl+Alt+Shift+S</i>", "event": "saveAll"}]
+		}, {
+			"name": "Edit",
+			"subMenus": [{
+				"name": "<span class='text'>Undo</span><i class='hotkey'>Ctrl+Z</i>",
+				"event": "undo"
+			}, {"name": "<span class='text'>Redo</span><i class='hotkey'>Ctrl+Shift+Z</i>", "event": "redo"}]
+		}, {
+			"name": "Find",
+			"subMenus": [{
+				"name": "<span class='text'>Find In File</span><i class='hotkey'>Ctrl+F</i>",
+				"event": "findInFile"
+			}, {
+				"name": "<span class='text'>Find In Folder</span><i class='hotkey'>Ctrl+Shift+F</i>",
+				"event": "findInFolder"
+			}, {
+				"name": "<span class='text'>Replace In File</span><i class='hotkey'>Ctrl+R</i>",
+				"event": "replaceInFile"
+			}, {
+				"name": "<span class='text'>Replace In Folder</span><i class='hotkey'>Ctrl+Shift+R</i>",
+				"event": "replaceInFolder"
+			}, {"name": "<span class='text'>GoTo</span><i class='hotkey'>Ctrl+G</i>", "event": "goto"}]
+		}, {
+			"name": "Run",
+			"subMenus": [{"name": "<span class='text'>Run index.html</span><i class='hotkey'>Shift+F5</i>", "event": "run"}, {
+				"name": "<span data-ng-click='subMenu.model = !subMenu.model'><i class='fa' data-ng-class=" + "\"" + "{'fa-circle-thin':!subMenu.model,'fa-circle':subMenu.model}" + "\"" + "></i> Auto Run</span>",
+				"event": "autoRun"
+			}],
+			get model() {
+				console.log("getter")
+				return self.isEnabledAutoReload
+			},
+			set model(val) {
+				console.log("model", val);
+				val = !!val;
+				self.isEnabledAutoReload = val;
+				store.set("isEnabledAutoReload", !!val)
+			}
+		}];
 
 		this._$scope.$watch(()=> {
 			return this.currentUser;
@@ -65,9 +130,16 @@ class RIDEACtrl {
 			}
 		});
 
-		$rootScope.saveFuckinFile = ()=> {
+		//// menu bar events
+		//file save event
+		this._$on("rodin-idea:menu-bar:save", (evt)=> {
 			self.saveFile();
-		};
+		});
+
+		//file run event
+		this._$on("rodin-idea:menu-bar:run", (evt)=> {
+			self.refreshPreview();
+		});
 	}
 
 	openFile(data) {
@@ -77,6 +149,7 @@ class RIDEACtrl {
 		}
 
 		data.index = this.tabs.length;
+		data.isUnsaved = false;
 		this.tabs.push(data);
 		this.updateEditor(data);
 	}
@@ -92,7 +165,15 @@ class RIDEACtrl {
 				action: "save",
 				filename: activeTab.path
 			}).then((data)=> {
-				activeTab.content = fileContent;
+				console.log("activeTab", activeTab);
+				if (activeTab) {
+					activeTab.content = fileContent;
+					activeTab.isUnsaved = false;
+				}
+
+				if (true) {
+					self.refreshPreview();
+				}
 			});
 		}
 
@@ -125,6 +206,24 @@ class RIDEACtrl {
 
 	refreshPreview() {
 		this.iframeUrl = this.previewUrl + '?refreshTime=' + Date.now();
+
+		if (true && _.size(this.openedWindows)) {
+			for (let i in this.openedWindows) {
+				let win = this.openedWindows[i];
+				if (win.location && _.isFunction(win.location.reload)) {
+					win.location.reload();
+				} else {
+					delete this.openedWindows[i];
+				}
+			}
+		}
+	}
+
+	openInNewTab(url) {
+		let win = window.open(url, "_blank");
+		let index = (parseInt(Object.keys(this.openedWindows).last()) || 0) + 1; // generate unique indexes
+		console.log(Object.keys(this.openedWindows), Object.keys(this.openedWindows).last(), index)
+		this.openedWindows[index] = win;
 	}
 
 }

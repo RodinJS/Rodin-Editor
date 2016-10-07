@@ -18,4 +18,11 @@ componentsModule.directive('editorTabs', EditorTabs);
 import RodinIDEA from './rodin-IDEA/index';
 componentsModule.directive('rodinIdea', RodinIDEA);
 
+import MenuBar from './menu-bar/index';
+componentsModule.directive('menuBar', MenuBar);
+
+
+import Compile from './compile/index';
+componentsModule.directive('compile', Compile);
+
 export default componentsModule;

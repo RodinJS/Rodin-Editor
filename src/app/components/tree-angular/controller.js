@@ -2,6 +2,7 @@
  * Created by kh.levon98 on 24-Sep-16.
  */
 let self;
+let isFirst = true;
 
 class TreeCtrl {
 	constructor($scope, $timeout, Editor, $log, FileUtils) {
@@ -56,25 +57,30 @@ class TreeCtrl {
 		this._Editor.getProject(this.projectId).then((data)=> {
 			this.data.splice(0, 1, data.tree);
 
-			let node = data.tree.children.filter((item)=> {
-				return (item.parent == "" && item.name == "index.js")
-			})[0];
+			if (isFirst) {
 
-			if (node) {
-				this._Editor.getFile(this.projectId, {
-					filename: node.path
-				}).then((data)=> {
-					const file = {
-						name: node.name,
-						path: node.path,
-						type: node.type,
-						content: data.content
-					};
+				isFirst = false;
 
-					this.callbackFn("opennew", file);
-				});
+				let node = data.tree.children.filter((item)=> {
+					return (item.parent == "" && item.name == "index.js")
+				})[0];
+
+				if (node) {
+					this._Editor.getFile(this.projectId, {
+						filename: node.path
+					}).then((data)=> {
+						const file = {
+							name: node.name,
+							path: node.path,
+							type: node.type,
+							content: data.content
+						};
+
+						this.callbackFn("opennew", file);
+					});
+				}
+
 			}
-
 
 		});
 	}

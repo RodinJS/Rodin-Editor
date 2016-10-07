@@ -14,12 +14,13 @@ import 'angular-animate/angular-animate.min';
 import 'angular-touch/angular-touch.min';
 import 'angular-cookies/angular-cookies.min';
 import 'angular-sanitize/angular-sanitize.min';
+import 'angular-event-emitter/angular-event-emitter';
 
 import 'angular-ui-router/release/angular-ui-router.min';
 import 'a0-angular-storage/dist/angular-storage.min';
 import 'lodash/dist/lodash.min';
 import 'restangular/dist/restangular.min';
-import 'angular-bootstrap/ui-bootstrap.min';
+import 'angular-bootstrap/ui-bootstrap-tpls.min';
 import 'angular-ui-tree/dist/angular-ui-tree.min';
 import 'angular-bootstrap-contextmenu/contextMenu';
 
@@ -37,6 +38,7 @@ const requires = [
 	'ngTouch',
 	'ngCookies',
 	'ngSanitize',
+	'ngEventEmitter',
 
 	'angular-storage',
 	'ui.router',

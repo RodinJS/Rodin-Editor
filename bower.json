@@ -16,6 +16,7 @@
     "ace": "^1.2.5",
     "angular-bootstrap-contextmenu": "^0.9.9",
     "angular-cookies": "^1.5.8",
-    "angular-sanitize": "^1.5.8"
+    "angular-sanitize": "^1.5.8",
+    "angular-event-emitter": "^0.0.2"
   }
 }
