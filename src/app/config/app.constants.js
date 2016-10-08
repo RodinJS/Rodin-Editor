@@ -2,7 +2,7 @@
  * Created by kh.levon98 on 13-Sep-16.
  */
 const AppConstants = {
-	env: "dev",
+	env: "prod",
 	jwtKey: 'token',
 	appName: 'Rodin',
 
