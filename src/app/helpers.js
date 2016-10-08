@@ -31,17 +31,7 @@ String.prototype.toCapitalize = function () {
 };
 
 window.extractDomain = () => {
-	const url = window.location.href;
-	var domain;
-	if (url.indexOf("://") > -1) {
-		domain = url.split('/')[2];
-	}
-	else {
-		domain = url.split('/')[0];
-	}
-
-	domain = domain.split(':')[0];
-	return domain;
+	return document.domain.split('.').reverse().splice(0, 2).reverse().join(".");
 };
 
 /*!

@@ -12,11 +12,15 @@ export default class JWT {
 	}
 
 	save(token) {
-		console.trace("set");
-		Cookies.set(this._AppConstants.jwtKey, token, {
-			expires: 7,
-			domain: (extractDomain() == "localhost" ? "localhost" : ".rodinapp.com")
-		});
+		let domains = this._AppConstants.COOKIEDOMAIN || [];
+
+		for (let i = 0; i < domains.length; ++i) {
+			Cookies.set(this._AppConstants.jwtKey, token, {
+				expires: 7,
+				domain: domains[i]
+			});
+		}
+
 		this._update();
 	}
 
@@ -32,10 +36,14 @@ export default class JWT {
 	}
 
 	destroy() {
-		// console.trace("remove");
-		Cookies.remove(this._AppConstants.jwtKey, {
-			domain: (extractDomain() == "localhost" ? "localhost" : ".rodinapp.com")
-		});
+		let domains = this._AppConstants.COOKIEDOMAIN || [];
+
+		for (let i = 0; i < domains.length; ++i) {
+			Cookies.remove(this._AppConstants.jwtKey, {
+				domain: domains[i]
+			});
+		}
+
 		this._update();
 	}
 

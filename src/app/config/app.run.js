@@ -4,6 +4,8 @@
 function AppRun(AppConstants, $rootScope, Restangular, JWT, $state, $location, $sce) {
 	'ngInject';
 
+	window.AppConstants = AppConstants;
+
 	Restangular.addFullRequestInterceptor(function (element, operation, route, url, headers, params, httpConfig) {
 		headers["x-access-token"] = JWT.get();
 		return {
