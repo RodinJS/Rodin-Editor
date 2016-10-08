@@ -20,8 +20,8 @@ const AppConstants = {
 		COOKIEDOMAIN: ['.rodinapp.com', '.rodin.space'],
 		API: 'https://api.' + window.extractDomain() + '/api',
 		SITE: 'https://' + window.extractDomain() + '/',
-		PREVIEW: 'https://' + window.extractDomain() + '/preview/',
-		PUBLIC: 'https://' + window.extractDomain() + '/public/',
+		PREVIEW: 'https://api.' + window.extractDomain() + '/preview/',
+		PUBLIC: 'https://api.' + window.extractDomain() + '/public/',
 		EDITOR: 'https://editor.' + window.extractDomain() + '/',
 	},
 
