@@ -4,7 +4,7 @@
 let self;
 
 class RIDEACtrl {
-	constructor($scope, FileUtils, Editor, AppConstants, User, $stateParams, $on, $emit, store) {
+	constructor($scope, FileUtils, Editor, AppConstants, User, $stateParams, $on, $emit, Storage) {
 		'ngInject';
 		self = this;
 
@@ -15,7 +15,7 @@ class RIDEACtrl {
 		this._AppConstants = AppConstants;
 		this._$on = $on;
 		this._$emit = $emit;
-		this._store = store;
+		this._Storage = Storage;
 		this.tabs = [{
 			name: "untitled",
 			isBlank: true,
@@ -27,7 +27,7 @@ class RIDEACtrl {
 		this.openedFileIndex = 0;
 		this.iframeUrl = "";
 		this.openedWindows = {};
-		this.isEnabledAutoReload = true;//this._store.get("isEnabledAutoReload");
+		this.isEnabledAutoReload = this._Storage.get("isEnabledAutoReload");
 
 		this.aceOptions = {
 			workerPath: "/scripts/vendor/ace",
@@ -105,20 +105,32 @@ class RIDEACtrl {
 			}, {"name": "<span class='text'>GoTo</span><i class='hotkey'>Ctrl+G</i>", "event": "goto"}]
 		}, {
 			"name": "Run",
-			"subMenus": [{"name": "<span class='text'>Run index.html</span><i class='hotkey'>Shift+F5</i>", "event": "run"}, {
-				"name": "<span data-ng-click='subMenu.model = !subMenu.model'><i class='fa' data-ng-class=" + "\"" + "{'fa-circle-thin':!subMenu.model,'fa-circle':subMenu.model}" + "\"" + "></i> Auto Run</span>",
-				"event": "autoRun"
-			}],
-			get model() {
-				console.log("getter")
-				return self.isEnabledAutoReload
-			},
-			set model(val) {
-				console.log("model", val);
-				val = !!val;
-				self.isEnabledAutoReload = val;
-				store.set("isEnabledAutoReload", !!val)
-			}
+			"subMenus": [
+				{
+					"name": "<span class='text'>Run index.html</span><i class='hotkey'>Shift+F5</i>",
+					"event": "run",
+					get model() {
+						let node = self.tabs[self.openedFileIndex];
+						let opts = self._FileUtils.getFileOptions(node);
+						if (opts.fileType == "html") {
+							return node;
+						}
+						return "";
+					}
+				},
+				{
+					"name": "<span><i class='fa' data-ng-class=" + "\"" + "{'fa-circle-thin':!subMenu.model,'fa-circle':subMenu.model}" + "\"" + "></i> Auto Run</span>",
+					"event": function () {
+						this.model = !this.model;
+					},
+					get model() {
+						return self.isEnabledAutoReload
+					},
+					set model(val) {
+						self.isEnabledAutoReload = !!val;
+						self._Storage.set("isEnabledAutoReload", self.isEnabledAutoReload)
+					}
+				}],
 		}];
 
 		this._$scope.$watch(()=> {
@@ -137,7 +149,7 @@ class RIDEACtrl {
 		});
 
 		//file run event
-		this._$on("rodin-idea:menu-bar:run", (evt)=> {
+		this._$on("rodin-idea:menu-bar:run", (evt, model)=> {
 			self.refreshPreview();
 		});
 	}
@@ -171,7 +183,7 @@ class RIDEACtrl {
 					activeTab.isUnsaved = false;
 				}
 
-				if (true) {
+				if (self.isEnabledAutoReload) {
 					self.refreshPreview();
 				}
 			});
@@ -207,7 +219,7 @@ class RIDEACtrl {
 	refreshPreview() {
 		this.iframeUrl = this.previewUrl + '?refreshTime=' + Date.now();
 
-		if (true && _.size(this.openedWindows)) {
+		if (this.isEnabledAutoReload && _.size(this.openedWindows)) {
 			for (let i in this.openedWindows) {
 				let win = this.openedWindows[i];
 				if (win.location && _.isFunction(win.location.reload)) {
@@ -219,7 +231,7 @@ class RIDEACtrl {
 		}
 	}
 
-	openInNewTab(url) {
+	openInNewWindow(url) {
 		let win = window.open(url, "_blank");
 		let index = (parseInt(Object.keys(this.openedWindows).last()) || 0) + 1; // generate unique indexes
 		console.log(Object.keys(this.openedWindows), Object.keys(this.openedWindows).last(), index)

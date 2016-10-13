@@ -1,6 +1,8 @@
 /**
  * Created by kh.levon98 on 06-Oct-16.
  */
+import * as _ from "lodash/dist/lodash.min";
+
 let self;
 
 class TreeCtrl {
@@ -25,8 +27,14 @@ class TreeCtrl {
 		this.menuList = this._$scope.menuList;
 	}
 
-	selectOption(eventName) {
-		this._$emit("rodin-idea:menu-bar:" + eventName);
+	selectOption(subMenu = {}, model) {
+		let event = subMenu.event;
+
+		if (_.isFunction(event)) {
+			return event.call(subMenu, model);
+		}
+
+		this._$emit("rodin-idea:menu-bar:" + event, model);
 	}
 }
 
