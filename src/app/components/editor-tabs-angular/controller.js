@@ -50,7 +50,7 @@ class TabsCtrl {
 			this._$scope.openedFileIndex = this.tabs[index - 1].index;
 		}
 
-		this.updateEditorFn(this.tabs[this._$scope.openedFileIndex]);
+		this.updateEditorFn(this.tabs[this._$scope.openedFileIndex], true);
 	}
 
 }
