@@ -34,7 +34,7 @@ class Project {
 
 	getList(fields = {}) {
 		let deferred = this._$q.defer();
-		this._Projects.getList(fields).then((result) => {
+		this._Projects.one('').get(fields).then((result) => {
 			this._Validator.validateHTTP(result);
 			if (this._Validator.isValidHTTP()) {
 				let response = this._Validator.getDataHTTP();

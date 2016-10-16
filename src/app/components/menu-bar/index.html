@@ -3,13 +3,22 @@
 		<a class="work-space-logo" data-ng-href="{{::$root.trustSrc($ctrl.SITE)}}">
 			<img src="images/general/rodin-logo.svg" width="52" alt="">
 		</a>
-		<div class="folder-name dropdown">
-			<a class="dropdown-toggle btn-folder-name" data-toggle="dropdown" role="button">
+
+		<div class="folder-name dropdown" data-uib-dropdown>
+			<a class="dropdown-toggle btn-folder-name" role="button" data-uib-dropdown-toggle data-ng-disabled="false">
 				/{{::$ctrl.projectRoot}}
 				<i class="fa fa-angle-down"></i>
 			</a>
-			<div class="dropdown-menu dropdown-menu-folder">
-			</div>
+			<ul class="dropdown-menu dropdown-menu-folder" data-uib-dropdown-menu role="menu">
+				<li role="menuitem"
+				    data-ng-repeat="project in $ctrl.projectList track by $index"
+				    data-ng-class="{'active': $ctrl.projectRoot == project.root}">
+
+					<a data-ng-href="{{::(($ctrl.projectRoot != project.root) ? $ctrl.EDITOR+project.root : '')}}"
+					   data-ng-bind="::project.root"></a>
+
+				</li>
+			</ul>
 		</div>
 		<ul class="header-work-menu">
 			<li data-uib-dropdown data-ng-repeat="menu in $ctrl.menuList track by $index">

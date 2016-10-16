@@ -6,7 +6,7 @@ import * as _ from "lodash/dist/lodash.min";
 let self;
 
 class TreeCtrl {
-	constructor(AppConstants, User, $scope, $stateParams, $rootScope, $timeout, $log, $on, $emit) {
+	constructor(AppConstants, User, $scope, $stateParams, $rootScope, $timeout, $log, $on, $emit, Project) {
 		'ngInject';
 		self = this;
 		this.appName = AppConstants.appName;
@@ -14,6 +14,8 @@ class TreeCtrl {
 		this.currentUser = User.current;
 		this._$scope = $scope;
 		this._$rootScope = $rootScope;
+		this._Project = Project;
+
 		this.projectRoot = $stateParams.projectFolder;
 		this.logout = ()=> {
 			User.logout(...arguments);
@@ -25,6 +27,12 @@ class TreeCtrl {
 		this._$emit = $emit;
 
 		this.menuList = this._$scope.menuList;
+
+
+
+		this._Project.getList().then((data)=>{
+			this.projectList = data;
+		})
 	}
 
 	selectOption(subMenu = {}, model) {
