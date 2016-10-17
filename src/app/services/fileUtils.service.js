@@ -51,10 +51,18 @@ class FileUtils {
 		if (node.type === "directory") {
 			fileType = "folder";
 		} else {
-			fileType = (/[.]/.exec(fileName)) ? /[^.]+$/.exec(fileName)[0] : "unknown";
+			fileType = ((/[.]/.exec(fileName)) ? /[^.]+$/.exec(fileName)[0] : "unknown").toLowerCase();
 		}
 
-		return typeToIconMap[fileType] || typeToIconMap["unknown"];
+		let fileOpts = typeToIconMap[fileType];
+		if (!fileOpts) {
+			fileType = "unknown"
+		}
+
+		fileOpts = typeToIconMap[fileType];
+		fileOpts["fileType"] = fileType;
+
+		return fileOpts;
 	}
 }
 

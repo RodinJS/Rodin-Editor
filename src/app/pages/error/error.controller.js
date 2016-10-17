@@ -1,10 +1,8 @@
 class ErrorCtrl {
-	constructor(AppConstants) {
+	constructor($window, AppConstants) {
 		'ngInject';
 
-		this.appName = AppConstants.appName;
-		this.SITE = AppConstants.SITE;
-
+		$window.location.href = AppConstants.SITE + "error/";
 	}
 
 }

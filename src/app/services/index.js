@@ -29,4 +29,8 @@ import EditorService from './editor.service';
 servicesModule.service('Editor', EditorService);
 
 
+import StorageService from './storage.service';
+servicesModule.service('Storage', StorageService);
+
+
 export default servicesModule;
