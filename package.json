@@ -26,7 +26,7 @@
   },
   "homepage": "https://github.com/grigorkh/Rodin-JS-front#readme",
   "devDependencies": {
-    "babel-plugin-angularjs-annotate": "^0.5.1",
+    "babel-plugin-angularjs-annotate": "^0.6.0",
     "babel-plugin-transform-class-properties": "^6.11.5",
     "babel-plugin-transform-es2015-modules-systemjs": "^6.14.0",
     "babel-plugin-undeclared-variables-check": "^6.8.0",
@@ -45,7 +45,7 @@
     "gulp-rename": "^1.2.2",
     "gulp-sass": "^2.3.2",
     "gulp-size": "^2.1.0",
-    "gulp-sourcemaps": "^1.6.0",
+    "gulp-sourcemaps": "^2.1.1",
     "gulp-uglify": "^2.0.0",
     "gulp-watch": "^4.3.9",
     "run-sequence": "^1.2.2"
