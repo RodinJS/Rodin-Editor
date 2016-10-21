@@ -12,7 +12,10 @@ function Compile($compile) {
 				},
 				function (value) {
 					element.html(value);
-					$compile(element.contents())(scope);
+					let bindScope = attrs.compileScope;
+					bindScope = bindScope ? scope.$eval(bindScope) : scope;
+
+					$compile(element.contents())(bindScope);
 				})
 		}
 	};

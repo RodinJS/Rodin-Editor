@@ -1,0 +1,10 @@
+rodin-tree {
+  display: block;
+
+  &.work-space-sidebar {
+    -ms-flex-preferred-size: 195px;
+    -webkit-flex-basis: 195px;
+    flex-basis: 195px;
+    min-width: 195px;
+  }
+}

@@ -1,0 +1,38 @@
+<a data-ui-tree-handle class="text-small tree-node tree-node-content"
+   data-ng-class="::{'menu-item-header btn-menu-drop':$ctrl.isFolder(child)}"
+   data-ng-dblclick="$ctrl.open(this, child)"
+   data-context-menu="$ctrl[child.type+'MenuOptions']"
+   data-model="child"
+   data-ng-init="opts = $ctrl.getFileOptions(child)"
+   data-ng-click="$ctrl.toggle(this)">
+
+		  <span data-ng-class="::{'item-header-inner':$ctrl.isFolder(child)}">
+
+				<i class="ion ion-android-arrow-dropdown dropdown-icon color-icon-dark"
+				   data-ng-show="$ctrl.isFolder(child)"></i>
+
+				<i data-ng-class="::opts.class" class="file-icon" data-ng-bind="::opts.content"></i>
+
+		    <span class="file-name">{{::child.name}}</span>
+
+		  </span>
+
+</a>
+
+
+<ul class="sidebar-submenu"
+    data-ng-if="::(child.type == 'directory')"
+    data-ui-tree-nodes
+    data-ng-model="child.children">
+
+	<!--data-ng-show="$ctrl.isVisible(child)"-->
+
+	<li data-ng-repeat="child in child.children"
+	    data-ui-tree-node
+	    data-ng-class="{
+		    'menu-item':$ctrl.isFolder(child),
+				'open': collapsed
+				}"
+	    data-ng-include="'components/rodin/tree/subNode.html'"></li>
+
+</ul>

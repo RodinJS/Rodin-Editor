@@ -42,7 +42,7 @@ var templateCache = require('gulp-angular-templatecache');
 
 
 const JS =            [ 'src/app/**/*.js', '!src/systemjs/system.js', '!src/scripts/{vendor,vendor/**}' ];
-const HTML =          [ 'src/app/**/*.html'];
+const HTML =          [ 'src/app/**/*.html', 'src/app/**/**/*.html'];
 const SYSTEMJS =      [ 'src/systemjs/*.js' ];
 const SASS =          [ 'src/styles/**/*.scss', '!src/styles/{vendor,vendor/**}' ];
 const FONT =          [ 'src/fonts/**/*.{ttf,woff,woff2,eof,svg,eot,json}' ];
