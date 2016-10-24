@@ -22,43 +22,43 @@ function RodinMenuBarFactory(Utils) {
 				"newFile": {
 					"id": "newFile",
 					"name": "New File",
-					"hotKey": Utils.bindKey("Ctrl+N", "Cmd+N"),
+					"hotKey": Utils.bindKey("Ctrl+N", "Command+N"),
 					"template": defaultTemplate,
 				},
 				"newFolder": {
 					"id": "newFolder",
 					"name": "New Folder",
-					"hotKey": Utils.bindKey("Ctrl+Shift+N", "Cmd+Shift+N"),
+					"hotKey": Utils.bindKey("Ctrl+Shift+N", "Command+Shift+N"),
 					"template": defaultTemplate,
 				},
 				"openFile": {
 					"id": "openFile",
 					"name": "Open File",
-					"hotKey": Utils.bindKey("Ctrl+O", "Cmd+O"),
+					"hotKey": Utils.bindKey("Ctrl+O", "Command+O"),
 					"template": defaultTemplate,
 				},
 				"openFolder": {
 					"id": "openFolder",
 					"name": "Open Folder",
-					"hotKey": Utils.bindKey("Ctrl+Shift+O", "Cmd+Shift+O"),
+					"hotKey": Utils.bindKey("Ctrl+Shift+O", "Command+Shift+O"),
 					"template": defaultTemplate,
 				},
 				"saveFile": {
 					"id": "saveFile",
 					"name": "Save",
-					"hotKey": Utils.bindKey("Ctrl+S", "Cmd+S"),
+					"hotKey": Utils.bindKey("Ctrl+S", "Command+S"),
 					"template": defaultTemplate,
 				},
 				"copyFile": {
 					"id": "copyFile",
 					"name": "Save As",
-					"hotKey": Utils.bindKey("Ctrl+Shift+S", "Cmd+Shift+S"),
+					"hotKey": Utils.bindKey("Ctrl+Shift+S", "Command+Shift+S"),
 					"template": defaultTemplate,
 				},
 				"saveAllFiles": {
 					"id": "saveAllFiles",
 					"name": "Save All",
-					"hotKey": Utils.bindKey("Ctrl+Alt+Shift+S", "Cmd+Alt+Shift+S"),
+					"hotKey": Utils.bindKey("Ctrl+Alt+Shift+S", "Command+Alt+Shift+S"),
 					"template": defaultTemplate,
 				}
 			}
@@ -70,13 +70,13 @@ function RodinMenuBarFactory(Utils) {
 				"undo": {
 					"id": "undo",
 					"name": "Undo",
-					"hotKey": Utils.bindKey("Ctrl+Z", "Cmd+Z"),
+					"hotKey": Utils.bindKey("Ctrl+Z", "Command+Z"),
 					"template": defaultTemplate,
 				},
 				"redo": {
 					"id": "redo",
 					"name": "Redo",
-					"hotKey": Utils.bindKey("Ctrl+Shift+Z", "Cmd+Shift+Z"),
+					"hotKey": Utils.bindKey("Ctrl+Shift+Z", "Command+Shift+Z"),
 					"template": defaultTemplate,
 				}
 			}
@@ -88,33 +88,31 @@ function RodinMenuBarFactory(Utils) {
 				"findInFile": {
 					"id": "findInFile",
 					"name": "Find In File",
-					"hotKey": Utils.bindKey("Ctrl+F", "Cmd+F"),
+					"hotKey": Utils.bindKey("Ctrl+F", "Command+F"),
 					"template": defaultTemplate,
 				},
 				"findInFolder": {
 					"id": "findInFolder",
 					"name": "Find In Folder",
-					"hotKey": Utils.bindKey("Ctrl+Shift+F", "Cmd+Shift+F"),
+					"hotKey": Utils.bindKey("Ctrl+Shift+F", "Command+Shift+F"),
 					"template": defaultTemplate,
 				},
-
-
 				"replaceInFile": {
 					"id": "replaceInFile",
 					"name": "Replace In File",
-					"hotKey": Utils.bindKey("Ctrl+R", "Cmd+R"),
+					"hotKey": Utils.bindKey("Ctrl+R", "Command+R"),
 					"template": defaultTemplate,
 				},
 				"replaceInFolder": {
 					"id": "replaceInFolder",
 					"name": "Replace In Folder",
-					"hotKey": Utils.bindKey("Ctrl+Shift+R", "Cmd+Shift+R"),
+					"hotKey": Utils.bindKey("Ctrl+Shift+R", "Command+Shift+R"),
 					"template": defaultTemplate,
 				},
 				"goToLine": {
 					"id": "goToLine",
 					"name": "GoTo",
-					"hotKey": Utils.bindKey("Ctrl+G", "Cmd+G"),
+					"hotKey": Utils.bindKey("Ctrl+G", "Command+G"),
 					"template": defaultTemplate,
 				}
 			}

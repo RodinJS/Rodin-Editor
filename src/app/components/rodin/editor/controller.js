@@ -6,42 +6,45 @@ let self;
 
 class EditorCtrl {
 
-	constructor($scope, RodinTabs, RodinEditor, Ace) {
-		'ngInject';
+  constructor($scope, RodinTabs, RodinEditor, Ace) {
+    'ngInject';
 
-		self = this;
+    self = this;
 
-		this._$scope = $scope;
-		this._RodinTabs = RodinTabs;
-		this._RodinEditor = RodinEditor;
-		this._Ace = Ace;
-
-
-		this.options = this._RodinEditor.options;
-
-		this.aceConfig = this._RodinEditor.options.ace;
-
-		this.tabsComponentId = "editor_tabs";
-
-		this.tabsCallbacks = {
-			"close": this.closeFile,
-			"change": this.switchFile,
-		};
+    this._$scope = $scope;
+    this._RodinTabs = RodinTabs;
+    this._RodinEditor = RodinEditor;
+    this._Ace = Ace;
 
 
-		this._RodinEditor.setTabsComponentId(this.tabsComponentId);
-	}
+    this.options = this._RodinEditor.options;
 
-	closeFile(oldFile, newFile) {
-		self._RodinEditor.openFile((newFile.isBlank ? null : newFile));
-	}
+    this.aceConfig = this._RodinEditor.options.ace;
 
-	switchFile(oldFile, newFile) {
+    this.tabsComponentId = "editor_tabs";
 
-		self._RodinEditor.saveState(oldFile);
+    this.tabsCallbacks = {
+      "close": this.closeFile,
+      "change": this.switchFile,
+    };
 
-		self._RodinEditor.openFile(newFile); /// change ace content and settings
-	}
+
+    ///////// subscribe menu-bar events //////////
+    // this._$on("menu-bar:undo", );
+
+    this._RodinEditor.setTabsComponentId(this.tabsComponentId);
+  }
+
+  closeFile(oldFile, newFile) {
+    self._RodinEditor.openFile((newFile.isBlank ? null : newFile));
+  }
+
+  switchFile(oldFile, newFile) {
+
+    self._RodinEditor.saveState(oldFile);
+
+    self._RodinEditor.openFile(newFile); /// change ace content and settings
+  }
 }
 
 export default EditorCtrl;
