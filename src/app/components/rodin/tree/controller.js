@@ -5,174 +5,128 @@ let self;
 let isFirst = true;
 
 class TreeCtrl {
-	constructor($scope, $timeout, Editor, $log, FileUtils, RodinTabs, RodinTree) {
-		'ngInject';
+  constructor($scope, $timeout, Editor, $log, FileUtils, RodinTabs, RodinTree) {
+    'ngInject';
 
-		self = this;
-		this._$scope = $scope;
-		this._$timeout = $timeout;
-		this._Editor = Editor;
-		this._RodinTabs = RodinTabs;
-		this._RodinTree = RodinTree;
-		this._FileUtils = FileUtils;
-		this._$log = $log;
+    self = this;
+    this._$scope = $scope;
+    this._$timeout = $timeout;
+    this._Editor = Editor;
+    this._RodinTabs = RodinTabs;
+    this._RodinTree = RodinTree;
+    this._FileUtils = FileUtils;
+    this._$log = $log;
 
-		this.projectId = this._$scope.projectId;
-		this._tabsComponentId = "editor_tabs";
+    this.projectId = this._$scope.projectId;
+    this._tabsComponentId = "editor_tabs";
 
-		this._RodinTree.setTabsComponentId(this._tabsComponentId);
-
-
-
-		this.data = [];
-		this.treeFilter = "";
-
-		this.fileMenuOptions = [
-			['Rename...', this._rename],
-			['Delete File', this._delete]
-		];
-
-		this.directoryMenuOptions = [
-			['New File', this._createFile],
-			['Rename...', this._rename],
-			null,
-			['New Folder', this._createFolder],
-			['Delete Folder', this._delete],
-			// ['Find in Folder', this._findInFolder]
-		];
-
-		/// Get project tree
-
-		this._$scope.$watch(()=> {
-			return this.projectId;
-		}, (newVal)=> {
-			if (newVal) {
-				this._RodinTree.setProjectId(this.projectId);
-				return this.updateTree();
-			}
-		});
-	}
-
-	toggle(scope) {
-		scope.toggle();
-	};
-
-	updateTree() {
-		this._Editor.getProject(this.projectId).then((data)=> {
-			this.data.splice(0, 1, data.tree);
-
-			if (isFirst) {
-
-				isFirst = false;
-
-				let node = data.tree.children.filter((item)=> {
-					return (item.parent == "" && item.name == "index.js")
-				})[0];
-
-				if (node) {
-					this._Editor.getFile(this.projectId, {
-						filename: node.path
-					}).then((data)=> {
-						const file = {
-							name: node.name,
-							path: node.path,
-							type: node.type,
-							content: data.content
-						};
-
-						this.callbackFn("opennew", file);
-					});
-				}
-
-			}
-
-		});
-	}
-
-	open(scope = {}, node = {}) {
-		if (node.type == "directory") {
-			return this.toggle(scope);
-		} else {
-			this._RodinTree.openFile(node);
-		}
-	}
-
-	getFileOptions(...args) {
-		return this._FileUtils.getFileOptions(...args);
-	}
-
-	isFolder(node) {
-		return (node.type == 'directory');
-	}
-
-	isVisible(node) {
-		return !(this.treeFilter && this.treeFilter.length > 0 && node.name.indexOf(this.treeFilter) == -1);
-	}
+    this._RodinTree.setTabsComponentId(this._tabsComponentId);
 
 
-	_delete($itemScope, $event, node, text, $li) {
-		let ans = confirm("Are you sure delete file: " + node.name);
+    this.data = this._RodinTree.data;
+    this.treeFilter = "";
 
-		if (ans) {
-			self._Editor.deleteFile(this.projectId, {
-				filename: node.path
-			}).then((data)=> {
-				self.updateTree();
-			}, (errors)=> {
-				alert("Error delete file!");
-			})
-		}
-	}
+    this.fileMenuOptions = [
+      ['Rename...', this._rename],
+      ['Delete File', this._delete]
+    ];
 
-	_rename($itemScope, $event, node, text, $li) {
-		let name = prompt("Change file name.", node.name);
+    this.directoryMenuOptions = [
+      ['New File', this._createFile],
+      ['Rename...', this._rename],
+      null,
+      ['New Folder', this._createFolder],
+      ['Delete Folder', this._delete],
+      // ['Find in Folder', this._findInFolder]
+    ];
 
-		if (name) {
-			self._Editor.updateFile(this.projectId, {}, {
-				action: "rename",
-				filename: node.path,
-				newName: name,
-			}).then((data)=> {
-				self.updateTree();
-			}, (errors)=> {
-				alert("Error rename file!");
-			})
-		}
-	}
+    /// Get project tree
 
-	_createFolder($itemScope, $event, node, text, $li) {
-		let name = prompt("Folder name.");
+    this._$scope.$watch(()=> {
+      return this.projectId;
+    }, (newVal)=> {
+      if (newVal) {
+        return this._RodinTree.setProjectId(this.projectId);
+      }
+    });
+  }
 
-		if (name) {
-			self._Editor.createFile(this.projectId, {
-				type: "directory",
-				path: node.path,
-				name: name,
-				action: "create"
-			}).then((data)=> {
-				self.updateTree();
-			}, (errors)=> {
-				alert("Error to create folder!");
-			})
-		}
-	}
+  toggle(scope) {
+    scope.toggle();
+  };
 
-	_createFile($itemScope, $event, node, text, $li) {
-		let name = prompt("File name.");
+  updateTree() {
 
-		if (name) {
-			self._Editor.createFile(this.projectId, {
-				type: "file",
-				path: node.path,
-				name: name,
-				action: "create"
-			}).then((data)=> {
-				self.updateTree();
-			}, (errors)=> {
-				alert("Error to create file!");
-			});
-		}
-	}
+  }
+
+
+  getFileOptions(...args) {
+    return this._FileUtils.getFileOptions(...args);
+  }
+
+  isFolder(node) {
+    return (node.type == 'directory');
+  }
+
+  isVisible(node) {
+    return !(this.treeFilter && this.treeFilter.length > 0 && node.name.indexOf(this.treeFilter) == -1);
+  }
+
+  open(scope = {}, node = {}) {
+    if (node.type == "directory") {
+      return this.toggle(scope);
+    } else {
+      self._RodinTree.openFile(node);
+    }
+  }
+
+  _delete($itemScope, $event, node, text, $li) {
+    let ans = confirm("Are you sure delete file: " + node.name);
+
+    if (ans) {
+      self._RodinTree.deleteFile(node);
+    }
+  }
+
+  _rename($itemScope, $event, node, text, $li) {
+    let name = prompt("Change file name.", node.name);
+
+    if (name) {
+
+      self._RodinTree.renameFile(node, {
+        action: "rename",
+        newName: name,
+      });
+
+    }
+  }
+
+  _createFolder($itemScope, $event, node, text, $li) {
+    let name = prompt("Folder name.");
+
+    if (name) {
+
+      self._RodinTree.createFolder(node, {
+        path: node.path,
+        name: name,
+        action: "create"
+      });
+
+    }
+  }
+
+  _createFile($itemScope, $event, node, text, $li) {
+    let name = prompt("File name.");
+
+    if (name) {
+      self._RodinTree.createFile(node, {
+        path: node.path,
+        name: name,
+        action: "create"
+      });
+
+    }
+  }
 }
 
 export default TreeCtrl;
