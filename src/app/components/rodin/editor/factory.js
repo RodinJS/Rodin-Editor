@@ -29,22 +29,15 @@ function RodinEditorFactory(Utils, RodinTabs, FileUtils, Ace) {
           const data = RodinTabs.get(tabsComponentId);
           if (_.isObject(data.editor)) {
 
-
             Ace.session.$undoManager.$doc = Ace.session; // workaround for a bug in ace
 
             Ace.session.setOptions(data.editor.options);
 
+            Ace.session.$undoManager.$undoStack = data.editor.history.undo;
 
-            console.log("load fn")
-            console.log("$undoManager: ", angular.copy(Ace.session.$undoManager));
+            Ace.session.$undoManager.dirtyCounter = data.editor.history.undo.length;
 
-            window.ahistory = data.editor.history;
-            /*
-             Ace.session.$undoManager.$undoStack = data.editor.history.undo;
-
-             Ace.session.$undoManager.dirtyCounter = data.editor.history.undo.length;
-
-             Ace.session.$undoManager.$redoStack = data.editor.history.redo;*/
+            Ace.session.$undoManager.$redoStack = data.editor.history.redo;
 
             //////////////////////////////
 
