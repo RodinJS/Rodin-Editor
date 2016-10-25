@@ -2,13 +2,13 @@
  * Created by kh.levon98 on 24-Sep-16.
  */
 class PreviewCtrl {
-	constructor($scope) {
-		'ngInject';
+  constructor($scope) {
+    'ngInject';
 
-		this._$scope = $scope;
+    this._$scope = $scope;
 
-		this.tabsComponentId = "preview_tabs";
-	}
+    this.tabsComponentId = "preview_tabs";
+  }
 
 }
 

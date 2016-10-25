@@ -9,7 +9,7 @@
 		  <span data-ng-class="::{'item-header-inner':$ctrl.isFolder(child)}">
 
 				<i class="ion ion-android-arrow-dropdown dropdown-icon color-icon-dark"
-				   data-ng-show="$ctrl.isFolder(child)"></i>
+           data-ng-show="$ctrl.isFolder(child)"></i>
 
 				<i data-ng-class="::opts.class" class="file-icon" data-ng-bind="::opts.content"></i>
 
@@ -25,14 +25,14 @@
     data-ui-tree-nodes
     data-ng-model="child.children">
 
-	<!--data-ng-show="$ctrl.isVisible(child)"-->
+  <!--data-ng-show="$ctrl.isVisible(child)"-->
 
-	<li data-ng-repeat="child in child.children"
-	    data-ui-tree-node
-	    data-ng-class="{
+  <li data-ng-repeat="child in child.children"
+      data-ui-tree-node
+      data-ng-class="{
 		    'menu-item':$ctrl.isFolder(child),
 				'open': collapsed
 				}"
-	    data-ng-include="'components/rodin/tree/subNode.html'"></li>
+      data-ng-include="'components/rodin/tree/subNode.html'"></li>
 
 </ul>

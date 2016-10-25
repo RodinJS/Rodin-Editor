@@ -18,7 +18,6 @@ import Ace from './ace/index';
 componentsModule.directive('ace', Ace);
 
 
-
 /*
  * Rodin-IDEA modules
  * */
@@ -39,7 +38,6 @@ componentsModule.factory('RodinTabs', RodinTabsFactory);
 
 import RodinTabs from './rodin/tabs/index';
 componentsModule.component('rodinTabs', RodinTabs);
-
 
 
 /// editor module

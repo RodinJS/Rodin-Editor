@@ -2,19 +2,19 @@
 import MenuBarCtrl from './controller';
 
 function MenuBar() {
-	'ngInject';
+  'ngInject';
 
-	return {
-		restrict: 'EA',
-		templateUrl: 'components/menu-bar/index.html',
-		controllerAs: "$ctrl",
-		replace: true,
-		controller: MenuBarCtrl,
-		// link: MenuBarLink,
-		scope: {
-			menuList:"="
-		}
-	};
+  return {
+    restrict: 'EA',
+    templateUrl: 'components/menu-bar/index.html',
+    controllerAs: "$ctrl",
+    replace: true,
+    controller: MenuBarCtrl,
+    // link: MenuBarLink,
+    scope: {
+      menuList: "="
+    }
+  };
 }
 
 export default MenuBar;

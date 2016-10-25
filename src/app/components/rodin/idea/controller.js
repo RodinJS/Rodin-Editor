@@ -6,12 +6,12 @@ let self;
 let isFirstCall = true;
 
 class IdeaCtrl {
-	constructor($scope) {
-		'ngInject';
-		self = this;
+  constructor($scope) {
+    'ngInject';
+    self = this;
 
-		this._$scope = $scope;
-	}
+    this._$scope = $scope;
+  }
 }
 
 export default IdeaCtrl;

@@ -34,28 +34,28 @@ import './pages/index';
 
 // Create and bootstrap application
 const requires = [
-	'ngAnimate',
-	'ngTouch',
-	'ngCookies',
-	'ngSanitize',
-	'ngEventEmitter',
+  'ngAnimate',
+  'ngTouch',
+  'ngCookies',
+  'ngSanitize',
+  'ngEventEmitter',
 
-	'angular-storage',
-	'ui.router',
-	'restangular',
+  'angular-storage',
+  'ui.router',
+  'restangular',
 
-	'templates',
-
-
-	'ui.bootstrap',
-	'ui.bootstrap.contextMenu',
-	'ui.tree',
+  'templates',
 
 
-	'app.services',
-	'app.components',
-	'app.layout',
-	'app.pages'
+  'ui.bootstrap',
+  'ui.bootstrap.contextMenu',
+  'ui.tree',
+
+
+  'app.services',
+  'app.components',
+  'app.layout',
+  'app.pages'
 ];
 
 // Mount on window for testing
@@ -68,5 +68,5 @@ angular.module('app').config(appConfig);
 angular.module('app').run(appRun);
 
 angular.bootstrap(document, ['app'], {
-	strictDi: true
+  strictDi: true
 });

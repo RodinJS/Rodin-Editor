@@ -3,34 +3,34 @@
  */
 
 function AppConfig(RestangularProvider, $stateProvider, $locationProvider, $urlRouterProvider, AppConstants) {
-	'ngInject';
+  'ngInject';
 
-	RestangularProvider.setBaseUrl(AppConstants.API);
+  RestangularProvider.setBaseUrl(AppConstants.API);
 
-	// In this case we are mapping the id of each element to the _id field.
-	RestangularProvider.setRestangularFields({
-		id: "_id"
-	});
-
-
-	if (AppConstants.env == "prod") {
-		$locationProvider.html5Mode(true);
-	}
+  // In this case we are mapping the id of each element to the _id field.
+  RestangularProvider.setRestangularFields({
+    id: "_id"
+  });
 
 
-	$stateProvider
-		.state('app', {
-			abstract: true,
-			templateUrl: 'layout/main/app-view.html',
-			resolve: {
-				auth: function (User) {
-					return User.verifyAuth(false);
-				}
-			}
-		});
+  if (AppConstants.env == "prod") {
+    $locationProvider.html5Mode(true);
+  }
 
 
-	$urlRouterProvider.otherwise('/error');
+  $stateProvider
+    .state('app', {
+      abstract: true,
+      templateUrl: 'layout/main/app-view.html',
+      resolve: {
+        auth: function (User) {
+          return User.verifyAuth(false);
+        }
+      }
+    });
+
+
+  $urlRouterProvider.otherwise('/error');
 
 }
 

@@ -2,20 +2,20 @@
 import RIDEACtrl from './controller';
 
 function RIDEAEditor() {
-	'ngInject';
+  'ngInject';
 
-	return {
-		restrict: 'EA',
-		require: '?ngModel',
-		templateUrl: 'components/rodin-IDEA/index.html',
-		controllerAs: "$ctrl",
-		replace: true,
-		controller: RIDEACtrl,
-		// link: RIDEALink,
-		scope: {
-			projectId: "="
-		}
-	};
+  return {
+    restrict: 'EA',
+    require: '?ngModel',
+    templateUrl: 'components/rodin-IDEA/index.html',
+    controllerAs: "$ctrl",
+    replace: true,
+    controller: RIDEACtrl,
+    // link: RIDEALink,
+    scope: {
+      projectId: "="
+    }
+  };
 }
 
 export default RIDEAEditor;

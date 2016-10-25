@@ -1,7 +1,7 @@
 <ul class="header-work-menu">
-	<li data-uib-dropdown data-ng-repeat="menu in $ctrl.menuList track by menu.index">
-		<a role="button" class="text-primary work-menu-btn" data-uib-dropdown-toggle data-ng-bind="menu.name"></a>
-		<div class="header-work-dropdown dropdown-menu" data-uib-dropdown-menu role="menu" data-ng-if="menu.subMenus"
-		     data-ng-include="'components/rodin/menu-bar/subMenu.html'"></div>
-	</li>
+  <li data-uib-dropdown data-ng-repeat="menu in $ctrl.menuList track by menu.index">
+    <a role="button" class="text-primary work-menu-btn" data-uib-dropdown-toggle data-ng-bind="menu.name"></a>
+    <div class="header-work-dropdown dropdown-menu" data-uib-dropdown-menu role="menu" data-ng-if="menu.subMenus"
+         data-ng-include="'components/rodin/menu-bar/subMenu.html'"></div>
+  </li>
 </ul>

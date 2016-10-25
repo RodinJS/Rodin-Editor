@@ -2,14 +2,14 @@
  * Created by kh.levon98 on 17-Oct-16.
  */
 function AceFactory() {
-	'ngInject';
+  'ngInject';
 
-	let model = {};
+  let model = {};
 
-	model.editor = null;
-	model.session = null;
+  model.editor = null;
+  model.session = null;
 
-	return model;
+  return model;
 }
 
 export default AceFactory;
