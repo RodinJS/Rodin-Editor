@@ -2,15 +2,15 @@
 	<rodin-toolbar></rodin-toolbar>
 
 
-	<div class="work-space-container">
+	<div class="work-space-container" data-resize>
 
-		<rodin-tree data-project-id="projectId" class="work-space-sidebar clearfix"></rodin-tree>
-
-
-		<rodin-editor data-project-id="projectId"></rodin-editor>
+		<rodin-tree data-project-id="projectId" class="work-space-sidebar clearfix" resize-item></rodin-tree>
 
 
-		<rodin-preview></rodin-preview>
+		<rodin-editor data-project-id="projectId" resize-item></rodin-editor>
+
+
+		<rodin-preview resize-item></rodin-preview>
 
 
 	</div>

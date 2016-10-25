@@ -9,6 +9,9 @@ const componentsModule = angular.module('app.components', []);
 import Compile from './compile/index';
 componentsModule.directive('compile', Compile);
 
+import Resize from './resize/index';
+componentsModule.directive('resize', Resize);
+
 
 import AceFactory from './ace/factory';
 componentsModule.factory('Ace', AceFactory);
@@ -16,7 +19,6 @@ componentsModule.factory('Ace', AceFactory);
 
 import Ace from './ace/index';
 componentsModule.directive('ace', Ace);
-
 
 
 /*
