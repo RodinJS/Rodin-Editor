@@ -48,7 +48,7 @@ import RodinEditorFactory from './rodin/editor/factory';
 componentsModule.factory('RodinEditor', RodinEditorFactory);
 
 import RodinEditor from './rodin/editor/index';
-componentsModule.directive('rodinEditor', RodinEditor);
+componentsModule.component('rodinEditor', RodinEditor);
 
 
 /// toolbar modules
@@ -79,7 +79,7 @@ import RodinPreviewFactory from './rodin/preview/factory';
 componentsModule.factory('RodinPreview', RodinPreviewFactory);
 
 import RodinPreview from './rodin/preview/index';
-componentsModule.directive('rodinPreview', RodinPreview);
+componentsModule.component('rodinPreview', RodinPreview);
 
 
 /// IDEA module
