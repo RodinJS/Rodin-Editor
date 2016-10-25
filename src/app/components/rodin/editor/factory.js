@@ -15,10 +15,9 @@ function RodinEditorFactory(Utils, RodinTabs, FileUtils, Ace) {
   let projectId = null;
   let tabsComponentId = "editor_tabs";
 
-  window.Ace = Ace;
-
   model.options = {
     model: "",
+    path: "",
     ace: {
       workerPath: "/scripts/vendor/ace/lib/ace",
       advanced: {},
@@ -86,11 +85,15 @@ function RodinEditorFactory(Utils, RodinTabs, FileUtils, Ace) {
 
   function openFile(data) {
     if (data) {
-      const editorMode = FileUtils.getFileOptions(data).editorMode;
-      model.options.model = data.content;
-      model.options.ace.mode = editorMode;
+      if (data.path !== model.options.path) {
+        const editorMode = FileUtils.getFileOptions(data).editorMode;
+        model.options.model = data.content;
+        model.options.path = data.path;
+        model.options.ace.mode = editorMode;
+      }
     } else {
       model.options.model = "";
+      model.options.path = "";
       model.options.ace.mode = "text";
     }
   }
