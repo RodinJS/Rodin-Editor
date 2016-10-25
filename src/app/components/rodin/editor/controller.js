@@ -2,16 +2,19 @@
  * Created by kh.levon98 on 24-Sep-16.
  */
 
+import * as _ from "lodash/dist/lodash.min";
+
 let self;
 
 class EditorCtrl {
 
-  constructor($scope, RodinTabs, RodinEditor, Ace) {
+  constructor($scope, RodinTabs, RodinEditor, Ace, $on) {
     'ngInject';
 
     self = this;
 
     this._$scope = $scope;
+    this._$on = $on;
     this._RodinTabs = RodinTabs;
     this._RodinEditor = RodinEditor;
     this._Ace = Ace;
@@ -30,7 +33,40 @@ class EditorCtrl {
 
 
     ///////// subscribe menu-bar events //////////
-    // this._$on("menu-bar:undo", );
+
+    this._$on("menu-bar:undo", (e, node, model)=> {
+      self._RodinEditor.undo(node, model);
+    });
+
+    this._$on("menu-bar:redo", (e, node, model)=> {
+      self._RodinEditor.redo(node, model);
+    });
+
+
+    this._$on("menu-bar:findInFile", (e, node, model)=> {
+      self._RodinEditor.findInFile(node, model);
+    });
+
+
+    this._$on("menu-bar:findInFolder", (e, node, model)=> {
+      self._RodinEditor.findInFolder(node, model);
+    });
+
+
+    this._$on("menu-bar:replaceInFile", (e, node, model)=> {
+      self._RodinEditor.replaceInFile(node, model);
+    });
+
+
+    this._$on("menu-bar:replaceInFolder", (e, node, model)=> {
+      self._RodinEditor.replaceInFolder(node, model);
+    });
+
+    this._$on("menu-bar:goToLine", (e, node, model)=> {
+      self._RodinEditor.goToLine(node, model);
+    });
+
+    ///////// end //////////
 
     this._RodinEditor.setTabsComponentId(this.tabsComponentId);
   }

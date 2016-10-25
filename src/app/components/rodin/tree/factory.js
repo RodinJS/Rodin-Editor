@@ -28,11 +28,7 @@ function RodinTreeFactory(Editor, RodinEditor, RodinTabs) {
 					type: node.type,
 					isUnsaved: false,
 					originalContent: data.content,
-					content: data.content,
-					editor: {
-						column: 0,
-						row: 0
-					}
+					content: data.content
 				};
 
 				RodinEditor.saveState();
