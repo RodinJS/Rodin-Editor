@@ -14,9 +14,9 @@ function setup (column, right, i) {
     let dragStartWidth = 0;
 
     dragHandler.addEventListener('mousedown', startDrag);
-    dragHandler.addEventListener('mousemove', drag);
+    document.addEventListener('mousemove', drag);
     dragHandler.addEventListener('mouseup', stopDrag);
-    dragHandler.addEventListener('mouseleave', stopDrag);
+    document.addEventListener('mouseup', stopDrag);
 
     function startDrag (evt) {
         isDragging = true;
@@ -32,8 +32,11 @@ function setup (column, right, i) {
         let parentWidth = column.parentNode.offsetWidth;
         let columnWithRight = column.offsetWidth + right.offsetWidth;
         let draggedArea = evt.clientX - dragStartX;
-        column.style.width = `${dragStartWidth + draggedArea / parentWidth}%`;
-        right.style.width = `${(columnWithRight - (dragStartWidth + draggedArea)) / parentWidth}%`;
+
+        const columnWidth = (dragStartWidth + draggedArea )/ parentWidth * 100;
+        const rightWidth = (columnWithRight - (dragStartWidth + draggedArea)) / parentWidth * 100;
+        column.style.width = `${columnWidth}%`;
+        right.style.width = `${rightWidth}%`;
     }
 
     function stopDrag () {

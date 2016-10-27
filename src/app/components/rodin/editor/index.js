@@ -1,17 +1,9 @@
 import EditorCtrl from './controller';
 
 
-function Editor() {
-	'ngInject';
-
-	return {
-		restrict: 'E',
-		templateUrl: 'components/rodin/editor/index.html',
-		controllerAs: "$ctrl",
-		replace: true,
-		controller: EditorCtrl,
-		scope: {}
-	};
-}
+const Editor = {
+	templateUrl: 'components/rodin/editor/index.html',
+	controller: EditorCtrl
+};
 
 export default Editor;

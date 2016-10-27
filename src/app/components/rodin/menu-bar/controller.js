@@ -27,7 +27,7 @@ class MenuBarCtrl {
     if (_.isFunction(event)) {
       return event.call(subMenu, model);
     } else {
-      self._$emit(subMenu.id, subMenu, model);
+      self._$emit(`menu-bar:${subMenu.id}`, subMenu, model);
     }
   }
 
