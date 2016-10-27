@@ -4,7 +4,7 @@
 
 import * as _ from "lodash/dist/lodash.min";
 
-function RodinTabsFactory(Utils) {
+function RodinTabsFactory(Utils, RodinTabsConstants) {
   'ngInject';
 
   let model = {};

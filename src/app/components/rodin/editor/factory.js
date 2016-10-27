@@ -8,12 +8,11 @@ import angular from 'angular/index';
 import ace from "ace/ace";
 
 
-function RodinEditorFactory(Utils, RodinTabs, FileUtils, Ace) {
+function RodinEditorFactory(Utils, RodinTabs, FileUtils, Ace, RodinTabsConstants) {
   'ngInject';
 
   let model = {};
-  let projectId = null;
-  let tabsComponentId = "editor_tabs";
+  let tabsComponentId = RodinTabsConstants.editor;
 
   model.options = {
     model: "",
@@ -65,9 +64,6 @@ function RodinEditorFactory(Utils, RodinTabs, FileUtils, Ace) {
 
   model.openFile = openFile;
   model.saveState = saveState;
-
-  model.setTabsComponentId = setTabsComponentId;
-  model.setProjectId = setProjectId;
 
 
   //// Editor shortcuts ////
@@ -162,17 +158,6 @@ function RodinEditorFactory(Utils, RodinTabs, FileUtils, Ace) {
   }
 
   /////////////////////////////////////////////////////
-
-
-  /// local variables setter/getter functions
-  function setTabsComponentId(id) {
-    tabsComponentId = id;
-  }
-
-  function setProjectId(id) {
-    projectId = id;
-  }
-
 
   ///// Local functions
   function filterHistory(deltas) {

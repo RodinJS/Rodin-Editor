@@ -18,10 +18,6 @@ class TreeCtrl {
     this._$log = $log;
 
     this.projectId = this._$scope.projectId;
-    this._tabsComponentId = "editor_tabs";
-
-    this._RodinTree.setTabsComponentId(this._tabsComponentId);
-
 
     this.data = this._RodinTree.data;
     this.treeFilter = "";

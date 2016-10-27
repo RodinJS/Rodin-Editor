@@ -1,12 +1,12 @@
 /**
  * Created by kh.levon98 on 17-Oct-16.
  */
-function RodinTreeFactory(Editor, RodinEditor, RodinTabs) {
+function RodinTreeFactory(Editor, RodinEditor, RodinTabs, RodinTabsConstants) {
   'ngInject';
 
   let model = {};
   let projectId = null;
-  let tabsComponentId = "editor_tabs";
+  let tabsComponentId = RodinTabsConstants.editor;
 
   model.data = [];
 
@@ -18,8 +18,6 @@ function RodinTreeFactory(Editor, RodinEditor, RodinTabs) {
   model.deleteFile = deleteFile;
   model.update = updateTree;
 
-
-  model.setTabsComponentId = setTabsComponentId;
   model.setProjectId = setProjectId;
 
   return model;
@@ -114,9 +112,6 @@ function RodinTreeFactory(Editor, RodinEditor, RodinTabs) {
   }
 
   /// local variables setter/getter functions
-  function setTabsComponentId(id) {
-    tabsComponentId = id;
-  }
 
   function setProjectId(id) {
     projectId = id;
