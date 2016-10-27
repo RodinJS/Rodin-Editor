@@ -1,0 +1,87 @@
+<div class="header work-space-header">
+  <div class="container-fluid">
+    <a class="work-space-logo" data-ng-href="{{::$root.trustSrc($ctrl.SITE)}}">
+      <img src="images/general/rodin-logo.svg" width="52" alt="">
+    </a>
+
+    <div class="folder-name dropdown" data-uib-dropdown>
+      <a class="dropdown-toggle btn-folder-name" role="button" data-uib-dropdown-toggle data-ng-disabled="false">
+        /{{::$ctrl.projectRoot}}
+        <i class="fa fa-angle-down"></i>
+      </a>
+      <ul class="dropdown-menu dropdown-menu-folder" data-uib-dropdown-menu role="menu">
+        <li role="menuitem"
+            data-ng-repeat="project in $ctrl.projectList track by $index"
+            data-ng-class="{'active': $ctrl.projectRoot == project.root}">
+
+          <a data-ng-href="{{::(($ctrl.projectRoot != project.root) ? $ctrl.EDITOR+project.root : '')}}"
+             data-ng-bind="::project.root"></a>
+
+        </li>
+      </ul>
+    </div>
+    <ul class="header-work-menu">
+      <li data-uib-dropdown data-ng-repeat="menu in $ctrl.menuList track by $index">
+        <a role="button" class="text-primary work-menu-btn" data-uib-dropdown-toggle data-compile="menu.name"></a>
+        <div class="header-work-dropdown dropdown-menu" data-uib-dropdown-menu role="menu" data-ng-if="menu.subMenus.length"
+             data-ng-include="'components/menu-bar/subMenu.html'"></div>
+      </li>
+    </ul>
+    <ul class="navbar-right navbar-account">
+      <li class="new-notifi" data-uib-dropdown>
+        <a href="" class="dropdown-toggle btn-notifi" data-uib-dropdown-toggle role="button">
+          <i class="icon icon-notifi"></i>
+          <!--<span class="new-notifi-badge">-->
+          <!--<i class="icon icon-dot"></i>-->
+          <!--</span>-->
+        </a>
+        <div class="dropdown-menu dropdown-menu-notifi" data-uib-dropdown-menu>
+          <h5>Notifications</h5>
+          <!--<ul>-->
+          <!--<li class="red">-->
+          <!--<a href="">-->
+          <!--<p>It sometimes seems everyone on the planet is using Windows.</p>-->
+          <!--<span class="notifi-date text-small">6 hours ago</span>-->
+          <!--</a>-->
+          <!--</li>-->
+          <!--<li class="orange">-->
+          <!--<a href="">-->
+          <!--<p>Photographs are a way of preserving a moment in our lives for the rest of our lives. Many of us have at least been</p>-->
+          <!--<span class="notifi-date text-small">2 hours ago</span>-->
+          <!--</a>-->
+          <!--</li>-->
+          <!--<li class="blue">-->
+          <!--<a href="">-->
+          <!--<p>Many of us have at least been</p>-->
+          <!--<span class="notifi-date text-small">6 hours ago</span>-->
+          <!--</a>-->
+          <!--</li>-->
+          <!--<li class="orange">-->
+          <!--<a href="">-->
+          <!--<p>Photographs are a way of preserving a moment in our lives for the rest of our lives. Many of us have at least been</p>-->
+          <!--<span class="notifi-date text-small">2 hours ago</span>-->
+          <!--</a>-->
+          <!--</li>-->
+          <!--</ul>-->
+        </div>
+      </li>
+      <li class="dropdown" data-uib-dropdown>
+        <a href="" class="dropdown-toggle text-action btn-account-drop" data-uib-dropdown-toggle role="button">
+          <span class="avatar">
+            <span class="avatar-name">R</span>
+          </span>
+          {{$ctrl.currentUser.username}}
+          <i class="fa fa-angle-down"></i>
+        </a>
+        <ul class="dropdown-menu dropdown-menu-account" data-uib-dropdown-menu>
+          <li>
+            <h2>{{$ctrl.currentUser.username}}</h2>
+            <a role="button" class="mail-link">{{$ctrl.currentUser.email}}</a>
+          </li>
+          <li><a data-ng-href="{{::$root.trustSrc($ctrl.SITE + 'profile')}}">EDIT Profile</a></li>
+          <li><a href="" data-ng-click="$ctrl.logout()" class="signout-link">Sign Out</a></li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+</div>

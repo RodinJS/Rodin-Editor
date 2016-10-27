@@ -17,6 +17,8 @@
     "angular-bootstrap-contextmenu": "^0.9.9",
     "angular-cookies": "^1.5.8",
     "angular-sanitize": "^1.5.8",
-    "angular-event-emitter": "^0.0.2"
+    "angular-event-emitter": "^0.0.2",
+    "ng-device-detector": "^3.0.1",
+    "query-string": "^4.2.3"
   }
 }

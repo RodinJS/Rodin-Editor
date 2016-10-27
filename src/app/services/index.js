@@ -4,6 +4,9 @@ import angular from 'angular/index';
 let servicesModule = angular.module('app.services', []);
 
 
+import UtilsService from './utils.service';
+servicesModule.service('Utils', UtilsService);
+
 import FileUtilsService from './fileUtils.service';
 servicesModule.service('FileUtils', FileUtilsService);
 
