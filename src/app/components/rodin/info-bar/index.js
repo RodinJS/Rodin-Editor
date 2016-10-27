@@ -2,16 +2,16 @@ import InfoBarCtrl from './controller';
 
 
 function InfoBar() {
-	'ngInject';
+  'ngInject';
 
-	return {
-		restrict: 'E',
-		templateUrl: 'components/rodin/info-bar/index.html',
-		controllerAs: "$ctrl",
-		replace: true,
-		controller: InfoBarCtrl,
-		scope: {}
-	};
+  return {
+    restrict: 'E',
+    templateUrl: 'components/rodin/info-bar/index.html',
+    controllerAs: "$ctrl",
+    replace: true,
+    controller: InfoBarCtrl,
+    scope: {}
+  };
 }
 
 export default InfoBar;

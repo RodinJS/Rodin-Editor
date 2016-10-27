@@ -1,22 +1,22 @@
 <div class="sidebar-wrapper clearfix">
-	<div class="drag-handle"></div>
-	<h3 class="text-primary sidebar-title dropdown">
-		Folder
-		<a href=""><i class="icon icon-more"></i></a>
-	</h3>
-	<div class="clearfix sidebar-menu-wrapper" data-ui-tree id="tree-root">
-		<ul class="sidebar-menu" data-ui-tree-nodes data-ng-model="$ctrl.data">
-			<li data-ng-repeat="child in $ctrl.data"
-			    data-ui-tree-node
-			    data-nodrag
-			    data-ng-class="{
+  <div class="drag-handle"></div>
+  <h3 class="text-primary sidebar-title dropdown">
+    Folder
+    <a href=""><i class="icon icon-more"></i></a>
+  </h3>
+  <div class="clearfix sidebar-menu-wrapper" data-ui-tree id="tree-root">
+    <ul class="sidebar-menu" data-ui-tree-nodes data-ng-model="$ctrl.data">
+      <li data-ng-repeat="child in $ctrl.data"
+          data-ui-tree-node
+          data-nodrag
+          data-ng-class="{
 			    'menu-item':(child.type == 'directory'),
 					'open': true
 					}"
-			    data-ng-include="'components/rodin/tree/subNode.html'"></li>
-		</ul>
-	</div>
-	<div class="form-group filter-group">
-		<input type="search" class="form-control" data-ng-model="$ctrl.treeFilter" placeholder="&#xF002; Filter">
-	</div>
+          data-ng-include="'components/rodin/tree/subNode.html'"></li>
+    </ul>
+  </div>
+  <div class="form-group filter-group">
+    <input type="search" class="form-control" data-ng-model="$ctrl.treeFilter" placeholder="&#xF002; Filter">
+  </div>
 </div>

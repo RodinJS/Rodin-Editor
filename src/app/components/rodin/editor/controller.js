@@ -8,7 +8,7 @@ let self;
 
 class EditorCtrl {
 
-  constructor($scope, RodinTabs, RodinEditor, Ace, $on) {
+  constructor($scope, RodinTabs, RodinEditor, Ace, $on, RodinTabsConstants) {
     'ngInject';
 
     self = this;
@@ -24,7 +24,7 @@ class EditorCtrl {
 
     this.aceConfig = this._RodinEditor.options.ace;
 
-    this.tabsComponentId = "editor_tabs";
+    this.tabsComponentId = RodinTabsConstants.editor;
 
     this.tabsCallbacks = {
       "close": this.closeFile,
@@ -66,9 +66,6 @@ class EditorCtrl {
       self._RodinEditor.goToLine(node, model);
     });
 
-    ///////// end //////////
-
-    this._RodinEditor.setTabsComponentId(this.tabsComponentId);
   }
 
   closeFile(oldFile, newFile) {

@@ -3,53 +3,53 @@
  */
 
 function Analyser(AppConstants, $log, $q, Validator) {
-	'ngInject';
+  'ngInject';
 
-	const ERRORCODES = AppConstants.ERRORCODES;
+  const ERRORCODES = AppConstants.ERRORCODES;
 
-	return Factory;
+  return Factory;
 
-	function Factory() {
-		const self = this;
+  function Factory() {
+    const self = this;
 
-		self.deferred = $q.defer();
-		self.promise = self.deferred.promise;
-		self.resolve = resolve;
-		self.reject = reject;
+    self.deferred = $q.defer();
+    self.promise = self.deferred.promise;
+    self.resolve = resolve;
+    self.reject = reject;
 
-		const _Validator = new Validator();
+    const _Validator = new Validator();
 
-		////////////////
+    ////////////////
 
-		function resolve(result) {
+    function resolve(result) {
 
-			_Validator.validateHTTP(result);
+      _Validator.validateHTTP(result);
 
-			if (_Validator.isValidHTTP()) {
+      if (_Validator.isValidHTTP()) {
 
-				let response = _Validator.getDataHTTP();
+        let response = _Validator.getDataHTTP();
 
-				self.deferred.resolve(response);
+        self.deferred.resolve(response);
 
-			} else {
+      } else {
 
-				self.deferred.reject(_Validator.getErrorsHTTP());
+        self.deferred.reject(_Validator.getErrorsHTTP());
 
-			}
+      }
 
-		}
-
-
-		function reject(result) {
-
-			_Validator.validateHTTP(result.data);
-
-			self.deferred.reject(_Validator.getErrorsHTTP());
-
-		}
+    }
 
 
-	}
+    function reject(result) {
+
+      _Validator.validateHTTP(result.data);
+
+      self.deferred.reject(_Validator.getErrorsHTTP());
+
+    }
+
+
+  }
 }
 
 export default Analyser;

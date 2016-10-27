@@ -25,16 +25,12 @@ componentsModule.directive('ace', Ace);
  * Rodin-IDEA modules
  * */
 
-/// file tree module
 
-import RodinTreeFactory from './rodin/tree/factory';
-componentsModule.factory('RodinTree', RodinTreeFactory);
-
-import RodinTree from './rodin/tree/index';
-componentsModule.component('rodinTree', RodinTree);
+/// tabs module
 
 
-/// editor module
+import RodinTabsConstants from './rodin/tabs/constants';
+componentsModule.constant('RodinTabsConstants', RodinTabsConstants);
 
 import RodinTabsFactory from './rodin/tabs/factory';
 componentsModule.factory('RodinTabs', RodinTabsFactory);
@@ -42,6 +38,13 @@ componentsModule.factory('RodinTabs', RodinTabsFactory);
 import RodinTabs from './rodin/tabs/index';
 componentsModule.component('rodinTabs', RodinTabs);
 
+/// file tree module
+
+import RodinTreeFactory from './rodin/tree/factory';
+componentsModule.factory('RodinTree', RodinTreeFactory);
+
+import RodinTree from './rodin/tree/index';
+componentsModule.component('rodinTree', RodinTree);
 
 
 /// editor module

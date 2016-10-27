@@ -3,19 +3,19 @@
  */
 
 class InfoBarCtrl {
-	constructor(AppConstants, User, $scope) {
-		'ngInject';
-		this._$scope = $scope;
+  constructor(AppConstants, User, $scope) {
+    'ngInject';
+    this._$scope = $scope;
 
 
-		this.appName = AppConstants.appName;
-		this.SITE = AppConstants.SITE;
-		this.currentUser = User.current;
+    this.appName = AppConstants.appName;
+    this.SITE = AppConstants.SITE;
+    this.currentUser = User.current;
 
-		this.logout = (...args)=> {
-			User.logout(args);
-		};
-	}
+    this.logout = (...args)=> {
+      User.logout(args);
+    };
+  }
 
 }
 

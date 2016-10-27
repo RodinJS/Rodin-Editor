@@ -8,17 +8,15 @@ import angular from 'angular/index';
 import ace from "ace/ace";
 
 
-function RodinEditorFactory(Utils, RodinTabs, FileUtils, Ace) {
+function RodinEditorFactory(Utils, RodinTabs, FileUtils, Ace, RodinTabsConstants) {
   'ngInject';
 
   let model = {};
-  let projectId = null;
-  let tabsComponentId = "editor_tabs";
-
-  window.Ace = Ace;
+  let tabsComponentId = RodinTabsConstants.editor;
 
   model.options = {
     model: "",
+    path: "",
     ace: {
       workerPath: "/scripts/vendor/ace/lib/ace",
       advanced: {},
@@ -29,22 +27,15 @@ function RodinEditorFactory(Utils, RodinTabs, FileUtils, Ace) {
           const data = RodinTabs.get(tabsComponentId);
           if (_.isObject(data.editor)) {
 
-
             Ace.session.$undoManager.$doc = Ace.session; // workaround for a bug in ace
 
             Ace.session.setOptions(data.editor.options);
 
+            Ace.session.$undoManager.$undoStack = data.editor.history.undo;
 
-            console.log("load fn")
-            console.log("$undoManager: ", angular.copy(Ace.session.$undoManager));
+            Ace.session.$undoManager.dirtyCounter = data.editor.history.undo.length;
 
-            window.ahistory = data.editor.history;
-            /*
-             Ace.session.$undoManager.$undoStack = data.editor.history.undo;
-
-             Ace.session.$undoManager.dirtyCounter = data.editor.history.undo.length;
-
-             Ace.session.$undoManager.$redoStack = data.editor.history.redo;*/
+            Ace.session.$undoManager.$redoStack = data.editor.history.redo;
 
             //////////////////////////////
 
@@ -74,9 +65,6 @@ function RodinEditorFactory(Utils, RodinTabs, FileUtils, Ace) {
   model.openFile = openFile;
   model.saveState = saveState;
 
-  model.setTabsComponentId = setTabsComponentId;
-  model.setProjectId = setProjectId;
-
 
   //// Editor shortcuts ////
 
@@ -93,11 +81,15 @@ function RodinEditorFactory(Utils, RodinTabs, FileUtils, Ace) {
 
   function openFile(data) {
     if (data) {
-      const editorMode = FileUtils.getFileOptions(data).editorMode;
-      model.options.model = data.content;
-      model.options.ace.mode = editorMode;
+      if (data.path !== model.options.path) {
+        const editorMode = FileUtils.getFileOptions(data).editorMode;
+        model.options.model = data.content;
+        model.options.path = data.path;
+        model.options.ace.mode = editorMode;
+      }
     } else {
       model.options.model = "";
+      model.options.path = "";
       model.options.ace.mode = "text";
     }
   }
@@ -166,17 +158,6 @@ function RodinEditorFactory(Utils, RodinTabs, FileUtils, Ace) {
   }
 
   /////////////////////////////////////////////////////
-
-
-  /// local variables setter/getter functions
-  function setTabsComponentId(id) {
-    tabsComponentId = id;
-  }
-
-  function setProjectId(id) {
-    projectId = id;
-  }
-
 
   ///// Local functions
   function filterHistory(deltas) {

@@ -2,10 +2,10 @@
  * Created by kh.levon98 on 17-Oct-16.
  */
 function RodinIdeaFactory() {
-	let model = {};
+  let model = {};
 
 
-	return model;
+  return model;
 }
 
 export default RodinIdeaFactory;

@@ -96,17 +96,22 @@ function setOptions(acee, session, opts) {
     }
   }
 
-  session.setUndoManager(new UndoManager());
-
-  acee.$blockScrolling = Infinity;
-
-  acee.focus();
-
+  // onLoad callbacks
   angular.forEach(opts.callbacks, function (cb) {
     if (angular.isFunction(cb)) {
       cb(acee);
     }
   });
+
+  session.setUndoManager(new UndoManager());
+
+  if (angular.isDefined(opts.cursorPosition)) {
+    acee.moveCursorToPosition(opts.cursorPosition);
+  }
+
+  acee.$blockScrolling = Infinity;
+
+  acee.focus();
 
 }
 
