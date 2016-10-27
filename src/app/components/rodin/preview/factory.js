@@ -15,6 +15,7 @@ function RodinPreviewFactory(Storage, RodinTabs, RodinTabsConstants, Utils) {
 
   model.update = updatePreview;
   model.openExternal = openExternal;
+  model.run = run;
 
 
   return model;
@@ -52,6 +53,10 @@ function RodinPreviewFactory(Storage, RodinTabs, RodinTabsConstants, Utils) {
 
 
     openTab.externalTabs[index] = win;
+  }
+
+  function run(file) {
+    console.log("run preview", arguments)
   }
 }
 
