@@ -27,8 +27,8 @@ class EditorCtrl {
     this.tabsComponentId = RodinTabsConstants.editor;
 
     this.tabsCallbacks = {
-      "close": this.closeFile,
-      "change": this.switchFile,
+      "close": this._closeFile,
+      "change": this._switchFile,
     };
 
 
@@ -68,11 +68,11 @@ class EditorCtrl {
 
   }
 
-  closeFile(oldFile, newFile) {
+  _closeFile(oldFile, newFile) {
     self._RodinEditor.openFile((newFile.isBlank ? null : newFile));
   }
 
-  switchFile(oldFile, newFile) {
+  _switchFile(oldFile, newFile) {
 
     self._RodinEditor.saveState(oldFile);
 
