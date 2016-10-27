@@ -14,20 +14,24 @@ export default class Storage {
     this._$q = $q;
 
     this.defaultSettings = {
-      isEnabledAutoReload: false
+      autoReload: false
     };
 
     this._settingsKey = "EditorSettings_" + this._currentUser.username;
 
-    if (!_.isObject(this.get(this._settingsKey))) {
+    if (!_.isObject(this.get(this._settingsKey, true))) {
       this.set(this._settingsKey, this.defaultSettings, true);
     }
   }
 
-  get(key) {
-    let userSettings = this._store.get(this._settingsKey);
-    if (_.isObject(userSettings)) {
-      return userSettings[key];
+  get(key, getGlobal) {
+    if (getGlobal) {
+      return this._store.get(key) || null;
+    } else {
+      let userSettings = this._store.get(this._settingsKey);
+      if (_.isObject(userSettings)) {
+        return userSettings[key];
+      }
     }
     return null;
   }

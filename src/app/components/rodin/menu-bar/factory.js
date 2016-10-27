@@ -7,12 +7,13 @@ import * as _ from "lodash/dist/lodash.min";
 import angular from 'angular/index';
 
 
-function RodinMenuBarFactory(Utils) {
+function RodinMenuBarFactory(Utils, HotKeyFilter, RodinPreview, RodinTabs, FileUtils, RodinTabsConstants) {
   'ngInject';
 
   let model = {};
+  let editorTabsComponentId = RodinTabsConstants.editor;
 
-  const defaultTemplate = "<span class='text'>{{::name}}</span><i class='hotkey' data-ng-show='hotkey'>{{::hotkey}}</i>";
+  const defaultTemplate = "<span class='text'>{{::name}}</span><i class='hotkey' data-ng-show='hotKey'>{{::hotKey}}</i>";
 
   const menuList = [
     {
@@ -123,32 +124,31 @@ function RodinMenuBarFactory(Utils) {
       "subMenus": {
         "run": {
           "id": "run",
-          "name": "Run {{model}}",
+          "name": "Run {{compileScope.model.name}}",
           "hotKey": Utils.bindKey("Shift-R", "Shift-R"),
-          "template": "<span class='text' data-compile='name'></span><i class='hotkey' data-ng-show='hotkey'>{{::hotkey}}</i>",
-          get model() {/*
-           let node = self.tabs[self.openedFileIndex];
-           let opts = self._FileUtils.getFileOptions(node);
-           if (opts.fileType == "html") {
-           return node;
-           }*/
-            return "";
+          "template": "<span class='text' data-compile='name' data-compile-scope='compileScope'></span><i class='hotkey' data-ng-show='hotKey'>{{::hotKey}}</i>",
+          get model() {
+            let openFile = RodinTabs.get(editorTabsComponentId);
+            let opts = FileUtils.getFileOptions(openFile);
+            if (opts.fileType === "html") {
+              return openFile;
+            }
+            return {};
           }
         },
         "autoRun": {
           "id": "autoRun",
           "name": "Auto Run",
-          "template": "<span><i class='fa' data-ng-class=" + "\"" + "{'fa-circle-thin':!model,'fa-circle':model}" + "\"" + "></i> {{::name}}</span>",
+          "template": "<span><i class='fa' data-ng-class=" + "\"" + "{'fa-circle-thin':!compileScope.model,'fa-circle':compileScope.model}" + "\"" + "></i> {{::name}}</span>",
           "event": function () {
             this.model = !this.model;
           },
           get model() {
-            // return self.isEnabledAutoReload
-            return false;
+            // console.dir("get model", RodinPreview.autoReload);
+            return RodinPreview.autoReload;
           },
           set model(val) {
-            /*self.isEnabledAutoReload = !!val;
-             self._Storage.set("isEnabledAutoReload", self.isEnabledAutoReload)*/
+            RodinPreview.setAutoReload(val);
           }
         }
       },
@@ -156,9 +156,7 @@ function RodinMenuBarFactory(Utils) {
   ];
 
   model.drawNode = drawNode;
-  model.getList = function () {
-    return menuList;
-  };
+  model.getList = getList;
 
 
   return model;
@@ -179,11 +177,9 @@ function RodinMenuBarFactory(Utils) {
      let NODE = angular.merge({}, renderNode, node);
      */
 
-    let scope = {
-      name: renderNode.name,
-      hotKey: renderNode.hotKey,
-      model: renderNode.model
-    };
+    let scope = angular.extend(renderNode, {
+      hotKey: HotKeyFilter(renderNode.hotKey),
+    });
 
     return {
       template: renderNode.template,
@@ -191,6 +187,9 @@ function RodinMenuBarFactory(Utils) {
     };
   }
 
+  function getList() {
+    return menuList;
+  }
 }
 
 
