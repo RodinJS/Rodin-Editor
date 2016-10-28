@@ -1,7 +1,7 @@
 /**
  * Created by kh.levon98 on 17-Oct-16.
  */
-function RodinPreviewFactory(Storage, RodinTabs, RodinTabsConstants, Utils) {
+function RodinPreviewFactory(Storage, RodinTabs, RodinTabsConstants, Utils, $stateParams, AppConstants, User) {
   'ngInject';
 
   let model = {};
@@ -26,41 +26,59 @@ function RodinPreviewFactory(Storage, RodinTabs, RodinTabsConstants, Utils) {
   }
 
   function updatePreview(refresh = false) {
-    /*let openTab = RodinTabs.get(tabsComponentId);
+    let openTab = RodinTabs.get(tabsComponentId);
 
-     if (refresh || this.autoReload) {
-     openTab.URL = ""
-     }
-     */
-    if (this.autoReload) {
-      console.log("autoReload")
+    if (refresh || this.autoReload) {
+      openTab.url = generateUrl(openTab.path);
+    }
 
-      /*
-       for (let i in openTab.externalTabs) {
-       let win = openTab.externalTabs[i];
-       if (win.location && _.isFunction(win.location.reload)) {
-       win.location.reload();
-       } else {
-       delete openTab.externalTabs[i];
-       }
-       }
-       */
+    if (!refresh && this.autoReload) {
+      for (let i in openTab.externalTabs) {
+        let win = openTab.externalTabs[i];
+        if (win.location && _.isFunction(win.location.reload)) {
+          win.location.reload();
+        } else {
+          delete openTab.externalTabs[i];
+        }
+      }
     }
   }
 
-  function openExternal() {
-    let openTab = RodinTabs.get(tabsComponentId);
+  function openExternal(tab = null) {
 
-    let win = window.open(openTab.URL, "_blank");
+    let openTab = RodinTabs.get(tabsComponentId, null, (_.isObject(tab) ? {path: tab.path} : {}));
+
+    let win = window.open(openTab.url, "_blank");
 
     let index = (parseInt(Object.keys(openTab.externalTabs).last()) || 0) + 1; // generate unique indexes
-
 
     openTab.externalTabs[index] = win;
   }
 
-  function run(file) {
-    console.log("run preview", arguments)
+  function run(file = RodinTabs.get(RodinTabsConstants.editor)) {
+    let path = `${AppConstants.PREVIEW}${User.current.username}/${$stateParams.projectFolder}/${file.path}`;
+    let tab = RodinTabs.get(tabsComponentId, null, {"path": path});
+    if (!tab) {
+      tab = {
+        name: file.name,
+        path: path,
+        url: `${generateUrl(path)}`,
+        externalTabs: []
+      };
+      RodinTabs.add(tabsComponentId, tab);
+    }
+
+    RodinTabs.setActive(tabsComponentId, tab);
+  }
+
+  /// local functions
+
+  function generateUrl(path) {
+    let parsedParams = Utils.parseQueryParams(path);
+
+    parsedParams.editMode = true;
+    parsedParams.refreshTime = Date.now();
+    return `${path}?${Utils.stringifyQueryParams(parsedParams)}`;
   }
 }
 

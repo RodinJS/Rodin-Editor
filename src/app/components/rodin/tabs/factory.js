@@ -46,7 +46,7 @@ function RodinTabsFactory(Utils, RodinTabsConstants, $emit) {
 
     if (_.isObject(compInfo)) {
       compInfo.activeIndex = (_.isNumber(tab) ? tab : tab.index);
-      $emit(`${compId}:change-tab`);
+      $emit(`tabs:${compId}:change-active-tab`);
     }
   }
 
@@ -105,7 +105,7 @@ function RodinTabsFactory(Utils, RodinTabsConstants, $emit) {
     let compInfo = info[compId] || {};
 
     /// if set `filterBy` filter tabs list
-    if (_.isObject(tab) && !_.isEmpty(filterBy)) {
+    if (!_.isEmpty(filterBy)) {
       tab = _.filter(comp, filterBy)[0] || {};
     }
 

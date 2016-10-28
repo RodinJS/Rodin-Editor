@@ -1,5 +1,5 @@
 <div class="clearfix">
-  <div class="space-box-header hidden">
+  <div class="space-box-header">
 
     <rodin-tabs class="space-box-tab" data-component-id="{{::$ctrl.tabsComponentId}}" data-callbacks="$ctrl.tabsCallbacks"></rodin-tabs>
 
@@ -9,33 +9,27 @@
     <div class="space-box-content-top">
       <a href="#" class="btn-reload"></a>
       <div class="form-group browser-group">
-        <a data-ng-click="$ctrl.refreshPreview()" role=button class="btn-reload ">
+        <a data-ng-click="$ctrl.updatePreview(true)" role=button class="btn-reload">
           <i class="icon icon-reload"></i>
         </a>
         <div class="input-wrapper">
-          <!--<a role="button"
-             data-ng-show="$ctrl.tab.Url"
-             data-ng-click="$ctrl.openInNewWindow($root.trustSrc($ctrl.iframeUrl))"
+          <a role="button"
+             data-ng-click="$ctrl.openExternal($ctrl.tab)"
              data-tooltip-placement="bottom"
              data-uib-tooltip="Open in new tab." target="_blank" class="btn-warning">
             <i class="fa fa-external-link"></i>
-          </a>-->
-          <input type="text" class="form-control" data-ng-value="$ctrl.previewUrl" readonly>
+          </a>
+          <input type="text" class="form-control" data-ng-value="$ctrl.tab.path" readonly>
         </div>
       </div>
     </div>
 
     <div class="space-box-content-bottom">
-      <iframe data-ng-src="{{$root.trustSrc($ctrl.iframeUrl)}}"
+      <iframe data-ng-src="{{$root.trustSrc($ctrl.tab.url)}}"
               frameborder="0" width="100%" height="100%"
               style="pointer-events: none"
               type="text/html" allowfullscreen allowvr>
       </iframe>
-
-      <pre>
-        info - {{$ctrl.info}}
-      </pre>
-
     </div>
   </div>
 </div>

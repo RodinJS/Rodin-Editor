@@ -39,7 +39,7 @@ class TreeCtrl {
       return this._RodinIdea.getProjectId();
     }, (id)=> {
       if (id) {
-        this._RodinTree.update(["index.js", "index.html"]);
+        this._RodinTree.update(["index.js", "index.html", ".html", ".js"]);
       }
     });
   }

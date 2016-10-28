@@ -32,11 +32,9 @@ class EditorCtrl {
       "change": this._switchFile,
     };
 
-
-    $on(`${RodinTabsConstants.editor}:change-tab`, ()=> {
+    this._$on(`tabs:${this.tabsComponentId}:change-active-tab`, ()=> {
       this.file = this._RodinTabs.get(this.tabsComponentId);
     });
-
 
     ///////// subscribe menu-bar events //////////
 
@@ -46,7 +44,7 @@ class EditorCtrl {
 
     this._$on("menu-bar:saveAllFiles", (e, node, model)=> {
       let filesList = self._RodinTabs.getList(self.tabsComponentId);
-      filesList.map((file)=>{
+      filesList.map((file)=> {
         self._File.save(file);
       });
     });

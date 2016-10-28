@@ -22,10 +22,21 @@ class Utils {
     return {win: win, mac: mac};
   }
 
-  parse(str = "") {
+  findFileInTree(list = [], name = "") {
+    for (let i = 0, ln = list.length; i < ln; ++i) {
+      if (list[i].name.indexOf(name) > -1) {
+        return list[i];
+      }
+    }
+
+    return false;
+  }
+
+  parseQueryParams(str = "") {
     var ret = Object.create(null);
 
-    str = str.trim().replace(/^(\?|#|&)/, '');
+    // str = str.trim().replace(/^([^?|#]*)[?|#]/, ''); /// TODO: epic shit
+    str = str.trim().replace(/^([^?|#]*)/, '').replace(/[?|#]/, '');
 
     if (!str) {
       return ret;
@@ -56,7 +67,7 @@ class Utils {
     return ret;
   };
 
-  stringify(obj = {}, opts = {}) {
+  stringifyQueryParams(obj = {}, opts = {}) {
     var defaults = {
       encode: true,
       strict: true
@@ -98,7 +109,6 @@ class Utils {
       return x.length > 0;
     }).join('&') : '';
   };
-
 
   encode(value = "", opts = {}) {
     if (opts.encode) {
