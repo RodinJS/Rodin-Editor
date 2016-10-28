@@ -4,6 +4,9 @@ function Resize($compile) {
 	'ngInject';
 	return {
 		restrict: 'A',
+		scope: {
+			resizeType: '@'
+		},
 		link: ResizeLink
 	};
 }
