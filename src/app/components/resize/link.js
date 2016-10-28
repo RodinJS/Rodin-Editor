@@ -1,6 +1,5 @@
 function ResizeLink (scope, element, attrs) {
     let type = scope.resizeType || 'horizontal';
-    console.log(type);
 
     let columns = [];
 
@@ -108,6 +107,7 @@ function ResizeLink (scope, element, attrs) {
         document.addEventListener('mouseup', stopDrag);
 
         function startDrag (evt) {
+            evt.preventDefault();
             isDragging = true;
             if (type === 'horizontal') {
                 dragStartX = evt.clientX;
@@ -119,6 +119,7 @@ function ResizeLink (scope, element, attrs) {
         }
 
         function drag (evt) {
+            evt.preventDefault();
             if (!isDragging) {
                 return;
             }
