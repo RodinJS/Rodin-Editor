@@ -40,7 +40,7 @@ function RodinEditorFactory(Utils, RodinTabs, FileUtils, Ace, RodinTabsConstants
           bindKey: {win: 'Ctrl-Alt-Shift-S', mac: 'Command-Alt-Shift-S'},
           exec: ()=> {
             let filesList = RodinTabs.getList(tabsComponentId);
-            filesList.map((file)=>{
+            filesList.map((file)=> {
               File.save(file);
             });
           }
@@ -86,10 +86,6 @@ function RodinEditorFactory(Utils, RodinTabs, FileUtils, Ace, RodinTabsConstants
         const editor = params[1];
         if (editor.getValue().length) {
           const file = RodinTabs.get(tabsComponentId);
-          /*if (!file.isUnsaved && file.originalContent != model.options.model) {
-           file.isUnsaved = true;
-           }*/
-
           file.isUnsaved = (file.originalContent != file.content); /// TODO: fix this fucking logic
         }
       }
