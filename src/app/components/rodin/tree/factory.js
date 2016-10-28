@@ -5,7 +5,6 @@ function RodinTreeFactory(Editor, RodinEditor, RodinTabs, RodinTabsConstants, Ro
   'ngInject';
 
   let model = {};
-  let projectId = RodinIdea.getProjectId();
   let tabsComponentId = RodinTabsConstants.editor;
 
   model.data = [];
@@ -22,7 +21,7 @@ function RodinTreeFactory(Editor, RodinEditor, RodinTabs, RodinTabsConstants, Ro
   function openFile(node) {
     let file = RodinTabs.get(tabsComponentId, node, {"path": node.path});
     if (!file) {
-      return File.open(projectId, node).then((data)=> {
+      return File.open(node).then((data)=> {
         file = {
           name: node.name,
           path: node.path,
@@ -46,7 +45,7 @@ function RodinTreeFactory(Editor, RodinEditor, RodinTabs, RodinTabsConstants, Ro
   function createFile(node, reqData = {}) {
     reqData.type = "file";
 
-    return File.create(projectId, reqData).then((data)=> {
+    return File.create(reqData).then((data)=> {
       model.update(); /// TODO: open created file :: hishem txerqiin asem vor veradarcnen file infon
     });
   }
@@ -55,27 +54,27 @@ function RodinTreeFactory(Editor, RodinEditor, RodinTabs, RodinTabsConstants, Ro
   function createFolder(node, reqData = {}) {
     reqData.type = "directory";
 
-    return File.create(projectId, reqData).then((data)=> {
+    return File.create(reqData).then((data)=> {
       model.update();
     });
   }
 
 
   function renameFile(node, reqData = {}) {
-    return File.rename(projectId, node, reqData).then((data)=> {
+    return File.rename(node, reqData).then((data)=> {
       model.update();
     });
   }
 
 
   function deleteFile(node) {
-    return File.delete(projectId, node).then((data)=> {
+    return File.delete(node).then((data)=> {
       model.update();
     });
   }
 
   function updateTree(openFile = "") {
-    Editor.getProject(projectId).then((data)=> {
+    Editor.getProject(RodinIdea.getProjectId()).then((data)=> {
       model.data.splice(0, 1, data.tree);
 
       if (!_.isEmpty(openFile)) {

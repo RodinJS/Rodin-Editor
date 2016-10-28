@@ -10,7 +10,6 @@ function Idea() {
     replace: true,
     controller: IdeaCtrl,
     scope: {
-      projectId: "="
     }
   };
 }

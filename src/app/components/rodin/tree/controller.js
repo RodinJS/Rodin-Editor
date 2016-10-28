@@ -5,7 +5,7 @@ let self;
 let isFirst = true;
 
 class TreeCtrl {
-  constructor($scope, $timeout, Editor, $log, FileUtils, RodinTabs, RodinTree) {
+  constructor($scope, $timeout, Editor, $log, FileUtils, RodinTabs, RodinTree, RodinIdea) {
     'ngInject';
 
     self = this;
@@ -15,6 +15,7 @@ class TreeCtrl {
     this._RodinTabs = RodinTabs;
     this._RodinTree = RodinTree;
     this._FileUtils = FileUtils;
+    this._RodinIdea = RodinIdea;
     this._$log = $log;
 
     this.data = this._RodinTree.data;
@@ -34,7 +35,14 @@ class TreeCtrl {
       // ['Find in Folder', this._findInFolder]
     ];
 
-    this._RodinTree.update(["index.js", "index.html"]);
+    this._$scope.$watch(()=> {
+      return this._RodinIdea.getProjectId();
+    }, (id)=> {
+      console.log("id", id)
+      if (id) {
+        this._RodinTree.update(["index.js", "index.html"]);
+      }
+    });
   }
 
   toggle(scope) {

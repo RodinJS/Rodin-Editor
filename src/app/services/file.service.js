@@ -2,33 +2,34 @@
  * Created by kh.levon98 on 28-Oct-16.
  */
 class File {
-  constructor(Editor) {
+  constructor(Editor, RodinIdea) {
     'ngInject';
 
     this._Editor = Editor;
+    this._RodinIdea = RodinIdea;
 
   }
 
 
-  open(projectId = null, file = null) {
-    if (!projectId || !file) {
-      throw new Error("Please provide `projectId` and `file`");
+  open(file = null) {
+    if (!file) {
+      throw new Error("Please provide `file`");
       return false;
     }
 
-    return this._Editor.getFile(projectId, {
+    return this._Editor.getFile(this._RodinIdea.getProjectId(), {
       filename: file.path
     });
   }
 
-  save(projectId = null, file = null) {
+  save(file = null) {
 
-    if (!projectId || !file) {
-      throw new Error("Please provide `projectId` and `file`");
+    if (!file) {
+      throw new Error("Please provide `file`");
       return false;
     }
 
-    return this._Editor.updateFile(projectId, {
+    return this._Editor.updateFile(this._RodinIdea.getProjectId(), {
       content: file.content
     }, {
       action: "save",
@@ -37,35 +38,29 @@ class File {
   }
 
 
-  create(projectId = null, reqData = {}) {
-    if (!projectId) {
-      throw new Error("Please provide `projectId`");
-      return false;
-    }
-
-    return this._Editor.createFile(projectId, reqData);
+  create(reqData = {}) {
+    return this._Editor.createFile(this._RodinIdea.getProjectId(), reqData);
   }
 
 
-  rename(projectId = null, file = null, reqData = {}) {
-    if (!projectId) {
-      throw new Error("Please provide `projectId` and `file`");
+  rename(file = null, reqData = {}) {
+    if (!file) {
+      throw new Error("Please provide `file`");
       return false;
     }
-
     reqData.filename = file.path;
 
-    return this._Editor.updateFile(projectId, reqData);
+    return this._Editor.updateFile(this._RodinIdea.getProjectId(), reqData);
   }
 
 
-  delete(projectId = null, file = null) {
-    if (!projectId) {
-      throw new Error("Please provide `projectId` and `file`");
+  delete(file = null) {
+    if (!file) {
+      throw new Error("Please provide `file`");
       return false;
     }
 
-    return this._Editor.deleteFile(projectId, {
+    return this._Editor.deleteFile(this._RodinIdea.getProjectId(), {
       filename: file.path
     });
   }

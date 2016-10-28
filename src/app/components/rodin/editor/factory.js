@@ -8,7 +8,7 @@ import angular from 'angular/index';
 import ace from "ace/ace";
 
 
-function RodinEditorFactory(Utils, RodinTabs, FileUtils, Ace, RodinTabsConstants, $emit, Storage, File) {
+function RodinEditorFactory(Utils, RodinTabs, FileUtils, Ace, RodinTabsConstants, $emit, Storage, File, RodinIdea) {
   'ngInject';
 
   window.Storage = Storage;
@@ -32,7 +32,7 @@ function RodinEditorFactory(Utils, RodinTabs, FileUtils, Ace, RodinTabsConstants
         name: 'save',
         bindKey: {win: 'Ctrl-S', mac: 'Command-S'},
         exec: ()=> {
-          File.save();
+          File.save(RodinIdea.getProjectId(), RodinTabs.get(tabsComponentId));
         }
       }],
       advanced: {
