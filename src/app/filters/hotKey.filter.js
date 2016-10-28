@@ -23,7 +23,12 @@ function HotKeyFilter(deviceDetector) {
       }
 
       output = output.replace(/-/g, "+");
-      output = output.replace(/Command/g, "Cmd");
+
+      if(os === "mac"){
+        output = output.replace(/Alt/g, "&#8997;");
+        output = output.replace(/Shift/g, "&#8679;");
+        output = output.replace(/Command/g, "&#8984;");
+      }
 
     }
 

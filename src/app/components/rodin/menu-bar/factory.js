@@ -7,13 +7,13 @@ import * as _ from "lodash/dist/lodash.min";
 import angular from 'angular/index';
 
 
-function RodinMenuBarFactory(Utils, HotKeyFilter, RodinPreview, RodinIdea, RodinTabs, FileUtils, RodinTabsConstants) {
+function RodinMenuBarFactory(Utils, HotKeyFilter, RodinPreview, RodinIdea, RodinTabs, RodinEditor, Ace, FileUtils, RodinTabsConstants) {
   'ngInject';
 
   let model = {};
   let editorTabsComponentId = RodinTabsConstants.editor;
 
-  const defaultTemplate = "<span class='text'>{{::name}}</span><i class='hotkey' data-ng-show='hotKey'>{{::hotKey}}</i>";
+  const defaultTemplate = "<span class='text'>{{::name}}</span><i class='hotkey' data-ng-show='hotKey' data-ng-bind-html='::hotKey'></i>";
   const radioTemplate = "<span><i class='fa' data-ng-class=" + "\"" + "{'fa-circle-thin':!compileScope.model,'fa-circle':compileScope.model}" + "\"" + "></i> {{::name}}</span>";
 
   const menuList = [
@@ -127,7 +127,7 @@ function RodinMenuBarFactory(Utils, HotKeyFilter, RodinPreview, RodinIdea, Rodin
           "id": "run",
           "name": "Run {{compileScope.model.name}}",
           "hotKey": Utils.bindKey("Shift-R", "Shift-R"),
-          "template": "<span class='text' data-compile='name' data-compile-scope='compileScope'></span><i class='hotkey' data-ng-show='hotKey'>{{::hotKey}}</i>",
+          "template": "<span class='text' data-compile='name' data-compile-scope='compileScope'></span><i class='hotkey' data-ng-show='hotKey' data-ng-bind-html='::hotKey'></i>",
           get model() {
             let openFile = RodinTabs.get(editorTabsComponentId);
             let opts = FileUtils.getFileOptions(openFile);
