@@ -25,13 +25,27 @@ function RodinEditorFactory(Utils, RodinTabs, FileUtils, Ace, RodinTabsConstants
       showGutter: true,
       showPrintMargin: false,
       // cursorPosition: 0,
-      commands: [{
-        name: 'save',
-        bindKey: {win: 'Ctrl-S', mac: 'Command-S'},
-        exec: ()=> {
-          File.save(RodinIdea.getProjectId(), RodinTabs.get(tabsComponentId));
+      commands: [
+        /// save one file
+        {
+          name: 'save',
+          bindKey: {win: 'Ctrl-S', mac: 'Command-S'},
+          exec: ()=> {
+            File.save(RodinTabs.get(tabsComponentId));
+          }
+        },
+        /// save all files
+        {
+          name: 'saveAll',
+          bindKey: {win: 'Ctrl-Alt-Shift-S', mac: 'Command-Alt-Shift-S'},
+          exec: ()=> {
+            let filesList = RodinTabs.getList(tabsComponentId);
+            filesList.map((file)=>{
+              File.save(file);
+            });
+          }
         }
-      }],
+      ],
       advanced: {
         basePath: "/scripts/vendor/",
         fontSize: "12px",

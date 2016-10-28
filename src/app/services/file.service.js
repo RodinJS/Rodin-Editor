@@ -2,11 +2,12 @@
  * Created by kh.levon98 on 28-Oct-16.
  */
 class File {
-  constructor(Editor, RodinIdea) {
+  constructor(Editor, RodinIdea, RodinPreview) {
     'ngInject';
 
     this._Editor = Editor;
     this._RodinIdea = RodinIdea;
+    this._RodinPreview = RodinPreview;
 
   }
 
@@ -34,6 +35,12 @@ class File {
     }, {
       action: "save",
       filename: file.path
+    }).then(()=> {
+      if (file) {
+        file.originalContent = file.content;
+        file.isUnsaved = false;
+      }
+      this._RodinPreview.update();
     });
   }
 

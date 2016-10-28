@@ -8,7 +8,7 @@ let self;
 
 class EditorCtrl {
 
-  constructor($scope, RodinTabs, RodinEditor, Ace, $on, RodinTabsConstants) {
+  constructor($scope, RodinTabs, RodinEditor, Ace, $on, RodinTabsConstants, File) {
     'ngInject';
 
     self = this;
@@ -16,6 +16,7 @@ class EditorCtrl {
     this._$scope = $scope;
     this._$on = $on;
     this._RodinTabs = RodinTabs;
+    this._File = File;
     this._RodinEditor = RodinEditor;
     this._Ace = Ace;
 
@@ -38,6 +39,17 @@ class EditorCtrl {
 
 
     ///////// subscribe menu-bar events //////////
+
+    this._$on("menu-bar:saveFile", (e, node, model)=> {
+      self._File.save(self._RodinTabs.get(self.tabsComponentId));
+    });
+
+    this._$on("menu-bar:saveAllFiles", (e, node, model)=> {
+      let filesList = self._RodinTabs.getList(self.tabsComponentId);
+      filesList.map((file)=>{
+        self._File.save(file);
+      });
+    });
 
     this._$on("menu-bar:undo", (e, node, model)=> {
       self._RodinEditor.undo(node, model);
