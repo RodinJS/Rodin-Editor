@@ -1,37 +1,28 @@
 /**
  * Created by kh.levon98 on 17-Oct-16.
  */
-function RodinTreeFactory(Editor, RodinEditor, RodinTabs, RodinTabsConstants, RodinPreview, $on) {
+function RodinTreeFactory(Editor, RodinEditor, RodinTabs, RodinTabsConstants, RodinPreview, $on, File, RodinIdea) {
   'ngInject';
 
   let model = {};
-  let projectId = null;
+  let projectId = RodinIdea.getProjectId();
   let tabsComponentId = RodinTabsConstants.editor;
 
   model.data = [];
 
   model.openFile = openFile;
-  model.saveFile = saveFile;
   model.createFile = createFile;
   model.createFolder = createFolder;
   model.renameFile = renameFile;
   model.deleteFile = deleteFile;
   model.update = updateTree;
 
-  model.setProjectId = setProjectId;
-
-  $on("menu-bar:saveFile", ()=> {
-    saveFile()
-  });
-
   return model;
 
   function openFile(node) {
     let file = RodinTabs.get(tabsComponentId, node, {"path": node.path});
     if (!file) {
-      return Editor.getFile(projectId, {
-        filename: node.path
-      }).then((data)=> {
+      return File.open(projectId, node).then((data)=> {
         file = {
           name: node.name,
           path: node.path,
@@ -52,26 +43,10 @@ function RodinTreeFactory(Editor, RodinEditor, RodinTabs, RodinTabsConstants, Ro
     RodinEditor.openFile(file);
   }
 
-  function saveFile(file = RodinTabs.get(tabsComponentId)) {
-    Editor.updateFile(projectId, {
-      content: file.content
-    }, {
-      action: "save",
-      filename: file.path
-    }).then((data)=> {
-      if (file) {
-        file.originalContent = file.content;
-        file.isUnsaved = false;
-        RodinPreview.update();
-      }
-    });
-  }
-
-
   function createFile(node, reqData = {}) {
     reqData.type = "file";
 
-    return Editor.createFile(projectId, reqData).then((data)=> {
+    return File.create(projectId, reqData).then((data)=> {
       model.update(); /// TODO: open created file :: hishem txerqiin asem vor veradarcnen file infon
     });
   }
@@ -80,26 +55,21 @@ function RodinTreeFactory(Editor, RodinEditor, RodinTabs, RodinTabsConstants, Ro
   function createFolder(node, reqData = {}) {
     reqData.type = "directory";
 
-    return Editor.createFile(projectId, reqData).then((data)=> {
+    return File.create(projectId, reqData).then((data)=> {
       model.update();
     });
   }
 
 
   function renameFile(node, reqData = {}) {
-
-    reqData.filename = node.path;
-
-    return Editor.updateFile(projectId, reqData).then((data)=> {
+    return File.rename(projectId, node, reqData).then((data)=> {
       model.update();
     });
   }
 
 
   function deleteFile(node) {
-    return Editor.deleteFile(projectId, {
-      filename: node.path
-    }).then((data)=> {
+    return File.delete(projectId, node).then((data)=> {
       model.update();
     });
   }
@@ -125,13 +95,6 @@ function RodinTreeFactory(Editor, RodinEditor, RodinTabs, RodinTabsConstants, Ro
       }
 
     });
-  }
-
-  /// local variables setter/getter functions
-
-  function setProjectId(id) {
-    projectId = id;
-    return model.update(["index.js", "index.html"]);
   }
 
   // local functions

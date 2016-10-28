@@ -8,8 +8,10 @@ import angular from 'angular/index';
 import ace from "ace/ace";
 
 
-function RodinEditorFactory(Utils, RodinTabs, FileUtils, Ace, RodinTabsConstants, $emit) {
+function RodinEditorFactory(Utils, RodinTabs, FileUtils, Ace, RodinTabsConstants, $emit, Storage, File) {
   'ngInject';
+
+  window.Storage = Storage;
 
   let model = {};
   let tabsComponentId = RodinTabsConstants.editor;
@@ -19,7 +21,9 @@ function RodinEditorFactory(Utils, RodinTabs, FileUtils, Ace, RodinTabsConstants
     path: "",
     ace: {
       workerPath: "/scripts/vendor/ace",
-      theme: 'monokai',
+      get theme() {
+        return Storage.get("theme")
+      },
       mode: 'text',
       showGutter: true,
       showPrintMargin: false,
@@ -28,7 +32,7 @@ function RodinEditorFactory(Utils, RodinTabs, FileUtils, Ace, RodinTabsConstants
         name: 'save',
         bindKey: {win: 'Ctrl-S', mac: 'Command-S'},
         exec: ()=> {
-          $emit("menu-bar:saveFile");
+          File.save();
         }
       }],
       advanced: {

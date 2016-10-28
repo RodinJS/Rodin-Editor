@@ -31,6 +31,9 @@ servicesModule.service('Project', ProjectService);
 import EditorService from './editor.service';
 servicesModule.service('Editor', EditorService);
 
+import FileService from './file.service';
+servicesModule.service('File', FileService);
+
 
 import StorageService from './storage.service';
 servicesModule.service('Storage', StorageService);

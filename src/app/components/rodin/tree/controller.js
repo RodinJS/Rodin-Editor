@@ -17,8 +17,6 @@ class TreeCtrl {
     this._FileUtils = FileUtils;
     this._$log = $log;
 
-    this.projectId = this._$scope.projectId;
-
     this.data = this._RodinTree.data;
     this.treeFilter = "";
 
@@ -36,15 +34,7 @@ class TreeCtrl {
       // ['Find in Folder', this._findInFolder]
     ];
 
-    /// Get project tree
-
-    this._$scope.$watch(()=> {
-      return this.projectId;
-    }, (newVal)=> {
-      if (newVal) {
-        return this._RodinTree.setProjectId(this.projectId);
-      }
-    });
+    this._RodinTree.update(["index.js", "index.html"]);
   }
 
   toggle(scope) {
@@ -52,7 +42,7 @@ class TreeCtrl {
   };
 
   updateTree() {
-
+    return this._RodinTree.update();
   }
 
 
