@@ -55,7 +55,6 @@ class Editor {
     return Analyser.promise;
   }
 
-
 }
 
 export default Editor;

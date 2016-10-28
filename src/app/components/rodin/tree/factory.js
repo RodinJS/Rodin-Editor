@@ -1,7 +1,7 @@
 /**
  * Created by kh.levon98 on 17-Oct-16.
  */
-function RodinTreeFactory(Editor, RodinEditor, RodinTabs, RodinTabsConstants) {
+function RodinTreeFactory(Editor, RodinEditor, RodinTabs, RodinTabsConstants, RodinPreview, $on) {
   'ngInject';
 
   let model = {};
@@ -19,6 +19,10 @@ function RodinTreeFactory(Editor, RodinEditor, RodinTabs, RodinTabsConstants) {
   model.update = updateTree;
 
   model.setProjectId = setProjectId;
+
+  $on("save-file", ()=> {
+    saveFile()
+  });
 
   return model;
 
@@ -43,12 +47,24 @@ function RodinTreeFactory(Editor, RodinEditor, RodinTabs, RodinTabsConstants) {
       });
     }
 
+    RodinEditor.saveState();
     RodinTabs.setActive(tabsComponentId, file);
     RodinEditor.openFile(file);
   }
 
-  function saveFile(node) {
-
+  function saveFile(file = RodinTabs.get(tabsComponentId)) {
+    Editor.updateFile(projectId, {
+      content: file.content
+    }, {
+      action: "save",
+      filename: file.path
+    }).then((data)=> {
+      if (file) {
+        file.originalContent = file.content;
+        file.isUnsaved = false;
+        RodinPreview.update();
+      }
+    });
   }
 
 

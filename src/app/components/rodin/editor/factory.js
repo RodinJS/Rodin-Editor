@@ -8,7 +8,7 @@ import angular from 'angular/index';
 import ace from "ace/ace";
 
 
-function RodinEditorFactory(Utils, RodinTabs, FileUtils, Ace, RodinTabsConstants) {
+function RodinEditorFactory(Utils, RodinTabs, FileUtils, Ace, RodinTabsConstants, $emit) {
   'ngInject';
 
   let model = {};
@@ -18,10 +18,30 @@ function RodinEditorFactory(Utils, RodinTabs, FileUtils, Ace, RodinTabsConstants
     model: "",
     path: "",
     ace: {
-      workerPath: "/scripts/vendor/ace/lib/ace",
-      advanced: {},
+      workerPath: "/scripts/vendor/ace",
       theme: 'monokai',
       mode: 'text',
+      showGutter: true,
+      showPrintMargin: false,
+      // cursorPosition: 0,
+      commands: [{
+        name: 'save',
+        bindKey: {win: 'Ctrl-S', mac: 'Command-S'},
+        exec: ()=> {
+          $emit("save-file");
+        }
+      }],
+      advanced: {
+        basePath: "/scripts/vendor/",
+        fontSize: "12px",
+        tabSize: 4,
+        wrap: true,
+        readOnly: false,
+        enableBasicAutocompletion: true,
+        // enableLiveAutocompletion: true,
+        enableSnippets: true,
+        autoScrollEditorIntoView: true,
+      },
       onLoad: function (editor) {
         if (editor.getValue().length) {
           const data = RodinTabs.get(tabsComponentId);
@@ -55,7 +75,7 @@ function RodinEditorFactory(Utils, RodinTabs, FileUtils, Ace, RodinTabsConstants
            file.isUnsaved = true;
            }*/
 
-          file.isUnsaved = (file.originalContent != model.options.model); /// TODO: fix this fucking logic
+          file.isUnsaved = (file.originalContent != file.content); /// TODO: fix this fucking logic
         }
       }
     }
@@ -79,16 +99,16 @@ function RodinEditorFactory(Utils, RodinTabs, FileUtils, Ace, RodinTabsConstants
 
   return model;
 
-  function openFile(data) {
+  function openFile(data = null) {
     if (data) {
       if (data.path !== model.options.path) {
         const editorMode = FileUtils.getFileOptions(data).editorMode;
-        model.options.model = data.content;
+
         model.options.path = data.path;
+
         model.options.ace.mode = editorMode;
       }
     } else {
-      model.options.model = "";
       model.options.path = "";
       model.options.ace.mode = "text";
     }
@@ -99,8 +119,6 @@ function RodinEditorFactory(Utils, RodinTabs, FileUtils, Ace, RodinTabsConstants
 
       /// save tab state after change it
       let cursor = Ace.editor.selection.getCursor();
-
-      activeFile.content = model.options.model;
 
       if (!_.isObject(activeFile.editor)) {
         activeFile.editor = {};

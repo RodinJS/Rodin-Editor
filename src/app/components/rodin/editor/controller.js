@@ -32,6 +32,12 @@ class EditorCtrl {
     };
 
 
+
+    $on(`${RodinTabsConstants.editor}:change-tab`, ()=> {
+      this.file = this._RodinTabs.get(this.tabsComponentId);
+    });
+
+
     ///////// subscribe menu-bar events //////////
 
     this._$on("menu-bar:undo", (e, node, model)=> {

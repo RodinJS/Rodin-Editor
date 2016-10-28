@@ -4,7 +4,7 @@
 let self;
 
 class PreviewCtrl {
-  constructor($scope, RodinPreview, RodinTabs, RodinTabsConstants, $on) {
+  constructor($scope, RodinPreview, RodinTabs, RodinTabsConstants, $on, User, AppConstants, $stateParams) {
     'ngInject';
 
     self = this;
@@ -14,6 +14,8 @@ class PreviewCtrl {
     this._RodinPreview = RodinPreview;
     this._RodinTabs = RodinTabs;
 
+
+    this.currentUser = User.current;
     this.tabsComponentId = RodinTabsConstants.preview;
 
     this.tabsCallbacks = {
@@ -28,6 +30,14 @@ class PreviewCtrl {
       this.tab = this._RodinTabs.get(this.tabsComponentId);
     });
 
+    this._$scope.$watch(()=> {
+      return this.currentUser;
+    }, (newVal)=> {
+      if (newVal) {
+        this.previewUrl = AppConstants.PREVIEW + this.currentUser.username + "/" + $stateParams.projectFolder + "/";
+        this.iframeUrl = this.previewUrl + '?refreshTime=' + Date.now();
+      }
+    });
 
 
     ///////// subscribe menu-bar events //////////
@@ -53,6 +63,11 @@ class PreviewCtrl {
 
   _switchTab(oldTab, newTab) {
 
+  }
+
+
+  refreshPreview() {
+    this.iframeUrl = this.previewUrl + '?refreshTime=' + Date.now();
   }
 
 }
