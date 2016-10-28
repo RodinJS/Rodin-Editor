@@ -2,22 +2,53 @@
   <rodin-toolbar></rodin-toolbar>
 
 
-  <div class="work-space-container" data-resize>
+  <div class="workspace"
+       data-resize
+       data-resize-type="vertical">
 
-    <rodin-tree class="work-space-sidebar clearfix"
-                resize-item
-                resize-item-initial="40%"></rodin-tree>
+    <div class="work-space-container"
+         resize-item
+         resize-item-initial="100%"
+         data-resize>
 
-
-    <rodin-editor class="work-space-box editor-box clearfix"
+      <rodin-tree class="work-space-sidebar clearfix"
+                  ng-show="$ctrl.windowActivity.tree"
                   resize-item
-                  resize-item-initial="40%"></rodin-editor>
+                  resize-item-min="200"
+                  resize-item-initial="20%"></rodin-tree>
 
 
-    <rodin-preview class="work-space-box view-box clearfix"
-                   resize-item
-                   resize-item-initial="20%"></rodin-preview>
+      <rodin-editor class="work-space-box editor-box clearfix"
+                    resize-item
+                    resize-item-initial="40%"></rodin-editor>
 
 
+      <rodin-preview class="work-space-box view-box clearfix"
+                     ng-show="$ctrl.windowActivity.preview"
+                     resize-item
+                     resize-item-initial="40%"></rodin-preview>
+
+    </div>
+
+    <!--<div class="work-space-container"-->
+         <!--data-ng-show="$ctrl.windowActivity.inspector || $ctrl.windowActivity.monitor"-->
+         <!--resize-item-->
+         <!--resize-item-initial="50%"-->
+         <!--data-resize>-->
+
+      <!--<rodin-tree data-project-id="projectId" class="work-space-sidebar clearfix"-->
+                  <!--ng-show="$ctrl.windowActivity.inspector"-->
+                  <!--resize-item-->
+                  <!--resize-item-min="200"-->
+                  <!--resize-item-initial="30%"></rodin-tree>-->
+
+
+      <!--<rodin-preview class="work-space-box view-box clearfix"-->
+                     <!--ng-show="$ctrl.windowActivity.monitor"-->
+                     <!--resize-item-->
+                     <!--resize-item-initial="60%"></rodin-preview>-->
+
+      <!--<div class="drag-handle-vertical"></div>-->
+    <!--</div>-->
   </div>
 </div>

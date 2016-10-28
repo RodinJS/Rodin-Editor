@@ -1,11 +1,14 @@
 import ResizeLink from './link';
 
-function Resize() {
-  'ngInject';
-  return {
-    restrict: 'A',
-    link: ResizeLink
-  };
+function Resize($compile) {
+	'ngInject';
+	return {
+		restrict: 'A',
+		scope: {
+			resizeType: '@'
+		},
+		link: ResizeLink
+	};
 }
 
 export default Resize;

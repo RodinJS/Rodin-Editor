@@ -7,13 +7,14 @@ import * as _ from "lodash/dist/lodash.min";
 import angular from 'angular/index';
 
 
-function RodinMenuBarFactory(Utils, HotKeyFilter, RodinPreview, RodinTabs, FileUtils, RodinTabsConstants) {
+function RodinMenuBarFactory(Utils, HotKeyFilter, RodinPreview, RodinIdea, RodinTabs, FileUtils, RodinTabsConstants) {
   'ngInject';
 
   let model = {};
   let editorTabsComponentId = RodinTabsConstants.editor;
 
   const defaultTemplate = "<span class='text'>{{::name}}</span><i class='hotkey' data-ng-show='hotKey'>{{::hotKey}}</i>";
+  const radioTemplate = "<span><i class='fa' data-ng-class=" + "\"" + "{'fa-circle-thin':!compileScope.model,'fa-circle':compileScope.model}" + "\"" + "></i> {{::name}}</span>";
 
   const menuList = [
     {
@@ -139,19 +140,80 @@ function RodinMenuBarFactory(Utils, HotKeyFilter, RodinPreview, RodinTabs, FileU
         "autoRun": {
           "id": "autoRun",
           "name": "Auto Run",
-          "template": "<span><i class='fa' data-ng-class=" + "\"" + "{'fa-circle-thin':!compileScope.model,'fa-circle':compileScope.model}" + "\"" + "></i> {{::name}}</span>",
+          "template": radioTemplate,
           "event": function () {
             this.model = !this.model;
           },
           get model() {
-            // console.dir("get model", RodinPreview.autoReload);
             return RodinPreview.autoReload;
           },
           set model(val) {
-            RodinPreview.setAutoReload(val);
+            return RodinPreview.setAutoReload(val);
           }
         }
       },
+    },
+    {
+      "index": 4,
+      "name": "Window",
+      "subMenus": {
+        "tree": {
+          "id": "window_tree",
+          "name": "Tree",
+          "template": radioTemplate,
+          "event": function () {
+            this.model = !this.model
+          },
+          get model() {
+            return RodinIdea.windowActivity.tree;
+          },
+          set model(val) {
+            return RodinIdea.setWindowActivity('tree', val);
+          }
+        },
+        "preview": {
+          "id": "window_preview",
+          "name": "Preview",
+          "template": radioTemplate,
+          "event": function () {
+            this.model = !this.model
+          },
+          get model() {
+            return RodinIdea.windowActivity.preview;
+          },
+          set model(val) {
+            return RodinIdea.setWindowActivity('preview', val);
+          }
+        },
+        // "inspector": {
+        //   "id": "window_inspector",
+        //   "name": "3D Inspector",
+        //   "template": radioTemplate,
+        //   "event": function () {
+        //     this.model = !this.model
+        //   },
+        //   get model() {
+        //     return RodinIdea.windowActivity.inspector;
+        //   },
+        //   set model(val) {
+        //     return RodinIdea.setWindowActivity('inspector', val);
+        //   }
+        // },
+        // "monitor": {
+        //   "id": "window_monitor",
+        //   "name": "Performance Monitoring",
+        //   "template": radioTemplate,
+        //   "event": function () {
+        //     this.model = !this.model
+        //   },
+        //   get model() {
+        //     return RodinIdea.windowActivity.monitor;
+        //   },
+        //   set model(val) {
+        //     return RodinIdea.setWindowActivity('monitor', val);
+        //   }
+        // }
+      }
     }
   ];
 
