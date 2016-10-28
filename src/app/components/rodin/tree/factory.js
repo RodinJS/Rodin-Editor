@@ -47,6 +47,12 @@ function RodinTreeFactory(Editor, RodinEditor, RodinTabs, RodinTabsConstants, Ro
 
     return File.create(reqData).then((data)=> {
       model.update(); /// TODO: open created file :: hishem txerqiin asem vor veradarcnen file infon
+
+      model.openFile({
+        name: reqData.name,
+        path: `${reqData.path}/${reqData.name}`,
+        type: reqData.type
+      })
     });
   }
 
