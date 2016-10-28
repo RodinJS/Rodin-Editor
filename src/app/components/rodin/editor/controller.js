@@ -32,7 +32,6 @@ class EditorCtrl {
     };
 
 
-
     $on(`${RodinTabsConstants.editor}:change-tab`, ()=> {
       this.file = this._RodinTabs.get(this.tabsComponentId);
     });

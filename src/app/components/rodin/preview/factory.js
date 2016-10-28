@@ -28,23 +28,23 @@ function RodinPreviewFactory(Storage, RodinTabs, RodinTabsConstants, Utils) {
   function updatePreview(refresh = false) {
     /*let openTab = RodinTabs.get(tabsComponentId);
 
-    if (refresh || this.autoReload) {
-      openTab.URL = ""
-    }
-*/
+     if (refresh || this.autoReload) {
+     openTab.URL = ""
+     }
+     */
     if (this.autoReload) {
       console.log("autoReload")
 
-/*
-      for (let i in openTab.externalTabs) {
-        let win = openTab.externalTabs[i];
-        if (win.location && _.isFunction(win.location.reload)) {
-          win.location.reload();
-        } else {
-          delete openTab.externalTabs[i];
-        }
-      }
-      */
+      /*
+       for (let i in openTab.externalTabs) {
+       let win = openTab.externalTabs[i];
+       if (win.location && _.isFunction(win.location.reload)) {
+       win.location.reload();
+       } else {
+       delete openTab.externalTabs[i];
+       }
+       }
+       */
     }
   }
 

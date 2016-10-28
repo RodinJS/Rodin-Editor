@@ -9,8 +9,7 @@ function Idea() {
     controllerAs: "$ctrl",
     replace: true,
     controller: IdeaCtrl,
-    scope: {
-    }
+    scope: {}
   };
 }
 
