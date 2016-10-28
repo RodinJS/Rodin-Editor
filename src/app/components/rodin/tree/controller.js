@@ -38,7 +38,6 @@ class TreeCtrl {
     this._$scope.$watch(()=> {
       return this._RodinIdea.getProjectId();
     }, (id)=> {
-      console.log("id", id)
       if (id) {
         this._RodinTree.update(["index.js", "index.html"]);
       }
