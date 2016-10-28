@@ -1,14 +1,16 @@
 <ul class="dropdown-group">
   <li class="item"
-      data-ng-class="{'dropdown-item':menu.subMenus.length}"
+      data-ng-class="{'dropdown-item':subMenu.subMenus.length}"
       data-ng-init="node = $ctrl.drawNode(subMenu, menu.index)"
-      data-ng-repeat="(id, subMenu) in menu.subMenus track by $index">
+      data-ng-repeat="(id, subMenu) in subs track by $index">
     <a role="button"
-       data-ng-click="$ctrl.selectOption(subMenu, subMenu.model)"
+       data-ng-click="$ctrl.selectOption($event, subMenu, subMenu.model)"
        data-compile="node.template"
        data-compile-scope="node.scope"
        class="text-primary"></a>
-    <div class="header-work-dropdown" role="menu" data-ng-if="subMenu.subMenus.length"
+    <div class="header-work-dropdown" role="menu"
+         data-ng-init="subs = subMenu.subMenus"
+         data-ng-if="subs"
          data-ng-include="'components/rodin/menu-bar/subMenu.html'"></div>
   </li>
 </ul>

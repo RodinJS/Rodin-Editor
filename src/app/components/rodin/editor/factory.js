@@ -5,13 +5,10 @@
 
 import * as _ from "lodash/dist/lodash.min";
 import angular from 'angular/index';
-import ace from "ace/ace";
 
 
 function RodinEditorFactory(Utils, RodinTabs, FileUtils, Ace, RodinTabsConstants, $emit, Storage, File, RodinIdea) {
   'ngInject';
-
-  window.Storage = Storage;
 
   let model = {};
   let tabsComponentId = RodinTabsConstants.editor;

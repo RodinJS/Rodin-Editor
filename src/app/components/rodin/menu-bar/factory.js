@@ -4,17 +4,49 @@
 
 
 import * as _ from "lodash/dist/lodash.min";
+import * as AceThems from 'ace/ext/themelist';
 import angular from 'angular/index';
 
 
-function RodinMenuBarFactory(Utils, HotKeyFilter, RodinPreview, RodinIdea, RodinTabs, RodinEditor, Ace, FileUtils, RodinTabsConstants) {
+function RodinMenuBarFactory(Utils, HotKeyFilter, RodinPreview, RodinIdea, RodinTabs, RodinEditor, FileUtils, RodinTabsConstants, Storage) {
   'ngInject';
+
 
   let model = {};
   let editorTabsComponentId = RodinTabsConstants.editor;
 
   const defaultTemplate = "<span class='text'>{{::name}}</span><i class='hotkey' data-ng-show='hotKey' data-ng-bind-html='::hotKey'></i>";
-  const radioTemplate = "<span><i class='fa' data-ng-class=" + "\"" + "{'fa-circle-thin':!compileScope.model,'fa-circle':compileScope.model}" + "\"" + "></i> {{::name}}</span>";
+
+  const defaultTemplateWithSubMenu = "<span class='text'>{{::name}}</span><i class='fa fa-caret-right'></i>";
+
+  const radioTemplate = "<span><i class='fa fa-check' data-ng-class=" + "\"" + "{'invisible':!compileScope.model}" + "\"" + "></i> {{::name}}</span>";
+
+  const themesMenu = {
+    "id": "theme",
+    "name": "Theme",
+    "template": defaultTemplateWithSubMenu,
+    "subMenus": {}
+  };
+
+
+  for(let i in AceThems.themesByName) {
+    let theme = AceThems.themesByName[i];
+    themesMenu.subMenus[theme.name] = {
+      id: `${theme.name}`,
+      name: theme.caption,
+      template: radioTemplate,
+      get model() {
+        return this.id === Storage.get('theme');
+      },
+      event: function (evt) {
+        evt.stopPropagation();
+
+        Storage.set('theme', this.id);
+      }
+    }
+  }
+
+  console.log(themesMenu);
 
   const menuList = [
     {
@@ -213,6 +245,7 @@ function RodinMenuBarFactory(Utils, HotKeyFilter, RodinPreview, RodinIdea, Rodin
         //     return RodinIdea.setWindowActivity('monitor', val);
         //   }
         // }
+        "theme": themesMenu
       }
     }
   ];

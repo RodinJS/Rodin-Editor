@@ -5,9 +5,15 @@
   .ace_editor {
     display: block;
     width: 100%;
-    background-color: #181818 !important;
     position: relative;
     min-height: 100%;
+
+    &.ace-monokai{
+      background-color: #181818 !important;
+      .ace_gutter {
+        background-color: #181818 !important;
+      }
+    }
 
     .ace_search {
       background-color: #535355;
@@ -60,8 +66,5 @@
       }
     }
 
-    .ace_gutter {
-      background-color: #181818 !important;
-    }
   }
 }

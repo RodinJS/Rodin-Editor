@@ -21,11 +21,11 @@ class MenuBarCtrl {
 
   }
 
-  selectOption(subMenu = {}, model) {
+  selectOption(evt, subMenu = {}, model) {
     let event = subMenu.event;
 
     if (_.isFunction(event)) {
-      return event.call(subMenu, model);
+      return event.apply(subMenu, [evt, model]);
     } else {
       self._$emit(`menu-bar:${subMenu.id}`, subMenu, model);
     }
