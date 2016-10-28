@@ -1,7 +1,7 @@
 /**
  * Created by kh.levon98 on 17-Oct-16.
  */
-function RodinTreeFactory(Editor, RodinEditor, RodinTabs, RodinTabsConstants, Utils, File, RodinIdea) {
+function RodinTreeFactory(Editor, RodinEditor, RodinTabs, RodinTabsConstants, Utils, File, RodinIdea, RodinPreview) {
   'ngInject';
 
   let model = {};
@@ -95,6 +95,17 @@ function RodinTreeFactory(Editor, RodinEditor, RodinTabs, RodinTabsConstants, Ut
             model.openFile(node);
             break;
           }
+        }
+      }
+
+
+      //// TODO: fuckin logic remove this
+      let node;
+      for (let i = 0, openFile = ["index.html", ".html"],ln = openFile.length; i < ln; i++) {
+        node = Utils.findFileInTree(data.tree.children, openFile[i]);
+        if (node) {
+          RodinPreview.run(node);
+          break;
         }
       }
 

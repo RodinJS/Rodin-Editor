@@ -35,7 +35,6 @@ class PreviewCtrl {
       self._RodinPreview.run();
     });
 
-
   }
 
 
