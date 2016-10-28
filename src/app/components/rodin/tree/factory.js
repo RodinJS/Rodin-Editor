@@ -20,7 +20,7 @@ function RodinTreeFactory(Editor, RodinEditor, RodinTabs, RodinTabsConstants, Ro
 
   model.setProjectId = setProjectId;
 
-  $on("save-file", ()=> {
+  $on("menu-bar:saveFile", ()=> {
     saveFile()
   });
 

@@ -28,7 +28,7 @@ function RodinEditorFactory(Utils, RodinTabs, FileUtils, Ace, RodinTabsConstants
         name: 'save',
         bindKey: {win: 'Ctrl-S', mac: 'Command-S'},
         exec: ()=> {
-          $emit("save-file");
+          $emit("menu-bar:saveFile");
         }
       }],
       advanced: {
