@@ -4,7 +4,7 @@
 
 import * as _ from "lodash/dist/lodash.min";
 
-function RodinTabsFactory(Utils, RodinTabsConstants) {
+function RodinTabsFactory(Utils, RodinTabsConstants, $emit) {
   'ngInject';
 
   let model = {};
@@ -46,6 +46,7 @@ function RodinTabsFactory(Utils, RodinTabsConstants) {
 
     if (_.isObject(compInfo)) {
       compInfo.activeIndex = (_.isNumber(tab) ? tab : tab.index);
+      $emit(`${compId}:change-tab`);
     }
   }
 
