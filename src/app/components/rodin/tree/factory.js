@@ -1,7 +1,7 @@
 /**
  * Created by kh.levon98 on 17-Oct-16.
  */
-function RodinTreeFactory(Editor, RodinEditor, RodinTabs, RodinTabsConstants, RodinPreview, $on, File, RodinIdea) {
+function RodinTreeFactory(Editor, RodinEditor, RodinTabs, RodinTabsConstants, Utils, File, RodinIdea, RodinPreview) {
   'ngInject';
 
   let model = {};
@@ -90,7 +90,7 @@ function RodinTreeFactory(Editor, RodinEditor, RodinTabs, RodinTabsConstants, Ro
         }
 
         for (let i = 0, ln = openFile.length; i < ln; i++) {
-          node = findFileInTree(data.tree.children, openFile[i]);
+          node = Utils.findFileInTree(data.tree.children, openFile[i]);
           if (node) {
             model.openFile(node);
             break;
@@ -98,18 +98,18 @@ function RodinTreeFactory(Editor, RodinEditor, RodinTabs, RodinTabsConstants, Ro
         }
       }
 
-    });
-  }
 
-  // local functions
-  function findFileInTree(list = [], name = "") {
-    for (let i = 0, ln = list.length; i < ln; ++i) {
-      if (list[i].name.indexOf(name) > -1) {
-        return list[i];
+      //// TODO: fuckin logic remove this
+      let node;
+      for (let i = 0, openFile = ["index.html", ".html"],ln = openFile.length; i < ln; i++) {
+        node = Utils.findFileInTree(data.tree.children, openFile[i]);
+        if (node) {
+          RodinPreview.run(node);
+          break;
+        }
       }
-    }
 
-    return false;
+    });
   }
 }
 
