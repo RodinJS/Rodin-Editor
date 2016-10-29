@@ -83,7 +83,6 @@ function ResizeLink(scope, element, attrs) {
       initialHeight = minHeightPercent;
     }
 
-    console.log(element, initialHeight);
     element.style.height = `${initialHeight}%`;
 
     element.minHeight = minHeight;

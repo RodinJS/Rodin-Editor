@@ -16,9 +16,7 @@ function RodinMenuBarFactory(Utils, HotKeyFilter, RodinPreview, RodinIdea, Rodin
   let editorTabsComponentId = RodinTabsConstants.editor;
 
   const defaultTemplate = "<span class='text'>{{::name}}</span><i class='hotkey' data-ng-show='hotKey' data-ng-bind-html='::hotKey'></i>";
-
   const defaultTemplateWithSubMenu = "<span class='text'>{{::name}}</span><i class='fa fa-caret-right'></i>";
-
   const radioTemplate = "<span><i class='fa fa-check' data-ng-class=" + "\"" + "{'invisible':!compileScope.model}" + "\"" + "></i> {{::name}}</span>";
 
   const themesMenu = {
@@ -45,8 +43,6 @@ function RodinMenuBarFactory(Utils, HotKeyFilter, RodinPreview, RodinIdea, Rodin
       }
     }
   }
-
-  console.log(themesMenu);
 
   const menuList = [
     {
