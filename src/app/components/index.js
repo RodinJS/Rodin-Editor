@@ -12,9 +12,6 @@ componentsModule.directive('compile', Compile);
 import Resize from './resize/index';
 componentsModule.directive('resize', Resize);
 
-import IframeEvents from './iframeEvents/index';
-componentsModule.directive('iframeEvents', IframeEvents);
-
 import AceFactory from './ace/factory';
 componentsModule.factory('Ace', AceFactory);
 

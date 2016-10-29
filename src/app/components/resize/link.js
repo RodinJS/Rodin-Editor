@@ -107,6 +107,7 @@ function ResizeLink(scope, element, attrs) {
 
     function startDrag(evt) {
       evt.preventDefault();
+      blockIframes(column, right);
       isDragging = true;
       if (type === 'horizontal') {
         dragStartX = evt.clientX;
@@ -159,6 +160,30 @@ function ResizeLink(scope, element, attrs) {
 
     function stopDrag() {
       isDragging = false;
+      unblockIframes(column, right);
+    }
+  }
+
+  function blockIframes () {
+    for(let i = 0; i < arguments.length; i ++) {
+      let element = arguments[i];
+
+      let iframes = element.querySelectorAll('iframe');
+      for(let j = 0; j < iframes.length; j ++) {
+        iframes[j].style['pointer-events'] = 'none';
+        console.log(iframes[i]);
+      }
+    }
+  }
+
+  function unblockIframes () {
+    for(let i = 0; i < arguments.length; i ++) {
+      let element = arguments[i];
+
+      let iframes = element.querySelectorAll('iframe');
+      for(let j = 0; j < iframes.length; j ++) {
+        iframes[j].style['pointer-events'] = 'auto';
+      }
     }
   }
 }
