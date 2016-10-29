@@ -171,7 +171,6 @@ function ResizeLink(scope, element, attrs) {
       let iframes = element.querySelectorAll('iframe');
       for(let j = 0; j < iframes.length; j ++) {
         iframes[j].style['pointer-events'] = 'none';
-        console.log(iframes[i]);
       }
     }
   }
