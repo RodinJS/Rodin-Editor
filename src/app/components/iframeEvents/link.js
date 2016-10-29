@@ -16,6 +16,14 @@ function IframeEventsLink(scope, element, attrs) {
   } catch (ex) {
     console.warn(ex);
   }
+
+  const iframe = element[0];
+  const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
+
+  iframeDocument.addEventListener('mousemove', (evt) => {
+    console.log('mtav');
+    document.dispatchEvent(new Event(evt));
+  })
 }
 
 export default IframeEventsLink;
