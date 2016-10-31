@@ -8,6 +8,7 @@ function RodinTreeFactory(Editor, RodinEditor, RodinTabs, RodinTabsConstants, Ut
   let tabsComponentId = RodinTabsConstants.editor;
 
   model.data = [];
+  model.root = "";
 
   model.openFile = openFile;
   model.createFile = createFile;
@@ -80,6 +81,9 @@ function RodinTreeFactory(Editor, RodinEditor, RodinTabs, RodinTabsConstants, Ut
 
   function updateTree(openFile = "") {
     Editor.getProject(RodinIdea.getProjectId()).then((data)=> {
+
+      model.root = data.root;
+
       model.data.splice(0, 1, data.tree);
 
       if (!_.isEmpty(openFile)) {
@@ -101,7 +105,7 @@ function RodinTreeFactory(Editor, RodinEditor, RodinTabs, RodinTabsConstants, Ut
 
       //// TODO: fuckin logic remove this
       let node;
-      for (let i = 0, openFile = ["index.html", ".html"],ln = openFile.length; i < ln; i++) {
+      for (let i = 0, openFile = ["index.html", ".html"], ln = openFile.length; i < ln; i++) {
         node = Utils.findFileInTree(data.tree.children, openFile[i]);
         if (node) {
           RodinPreview.run(node);

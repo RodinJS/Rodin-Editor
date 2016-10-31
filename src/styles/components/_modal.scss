@@ -1,0 +1,19 @@
+.modal .modal-form .input-group{
+  .input-group-addon {
+    border-radius: 0;
+    height: 30px;
+    padding: 6px 0 4px 12px;
+    line-height: 1;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.1);
+    box-shadow: none;
+    color: #fff;
+    appearance: none;
+    font-size: 12px;
+  }
+
+  .form-control {
+    border-left: 0;
+    padding-left: 0;
+  }
+}

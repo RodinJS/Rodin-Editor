@@ -5,7 +5,7 @@ let self;
 let isFirst = true;
 
 class TreeCtrl {
-  constructor($scope, $timeout, Editor, $log, FileUtils, RodinTabs, RodinTree, RodinIdea) {
+  constructor($scope, $timeout, Editor, $log, FileUtils, RodinTabs, RodinTree, RodinIdea, Modal) {
     'ngInject';
 
     self = this;
@@ -16,6 +16,7 @@ class TreeCtrl {
     this._RodinTree = RodinTree;
     this._FileUtils = FileUtils;
     this._RodinIdea = RodinIdea;
+    this._Modal = Modal;
     this._$log = $log;
 
     this.data = this._RodinTree.data;
@@ -44,14 +45,27 @@ class TreeCtrl {
     });
   }
 
-  toggle(scope) {
-    scope.toggle();
-  };
 
   updateTree() {
     return this._RodinTree.update();
   }
 
+  open(scope = {}, node = {}) {
+    if (node.type == "directory") {
+      return this.toggle(scope);
+    } else {
+      self._RodinTree.openFile(node);
+    }
+  }
+
+  upload(){
+    
+  }
+
+
+  toggle(scope) {
+    scope.toggle();
+  };
 
   getFileOptions(...args) {
     return this._FileUtils.getFileOptions(...args);
@@ -65,60 +79,68 @@ class TreeCtrl {
     return !(this.treeFilter && this.treeFilter.length > 0 && node.name.indexOf(this.treeFilter) == -1);
   }
 
-  open(scope = {}, node = {}) {
-    if (node.type == "directory") {
-      return this.toggle(scope);
-    } else {
-      self._RodinTree.openFile(node);
-    }
-  }
 
   _delete($itemScope, $event, node, text, $li) {
-    let ans = confirm("Are you sure delete file: " + node.name);
-
-    if (ans) {
+    self._Modal.confirm({
+      message: ()=> {
+        return `Are you sure delete ${node.type}: ${node.name}`;
+      }
+    }).result.then((res)=> {
       self._RodinTree.deleteFile(node);
-    }
+    });
   }
 
   _rename($itemScope, $event, node, text, $li) {
-    let name = prompt("Change file name.", node.name);
-
-    if (name) {
-
+    self._Modal.rename({
+      name: ()=> {
+        return node.name;
+      }
+    }).result.then((res)=> {
       self._RodinTree.renameFile(node, {
         action: "rename",
-        newName: name,
+        newName: res.name,
       });
-
-    }
+    });
   }
 
   _createFolder($itemScope, $event, node, text, $li) {
-    let name = prompt("Folder name.");
-
-    if (name) {
-
+    self._Modal.create({
+      name: ()=> {
+        return "";
+      },
+      path: ()=> {
+        return node.path;
+      },
+      type: ()=> {
+        return "directory";
+      }
+    }).result.then((res)=> {
       self._RodinTree.createFolder(node, {
-        path: node.path,
-        name: name,
+        path: res.path,
+        name: res.name,
         action: "create"
       });
-
-    }
+    });
   }
 
   _createFile($itemScope, $event, node, text, $li) {
-    let name = prompt("File name.");
-
-    if (name) {
+    self._Modal.create({
+      name: ()=> {
+        return "";
+      },
+      path: ()=> {
+        return node.path;
+      },
+      type: ()=> {
+        return "file";
+      }
+    }).result.then((res)=> {
       self._RodinTree.createFile(node, {
-        path: node.path,
-        name: name,
+        path: res.path,
+        name: res.name,
         action: "create"
       });
-
-    }
+    });
   }
 }
 

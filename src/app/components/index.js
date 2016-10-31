@@ -18,6 +18,34 @@ componentsModule.factory('Ace', AceFactory);
 import Ace from './ace/index';
 componentsModule.directive('ace', Ace);
 
+/*
+ * Modals modules
+ * */
+
+import ModalFactory from './modal/factory';
+componentsModule.factory('Modal', ModalFactory);
+
+/// rename-modal module
+
+import RenameModal from './modal/rename/index';
+componentsModule.component('renameModal', RenameModal);
+
+/// create-modal module
+
+import CreateModal from './modal/create/index';
+componentsModule.component('createModal', CreateModal);
+
+/// confirm-modal module
+
+import ConfirmModal from './modal/confirm/index';
+componentsModule.component('confirmModal', ConfirmModal);
+
+
+/*
+ * End of Modals modules
+ * */
+
+
 
 /*
  * Rodin-IDEA modules
