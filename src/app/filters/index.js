@@ -11,5 +11,9 @@ import CapitalizeFilter from "./capitalize.filter";
 
 filtersModule.filter('capitalize', CapitalizeFilter);
 
+import BytesFilter from "./bytes.filter";
+
+filtersModule.filter('bytes', BytesFilter);
+
 
 export default filtersModule;

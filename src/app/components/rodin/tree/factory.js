@@ -13,6 +13,8 @@ function RodinTreeFactory(Editor, RodinEditor, RodinTabs, RodinTabsConstants, Ut
   model.openFile = openFile;
   model.createFile = createFile;
   model.createFolder = createFolder;
+  model.uploadFile = uploadFile;
+  model.uploadFolder = uploadFolder;
   model.renameFile = renameFile;
   model.deleteFile = deleteFile;
   model.update = updateTree;
@@ -42,6 +44,25 @@ function RodinTreeFactory(Editor, RodinEditor, RodinTabs, RodinTabsConstants, Ut
     RodinTabs.setActive(tabsComponentId, file);
     RodinEditor.openFile(file);
   }
+
+
+  function uploadFile(files = [], reqData = {}) {
+    reqData.type = "file";
+
+    return File.upload(files, reqData).then((data)=> {
+      model.update();
+    });
+  }
+
+
+  function uploadFolder(files = [], reqData = {}) {
+    reqData.type = "directory";
+
+    return File.upload(files, reqData).then((data)=> {
+      model.update();
+    });
+  }
+
 
   function createFile(node, reqData = {}) {
     reqData.type = "file";
@@ -78,6 +99,7 @@ function RodinTreeFactory(Editor, RodinEditor, RodinTabs, RodinTabsConstants, Ut
       model.update();
     });
   }
+
 
   function updateTree(openFile = "") {
     Editor.getProject(RodinIdea.getProjectId()).then((data)=> {

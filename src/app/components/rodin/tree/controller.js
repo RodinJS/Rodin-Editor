@@ -5,7 +5,7 @@ let self;
 let isFirst = true;
 
 class TreeCtrl {
-  constructor($scope, $timeout, Editor, $log, FileUtils, RodinTabs, RodinTree, RodinIdea, Modal) {
+  constructor($scope, $timeout, Editor, $log, FileUtils, RodinTabs, RodinTree, RodinIdea, Modal, $on) {
     'ngInject';
 
     self = this;
@@ -18,6 +18,7 @@ class TreeCtrl {
     this._RodinIdea = RodinIdea;
     this._Modal = Modal;
     this._$log = $log;
+    this._$on = $on;
 
     this.data = this._RodinTree.data;
     this.treeFilter = "";
@@ -43,6 +44,16 @@ class TreeCtrl {
         this._RodinTree.update(["index.js", "index.html", ".html", ".js"]);
       }
     });
+
+
+    this._$on("menu-bar:uploadFile",  (e, node, model)=> {
+      self._uploadFile();
+    });
+
+    this._$on("menu-bar:uploadFolder",  (e, node, model)=> {
+      self._uploadFolder();
+    });
+
   }
 
 
@@ -56,10 +67,6 @@ class TreeCtrl {
     } else {
       self._RodinTree.openFile(node);
     }
-  }
-
-  upload(){
-    
   }
 
 
@@ -139,6 +146,37 @@ class TreeCtrl {
         path: res.path,
         name: res.name,
         action: "create"
+      });
+    });
+  }
+
+
+  _uploadFile(path = "") {
+    self._Modal.upload({
+      path: ()=> {
+        return path;
+      },
+      type: ()=> {
+        return "file";
+      }
+    }).result.then((res)=> {
+      self._RodinTree.uploadFile(res.files, {
+        path: res.path
+      });
+    });
+  }
+
+  _uploadFolder(path = "") {
+    self._Modal.upload({
+      path: ()=> {
+        return path;
+      },
+      type: ()=> {
+        return "directory";
+      }
+    }).result.then((res)=> {
+      self._RodinTree.uploadFolder(res.files, {
+        path: res.path
       });
     });
   }

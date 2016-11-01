@@ -8,6 +8,8 @@ function ModalFactory($uibModal) {
   model.rename = rename;
   model.create = create;
   model.confirm = confirm;
+  model.prompt = prompt;
+  model.upload = upload;
 
   return model;
 
@@ -42,6 +44,15 @@ function ModalFactory($uibModal) {
       resolve: resolve
     });
   }
+
+  function upload(resolve = {}) {
+    return $uibModal.open({
+      animation: true,
+      component: 'uploadModal',
+      resolve: resolve
+    });
+  }
+
 }
 
 export default ModalFactory;

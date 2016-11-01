@@ -49,6 +49,10 @@ class File {
     return this._Editor.createFile(this._RodinIdea.getProjectId(), reqData);
   }
 
+  upload(files = [], reqData = {}) {
+    return this._Editor.uploadFile(this._RodinIdea.getProjectId(), files, reqData);
+  }
+
 
   rename(file = null, reqData = {}) {
     if (!file) {

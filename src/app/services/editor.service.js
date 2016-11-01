@@ -55,6 +55,36 @@ class Editor {
     return Analyser.promise;
   }
 
+  uploadFile(projectId = null, files = [], fields = {}) {
+    let Analyser = new this._Analyser();
+    let formData = new FormData();
+
+    for (let i = 0, ln = files.length; i < ln; ++i) {
+      let file = files[i];
+      formData.append("file", file);
+    }
+
+    for (let i in fields) {
+      formData.append(i, fields[i]);
+    }
+
+    this._Editors.one("upload")
+      .withHttpConfig({
+        transformRequest: angular.identity,
+        timeout: 0 // Avoid global setting's timeout on upload
+      })
+      .customPOST(formData, null, {
+        id: projectId
+      }, {
+        'Content-Type': () => {
+          return undefined;
+        }
+      })
+      .then(Analyser.resolve, Analyser.reject);
+
+    return Analyser.promise;
+  }
+
 }
 
 export default Editor;
