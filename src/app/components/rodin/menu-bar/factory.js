@@ -20,16 +20,35 @@ function RodinMenuBarFactory(Utils, HotKeyFilter, RodinPreview, RodinIdea, Rodin
   const radioTemplate = "<span><i class='fa fa-check' data-ng-class=" + "\"" + "{'invisible':!compileScope.model}" + "\"" + "></i> {{::name}}</span>";
 
   const themesMenu = {
-    "id": "theme",
-    "name": "Theme",
-    "template": defaultTemplateWithSubMenu,
-    "subMenus": {}
+    id: "theme",
+    name: "Theme",
+    template: defaultTemplateWithSubMenu,
+    subMenus: {
+      light: {
+        id: "theme_light",
+        name: "Light",
+        template: defaultTemplateWithSubMenu,
+        subMenus: {
+          test: {
+            id: "adasd",
+            name: "asdasdasd",
+            template: defaultTemplateWithSubMenu
+          }
+        }
+      },
+      dark: {
+        id: "theme_dark",
+        name: "Dark",
+        template: defaultTemplateWithSubMenu,
+        subMenus: {}
+      }
+    }
   };
-
 
   for(let i in AceThems.themesByName) {
     let theme = AceThems.themesByName[i];
-    themesMenu.subMenus[theme.name] = {
+    const themeType = theme.isDark ? "dark" : "light";
+    themesMenu.subMenus[themeType][theme.name] = {
       id: `${theme.name}`,
       name: theme.caption,
       template: radioTemplate,
