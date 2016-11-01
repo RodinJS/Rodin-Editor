@@ -7,5 +7,9 @@ import HotKeyFilter from "./hotKey.filter";
 
 filtersModule.filter('HotKey', HotKeyFilter);
 
+import CapitalizeFilter from "./capitalize.filter";
+
+filtersModule.filter('capitalize', CapitalizeFilter);
+
 
 export default filtersModule;

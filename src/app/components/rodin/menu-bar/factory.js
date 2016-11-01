@@ -80,15 +80,15 @@ function RodinMenuBarFactory(Utils, HotKeyFilter, RodinPreview, RodinIdea, Rodin
           "hotKey": Utils.bindKey("Ctrl-Shift-N", "Command-Shift-N"),
           "template": defaultTemplate,
         },
-        "openFile": {
-          "id": "openFile",
-          "name": "Open File",
+        "uploadFile": {
+          "id": "uploadFile",
+          "name": "Upload File",
           "hotKey": Utils.bindKey("Ctrl-O", "Command-O"),
           "template": defaultTemplate,
         },
-        "openFolder": {
-          "id": "openFolder",
-          "name": "Open Folder",
+        "uploadFolder": {
+          "id": "uploadFolder",
+          "name": "Upload Folder",
           "hotKey": Utils.bindKey("Ctrl-Shift-O", "Command-Shift-O"),
           "template": defaultTemplate,
         },
