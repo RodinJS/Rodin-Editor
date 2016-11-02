@@ -50,7 +50,7 @@ class UploadCtrl {
       for (let i = 0, ln = self.input.files.length; i < ln; i++) {
 
         let file = self.input.files[i];
-        
+
         let item = {
           index: i,
           name: file.name,

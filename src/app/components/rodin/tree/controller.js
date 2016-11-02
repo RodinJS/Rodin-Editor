@@ -1,8 +1,11 @@
 /**
  * Created by kh.levon98 on 24-Sep-16.
  */
+
+
+import JSZip from "jszip/dist/jszip.min";
+
 let self;
-let isFirst = true;
 
 class TreeCtrl {
   constructor($scope, $timeout, Editor, $log, FileUtils, RodinTabs, RodinTree, RodinIdea, Modal, $on) {
@@ -46,11 +49,11 @@ class TreeCtrl {
     });
 
 
-    this._$on("menu-bar:uploadFile",  (e, node, model)=> {
+    this._$on("menu-bar:uploadFile", (e, node, model)=> {
       self._uploadFile();
     });
 
-    this._$on("menu-bar:uploadFolder",  (e, node, model)=> {
+    this._$on("menu-bar:uploadFolder", (e, node, model)=> {
       self._uploadFolder();
     });
 
@@ -161,7 +164,8 @@ class TreeCtrl {
       }
     }).result.then((res)=> {
       self._RodinTree.uploadFile(res.files, {
-        path: res.path
+        path: res.path,
+        type: res.type,
       });
     });
   }
@@ -175,9 +179,34 @@ class TreeCtrl {
         return "directory";
       }
     }).result.then((res)=> {
-      self._RodinTree.uploadFolder(res.files, {
-        path: res.path
-      });
+
+      let zip = new JSZip();
+
+      for (let i = 0, ln = res.files.length; i < ln; ++i) {
+        let file = res.files[i];
+
+        // console.log("zip - file", file)
+
+        zip.file(file);
+      }
+
+      zip.generateAsync({type: "blob"})
+        .then(function (content) {
+          console.log("content", content)
+
+          var fileReader = new FileReader();
+          fileReader.onload = function () {
+            console.log("fr", this.result)
+            self._RodinTree.uploadFile([this.result], {
+              path: res.path,
+              type: res.type,
+            });
+          };
+          fileReader.readAsArrayBuffer(content);
+
+        });
+
+
     });
   }
 }
