@@ -165,7 +165,6 @@ class TreeCtrl {
     }).result.then((res)=> {
       self._RodinTree.uploadFile(res.files, {
         path: res.path,
-        type: res.type,
       });
     });
   }
@@ -197,9 +196,8 @@ class TreeCtrl {
           var fileReader = new FileReader();
           fileReader.onload = function () {
             console.log("fr", this.result)
-            self._RodinTree.uploadFile([this.result], {
+            self._RodinTree.uploadFolder([this.result], {
               path: res.path,
-              type: res.type,
             });
           };
           fileReader.readAsArrayBuffer(content);
