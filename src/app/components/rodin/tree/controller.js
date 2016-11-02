@@ -8,7 +8,7 @@ import JSZip from "jszip/dist/jszip.min";
 let self;
 
 class TreeCtrl {
-  constructor($scope, $timeout, Editor, $log, FileUtils, RodinTabs, RodinTree, RodinIdea, Modal, $on) {
+  constructor($scope, $timeout, Editor, $log, FileUtils, RodinTabs, RodinTree, RodinIdea, Modal, $on, $q) {
     'ngInject';
 
     self = this;
@@ -21,6 +21,7 @@ class TreeCtrl {
     this._RodinIdea = RodinIdea;
     this._Modal = Modal;
     this._$log = $log;
+    this._$q = $q;
     this._$on = $on;
 
     this.data = this._RodinTree.data;
@@ -180,34 +181,42 @@ class TreeCtrl {
     }).result.then((res)=> {
 
       let zip = new JSZip();
-      let count = 0;
+      let deferred = self._$q.defer();
+      let promise = deferred.promise;
 
       for (let i = 0, ln = res.files.length; i < ln; ++i) {
         let file = res.files[i];
+        let deferred = self._$q.defer();
 
-        // console.log("zip - file", file)
+        promise.then(()=> {
+          let reader = new FileReader();
+          let filePath = file.webkitRelativePath || file.name;
 
+          console.log("file - ", i, file);
 
-        let reader = new FileReader();
+          reader.onload = (e)=> {
+            zip.file(filePath, e.target.result);
 
-        reader.onload = (e)=> {
-          var content = e.target.result;
-          zip.file(file.webkitRelativePath, content);
+            deferred.resolve(true);
+          };
 
-          if (++count == res.files.length) {
-            zip.generateAsync({type: "blob"})
-              .then(function (content) {
-                console.log("content", content);
+          reader.readAsText(file);
+        });
 
-                self._RodinTree.uploadFolder([content], {
-                  path: res.path,
-                });
-              });
-          }
-        };
-
-        reader.readAsText(file);
+        promise = deferred.promise;
       }
+
+      deferred.resolve(true);
+
+      promise.then(()=> {
+        console.log("end")
+        zip.generateAsync({type: "blob"})
+          .then(function (content) {
+            self._RodinTree.uploadFolder([content], {
+              path: res.path,
+            });
+          });
+      });
 
     });
   }
