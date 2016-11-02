@@ -193,15 +193,18 @@ class TreeCtrl {
         .then(function (content) {
           console.log("content", content)
 
-          var fileReader = new FileReader();
-          fileReader.onload = function () {
-            console.log("fr", this.result)
-            self._RodinTree.uploadFolder([this.result], {
-              path: res.path,
-            });
-          };
-          fileReader.readAsArrayBuffer(content);
-
+          /* var fileReader = new FileReader();
+           fileReader.onload = function () {
+           console.log("fr", this.result)
+           self._RodinTree.uploadFolder([this.result], {
+           path: res.path,
+           });
+           };
+           fileReader.readAsArrayBuffer(content);
+           */
+          self._RodinTree.uploadFolder([content], {
+            path: res.path,
+          });
         });
 
 
