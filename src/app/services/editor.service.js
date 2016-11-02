@@ -58,7 +58,7 @@ class Editor {
   uploadFile(projectId = null, files = [], fields = {}) {
     let Analyser = new this._Analyser();
     let formData = new FormData();
-
+    console.log("editor service", files)
     for (let i = 0, ln = files.length; i < ln; ++i) {
       let file = files[i];
       formData.append("file", file);

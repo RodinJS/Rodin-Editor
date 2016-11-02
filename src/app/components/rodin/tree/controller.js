@@ -180,33 +180,34 @@ class TreeCtrl {
     }).result.then((res)=> {
 
       let zip = new JSZip();
+      let count = 0;
 
       for (let i = 0, ln = res.files.length; i < ln; ++i) {
         let file = res.files[i];
 
         // console.log("zip - file", file)
 
-        zip.file(file);
+
+        let reader = new FileReader();
+
+        reader.onload = (e)=> {
+          var content = e.target.result;
+          zip.file(file.webkitRelativePath, content);
+
+          if (++count == res.files.length) {
+            zip.generateAsync({type: "blob"})
+              .then(function (content) {
+                console.log("content", content);
+
+                self._RodinTree.uploadFolder([content], {
+                  path: res.path,
+                });
+              });
+          }
+        };
+
+        reader.readAsText(file);
       }
-
-      zip.generateAsync({type: "blob"})
-        .then(function (content) {
-          console.log("content", content)
-
-          /* var fileReader = new FileReader();
-           fileReader.onload = function () {
-           console.log("fr", this.result)
-           self._RodinTree.uploadFolder([this.result], {
-           path: res.path,
-           });
-           };
-           fileReader.readAsArrayBuffer(content);
-           */
-          self._RodinTree.uploadFolder([content], {
-            path: res.path,
-          });
-        });
-
 
     });
   }
