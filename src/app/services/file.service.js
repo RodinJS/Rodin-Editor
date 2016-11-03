@@ -31,10 +31,10 @@ class File {
     }
 
     return this._Editor.updateFile(this._RodinIdea.getProjectId(), {
-      content: file.content
-    }, {
-      action: "save",
+      content: file.content,
       filename: file.path
+    }, {
+      action: "save"
     }).then(()=> {
       if (file) {
         file.originalContent = file.content;
@@ -61,7 +61,9 @@ class File {
     }
     reqData.filename = file.path;
 
-    return this._Editor.updateFile(this._RodinIdea.getProjectId(), reqData);
+    return this._Editor.updateFile(this._RodinIdea.getProjectId(), reqData, {
+      action: "rename"
+    });
   }
 
 

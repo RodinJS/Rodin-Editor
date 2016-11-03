@@ -107,10 +107,11 @@ class TreeCtrl {
         return node.name;
       }
     }).result.then((res)=> {
+
       self._RodinTree.renameFile(node, {
-        action: "rename",
-        newName: res.name,
+        newName: res.newName
       });
+
     });
   }
 
