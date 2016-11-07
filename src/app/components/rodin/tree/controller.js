@@ -27,6 +27,7 @@ class TreeCtrl {
 
     this.data = this._RodinTree.data;
     this.treeFilter = "";
+    this._buffer = null;
 
     this.fileMenuOptions = [
       ['Rename...', this._rename],
@@ -50,16 +51,25 @@ class TreeCtrl {
 
     this.treeOptions = {
       beforeDrop: (e) => {
+        let deferred = self._$q.defer();
         let sourceNode = e.source.nodeScope.$modelValue;
         let destNode = e.dest.nodesScope.node;
-
+        let _buffer = this._buffer;
         this._copy(null, null, sourceNode);
 
-        return this._paste(null, null, destNode).then(()=> {
-          alert("success")
+        this._paste(null, null, destNode, null, null, true).then(()=> {
+          this._delete(null, null, sourceNode).then(()=> {
+            deferred.resolve();
+          }, ()=> {
+            deferred.reject();
+          });
         }, ()=> {
-          alert("fail")
+          deferred.reject();
         });
+
+        self._buffer = _buffer;
+
+        return deferred.promise;
       }
     };
 
@@ -185,26 +195,26 @@ class TreeCtrl {
   }
 
   _copy($itemScope, $event, node, text, $li) {
-    self.buffer = node;
+    self._buffer = node;
   }
 
   _paste($itemScope, $event, node, text, $li) {
 
     let deferred = self._$q.defer();
 
-    if (self.buffer) {
+    if (self._buffer) {
       self._Modal.create({
         name: ()=> {
-          return self.buffer.name;
+          return self._buffer.name;
         },
         path: ()=> {
           return node.path;
         },
         srcPath: ()=> {
-          return self.buffer.path;
+          return self._buffer.path;
         },
         type: ()=> {
-          return self.buffer.type;
+          return self._buffer.type;
         }
       }).result.then((res)=> {
         if (res.type === "file") {
@@ -228,6 +238,8 @@ class TreeCtrl {
             deferred.reject(err);
           });
         }
+      }, ()=> {
+        deferred.reject();
       });
     }
 
