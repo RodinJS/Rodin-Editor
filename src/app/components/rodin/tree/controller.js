@@ -190,8 +190,10 @@ class TreeCtrl {
 
   _paste($itemScope, $event, node, text, $li) {
 
+    let deferred = self._$q.defer();
+
     if (self.buffer) {
-      return self._Modal.create({
+      self._Modal.create({
         name: ()=> {
           return self.buffer.name;
         },
@@ -206,30 +208,30 @@ class TreeCtrl {
         }
       }).result.then((res)=> {
         if (res.type === "file") {
-          return self._RodinTree.copyFile(node, {
+          self._RodinTree.copyFile(node, {
             name: res.name,
             path: res.path,
             srcPath: res.srcPath
           }).then((res)=> {
-            self._$q.resolve(res);
+            deferred.resolve(res);
           }, (err)=> {
-            self._$q.reject(err);
+            deferred.reject(err);
           });
         } else {
-          return self._RodinTree.copyFolder(node, {
+          self._RodinTree.copyFolder(node, {
             name: res.name,
             path: res.path,
             srcPath: res.srcPath
           }).then((res)=> {
-            self._$q.resolve(res);
+            deferred.resolve(res);
           }, (err)=> {
-            self._$q.reject(err);
+            deferred.reject(err);
           });
         }
       });
     }
 
-    return false;
+    return deferred.promise;
   }
 
   _uploadFile($itemScope, $event, node, text, $li) {
