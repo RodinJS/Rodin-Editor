@@ -55,7 +55,11 @@ class TreeCtrl {
 
         this._copy(null, null, sourceNode);
 
-        return this._paste(null, null, destNode);
+        return this._paste(null, null, destNode).then(()=> {
+          alert("success")
+        }, ()=> {
+          alert("fail")
+        });
       }
     };
 
@@ -194,29 +198,28 @@ class TreeCtrl {
         path: ()=> {
           return node.path;
         },
-        copyName: ()=> {
+        srcPath: ()=> {
           return self.buffer.path;
         },
         type: ()=> {
           return self.buffer.type;
         }
       }).result.then((res)=> {
-
         if (res.type === "file") {
-          self._RodinTree.copyFile(node, {
-            path: res.path,
-            copyName: res.copyName,
-            name: res.name
+          return self._RodinTree.copyFile(node, {
+            destPath: res.path,
+            srcPath: res.srcPath,
+            copyName: res.name
           }).then((res)=> {
             self._$q.resolve(res);
           }, (err)=> {
             self._$q.reject(err);
           });
         } else {
-          self._RodinTree.copyFolder(node, {
-            path: res.path,
-            copyName: res.copyName,
-            name: res.name
+          return self._RodinTree.copyFolder(node, {
+            destPath: res.path,
+            srcPath: res.srcPath,
+            copyName: res.name
           }).then((res)=> {
             self._$q.resolve(res);
           }, (err)=> {
