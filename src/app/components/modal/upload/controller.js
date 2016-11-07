@@ -7,13 +7,15 @@ import * as _ from "lodash/dist/lodash.min";
 let self;
 
 class UploadCtrl {
-  constructor($scope, $timeout, $document) {
+  constructor($scope, $timeout, $document, RodinTree) {
     'ngInject';
     self = this;
 
     this._$scope = $scope;
     this._$timeout = $timeout;
     this._$document = $document[0];
+
+    this.projectRoot = RodinTree.root;
 
     this.input = null;
 

@@ -15,6 +15,7 @@ class CreateCtrl {
 
     this.name = "";
     this.path = "";
+    this.copyName = "";
     this.type = "";
   }
 
@@ -22,6 +23,7 @@ class CreateCtrl {
   $onInit() {
     this.name = this.resolve.name || "";
     this.path = this.resolve.path || "";
+    this.copyName = this.resolve.copyName || "";
     this.type = this.resolve.type || "";
   }
 
@@ -33,6 +35,7 @@ class CreateCtrl {
     let res = {
       name: this.name,
       path: this.path,
+      copyName: this.copyName,
       type: this.type
     };
 

@@ -8,6 +8,7 @@ import JSZip from "jszip/dist/jszip.min";
 let self;
 
 class TreeCtrl {
+
   constructor($scope, $timeout, Editor, $log, FileUtils, RodinTabs, RodinTree, RodinIdea, Modal, $on, $q) {
     'ngInject';
 
@@ -29,17 +30,34 @@ class TreeCtrl {
 
     this.fileMenuOptions = [
       ['Rename...', this._rename],
+      ['Copy', this._copy],
+      ['Paste', this._paste],
       ['Delete File', this._delete]
     ];
 
     this.directoryMenuOptions = [
       ['New File', this._createFile],
+      ['Upload File', this._uploadFile],
       ['Rename...', this._rename],
+      ['Copy', this._copy],
+      ['Paste', this._paste],
       null,
       ['New Folder', this._createFolder],
+      ['Upload Folder', this._uploadFolder],
       ['Delete Folder', this._delete],
       // ['Find in Folder', this._findInFolder]
     ];
+
+    this.treeOptions = {
+      beforeDrop: (e) => {
+        let sourceNode = e.source.nodeScope.$modelValue;
+        let destNode = e.dest.nodesScope.node;
+
+        this._copy(null, null, sourceNode);
+
+        return this._paste(null, null, destNode);
+      }
+    };
 
     this._$scope.$watch(()=> {
       return this._RodinIdea.getProjectId();
@@ -51,11 +69,19 @@ class TreeCtrl {
 
 
     this._$on("menu-bar:uploadFile", (e, node, model)=> {
-      self._uploadFile();
+      self._uploadFile(null, null, node);
     });
 
     this._$on("menu-bar:uploadFolder", (e, node, model)=> {
-      self._uploadFolder();
+      self._uploadFolder(null, null, node);
+    });
+
+    this._$on("menu-bar:newFile", (e, node, model)=> {
+      self._createFile(null, null, node);
+    });
+
+    this._$on("menu-bar:newFolder", (e, node, model)=> {
+      self._createFolder(null, null, node);
     });
 
   }
@@ -129,13 +155,13 @@ class TreeCtrl {
     }).result.then((res)=> {
       self._RodinTree.createFolder(node, {
         path: res.path,
-        name: res.name,
-        action: "create"
+        name: res.name
       });
     });
   }
 
   _createFile($itemScope, $event, node, text, $li) {
+
     self._Modal.create({
       name: ()=> {
         return "";
@@ -149,17 +175,64 @@ class TreeCtrl {
     }).result.then((res)=> {
       self._RodinTree.createFile(node, {
         path: res.path,
-        name: res.name,
-        action: "create"
+        name: res.name
       });
     });
   }
 
+  _copy($itemScope, $event, node, text, $li) {
+    self.buffer = node;
+  }
 
-  _uploadFile(path = "") {
+  _paste($itemScope, $event, node, text, $li) {
+
+    if (self.buffer) {
+      return self._Modal.create({
+        name: ()=> {
+          return self.buffer.name;
+        },
+        path: ()=> {
+          return node.path;
+        },
+        copyName: ()=> {
+          return self.buffer.path;
+        },
+        type: ()=> {
+          return self.buffer.type;
+        }
+      }).result.then((res)=> {
+
+        if (res.type === "file") {
+          self._RodinTree.copyFile(node, {
+            path: res.path,
+            copyName: res.copyName,
+            name: res.name
+          }).then((res)=> {
+            self._$q.resolve(res);
+          }, (err)=> {
+            self._$q.reject(err);
+          });
+        } else {
+          self._RodinTree.copyFolder(node, {
+            path: res.path,
+            copyName: res.copyName,
+            name: res.name
+          }).then((res)=> {
+            self._$q.resolve(res);
+          }, (err)=> {
+            self._$q.reject(err);
+          });
+        }
+      });
+    }
+
+    return false;
+  }
+
+  _uploadFile($itemScope, $event, node, text, $li) {
     self._Modal.upload({
       path: ()=> {
-        return path;
+        return node.path;
       },
       type: ()=> {
         return "file";
@@ -171,10 +244,10 @@ class TreeCtrl {
     });
   }
 
-  _uploadFolder(path = "") {
+  _uploadFolder($itemScope, $event, node, text, $li) {
     self._Modal.upload({
       path: ()=> {
-        return path;
+        return node.path;
       },
       type: ()=> {
         return "directory";
@@ -221,6 +294,7 @@ class TreeCtrl {
 
     });
   }
+
 }
 
 export default TreeCtrl;

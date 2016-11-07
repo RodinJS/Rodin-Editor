@@ -4,18 +4,14 @@
     Folder
     <a href=""><i class="icon icon-more"></i></a>
   </h3>
-  <div class="clearfix sidebar-menu-wrapper" data-ui-tree id="tree-root">
-    <ul class="sidebar-menu" data-ui-tree-nodes data-ng-model="$ctrl.data">
-      <li data-ng-repeat="child in $ctrl.data"
-          data-ui-tree-node
-          data-nodrag
-          data-ng-class="{
-			    'menu-item':(child.type == 'directory'),
-					'open': true
-					}"
+  <div class="clearfix sidebar-menu-wrapper" data-ui-tree="$ctrl.treeOptions" id="tree-root">
+    <ul class="sidebar-menu">
+      <li class="menu-item open"
+          data-ng-repeat="node in $ctrl.data track by node.index"
           data-ng-include="'components/rodin/tree/subNode.html'"></li>
     </ul>
   </div>
+
   <div class="form-group filter-group">
     <input type="search" class="form-control" data-ng-model="$ctrl.treeFilter" placeholder="&#xF002; Filter">
   </div>

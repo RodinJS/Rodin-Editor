@@ -46,6 +46,12 @@ class File {
 
 
   create(reqData = {}) {
+    reqData.action = "create";
+    return this._Editor.createFile(this._RodinIdea.getProjectId(), reqData);
+  }
+
+  copy(reqData = {}) {
+    reqData.action = "copy";
     return this._Editor.createFile(this._RodinIdea.getProjectId(), reqData);
   }
 
