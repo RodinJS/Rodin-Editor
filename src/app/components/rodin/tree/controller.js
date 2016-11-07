@@ -207,9 +207,9 @@ class TreeCtrl {
       }).result.then((res)=> {
         if (res.type === "file") {
           return self._RodinTree.copyFile(node, {
-            destPath: res.path,
-            srcPath: res.srcPath,
-            copyName: res.name
+            name: res.name,
+            path: res.path,
+            srcPath: res.srcPath
           }).then((res)=> {
             self._$q.resolve(res);
           }, (err)=> {
@@ -217,9 +217,9 @@ class TreeCtrl {
           });
         } else {
           return self._RodinTree.copyFolder(node, {
-            destPath: res.path,
-            srcPath: res.srcPath,
-            copyName: res.name
+            name: res.name,
+            path: res.path,
+            srcPath: res.srcPath
           }).then((res)=> {
             self._$q.resolve(res);
           }, (err)=> {
