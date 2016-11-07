@@ -54,20 +54,24 @@ class TreeCtrl {
         let deferred = self._$q.defer();
         let sourceNode = e.source.nodeScope.$modelValue;
         let destNode = e.dest.nodesScope.node;
-        let _buffer = this._buffer;
-        this._copy(null, null, sourceNode);
+        if (sourceNode.parent !== destNode.path) {
+          let _buffer = this._buffer;
+          this._copy(null, null, sourceNode);
 
-        this._paste(null, null, destNode, null, null, true).then(()=> {
-          this._delete(null, null, sourceNode).then(()=> {
-            deferred.resolve();
+          this._paste(null, null, destNode, null, null, true).then(()=> {
+            self._RodinTree.deleteFile(sourceNode).then(()=> {
+              deferred.resolve();
+            }, ()=> {
+              deferred.reject();
+            });
           }, ()=> {
             deferred.reject();
           });
-        }, ()=> {
-          deferred.reject();
-        });
 
-        self._buffer = _buffer;
+          self._buffer = _buffer;
+        } else {
+          deferred.reject();
+        }
 
         return deferred.promise;
       }
