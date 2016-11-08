@@ -9,7 +9,7 @@ let self;
 
 class TreeCtrl {
 
-  constructor($scope, $timeout, Editor, $log, FileUtils, RodinTabs, RodinTree, RodinIdea, Modal, $on, $q) {
+  constructor($scope, $timeout, Editor, $log, FileUtils, RodinTabs, RodinTree, RodinIdea, Modal, $on, $q, Notification) {
     'ngInject';
 
     self = this;
@@ -21,6 +21,7 @@ class TreeCtrl {
     this._FileUtils = FileUtils;
     this._RodinIdea = RodinIdea;
     this._Modal = Modal;
+    this._Notification = Notification;
     this._$log = $log;
     this._$q = $q;
     this._$on = $on;
@@ -54,22 +55,26 @@ class TreeCtrl {
         let deferred = self._$q.defer();
         let sourceNode = e.source.nodeScope.$modelValue;
         let destNode = e.dest.nodesScope.node;
-        if (sourceNode.parent !== destNode.path) {
+        if (sourceNode.parent !== destNode.path && destNode.type === "directory") {
           let _buffer = this._buffer;
           this._copy(null, null, sourceNode);
 
           this._paste(null, null, destNode, null, null, true).then(()=> {
             self._RodinTree.deleteFile(sourceNode).then(()=> {
+              this._Notification.success("File successfully moved.");
               deferred.resolve();
             }, ()=> {
+              this._Notification.warning("File successfully moved, but original file can't be removed.");
               deferred.reject();
             });
           }, ()=> {
+            this._Notification.error("Can't move file");
             deferred.reject();
           });
 
           self._buffer = _buffer;
         } else {
+          this._Notification.error("Can't move file");
           deferred.reject();
         }
 

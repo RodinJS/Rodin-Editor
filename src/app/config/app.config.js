@@ -16,11 +16,11 @@ function AppConfig(RestangularProvider, $stateProvider, $locationProvider, $urlR
   NotificationProvider.setOptions({
     delay: 5000,
     maxCount: 10,
-    startTop: 20,
+    startTop: 40,
     startRight: 10,
     verticalSpacing: 20,
     horizontalSpacing: 20,
-    positionX: 'left',
+    positionX: 'right',
     positionY: 'top'
   });
 
