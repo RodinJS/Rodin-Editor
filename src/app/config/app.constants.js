@@ -2,11 +2,11 @@
  * Created by kh.levon98 on 13-Sep-16.
  */
 const AppConstants = {
-  env: "dev",
+  env: "local",
   jwtKey: 'token',
   appName: 'Rodin',
 
-  dev: {
+  local: {
     COOKIEDOMAIN: ['localhost', '.rodin.space'],
     // API: 'http://192.168.0.30:3000/api',
     API: 'https://api.rodin.space/api',
@@ -16,8 +16,16 @@ const AppConstants = {
     PUBLIC: 'https://api.rodin.space/public/',
     EDITOR: 'http://localhost:8000/#/',
   },
+  dev: {
+    COOKIEDOMAIN: ['.rodin.space'],
+    API: 'https://api.rodin.space/api',
+    SITE: 'https://rodin.space/',
+    PREVIEW: 'https://api.rodin.space/preview/',
+    PUBLIC: 'https://api.rodin.space/public/',
+    EDITOR: 'https://editor.rodin.space/',
+  },
   prod: {
-    COOKIEDOMAIN: ['.rodinapp.com', '.rodin.space'],
+    COOKIEDOMAIN: ['.rodinapp.com'],
     API: 'https://api.' + window.extractDomain() + '/api',
     SITE: 'https://' + window.extractDomain() + '/',
     PREVIEW: 'https://api.' + window.extractDomain() + '/preview/',

@@ -2,7 +2,7 @@
  * Created by kh.levon98 on 13-Sep-16.
  */
 
-function AppConfig(RestangularProvider, $stateProvider, $locationProvider, $urlRouterProvider, AppConstants) {
+function AppConfig(RestangularProvider, $stateProvider, $locationProvider, $urlRouterProvider, AppConstants, $logProvider, NotificationProvider) {
   'ngInject';
 
   RestangularProvider.setBaseUrl(AppConstants.API);
@@ -13,8 +13,44 @@ function AppConfig(RestangularProvider, $stateProvider, $locationProvider, $urlR
   });
 
 
-  if (AppConstants.env == "prod") {
+  NotificationProvider.setOptions({
+    delay: 5000,
+    maxCount: 10,
+    startTop: 20,
+    startRight: 10,
+    verticalSpacing: 20,
+    horizontalSpacing: 20,
+    positionX: 'left',
+    positionY: 'top'
+  });
+
+
+  if (AppConstants.env !== "local") {
     $locationProvider.html5Mode(true);
+
+    if (AppConstants.env === "prod") {
+
+      $logProvider.debugEnabled(false);
+
+      console.log = ()=> {
+
+      };
+
+      console.warn = ()=> {
+
+      };
+
+      console.info = ()=> {
+
+      };
+
+      /*
+       console.error = ()=> {
+
+       }
+       */
+
+    }
   }
 
 
