@@ -127,16 +127,16 @@ class User {
   }
 
 
-  ensureAuthIs(bool = false) {
+  ensureAuthIs() {
     let deferred = this._$q.defer();
+
     this.verifyAuth().then((authValid) => {
-      if (authValid !== bool) {
+      deferred.resolve(authValid);
+
+      if (!authValid) {
         this._$timeout(()=> {
           this._$window.location.href = this._AppConstants.SITE;
         }, 100);
-        deferred.resolve(false);
-      } else {
-        deferred.resolve(true);
       }
 
     });

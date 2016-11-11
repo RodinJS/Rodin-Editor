@@ -30,6 +30,15 @@ class TreeCtrl {
     this.treeFilter = "";
     this._buffer = null;
 
+    this.rootMenuOptions =  [
+      ['New File', this._createFile],
+      ['Upload File', this._uploadFile],
+      null,
+      ['New Folder', this._createFolder],
+      ['Upload Folder', this._uploadFolder],
+      // ['Find in Folder', this._findInFolder]
+    ];
+
     this.fileMenuOptions = [
       ['Rename...', this._rename],
       ['Copy', this._copy],
@@ -74,7 +83,6 @@ class TreeCtrl {
 
           self._buffer = _buffer;
         } else {
-          this._Notification.error("Can't move file");
           deferred.reject();
         }
 

@@ -1,6 +1,6 @@
 <a data-ng-if="node.parent === '..'"
    class="text-small tree-node tree-node-content menu-item-header btn-menu-drop"
-   data-context-menu="::$ctrl[node.type+'MenuOptions']"
+   data-context-menu="$ctrl.rootMenuOptions"
    data-model="node">
 
       <span class="item-header-inner">
@@ -43,7 +43,7 @@
     data-ui-tree-nodes
     data-ng-model="node.children">
 
-  <li data-ng-repeat="node in node.children track by node.index"
+  <li data-ng-repeat="node in node.children"
       data-ui-tree-node
       data-ng-class="{
         'menu-item':$ctrl.isFolder(node),
