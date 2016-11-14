@@ -30,7 +30,7 @@ class TreeCtrl {
     this.treeFilter = "";
     this._buffer = null;
 
-    this.rootMenuOptions =  [
+    this.rootMenuOptions = [
       ['New File', this._createFile],
       ['Upload File', this._uploadFile],
       null,
@@ -42,7 +42,6 @@ class TreeCtrl {
     this.fileMenuOptions = [
       ['Rename...', this._rename],
       ['Copy', this._copy],
-      ['Paste', this._paste],
       ['Delete File', this._delete]
     ];
 
@@ -219,7 +218,7 @@ class TreeCtrl {
 
     let deferred = self._$q.defer();
 
-    if (self._buffer) {
+    if (self._buffer && node.type === "directory") {
       self._Modal.create({
         name: ()=> {
           return self._buffer.name;
