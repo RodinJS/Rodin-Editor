@@ -19,7 +19,7 @@
 
 <div data-ui-view class="app-container clearfix"></div>
 
-<script type="text/javascript" src="/scripts/systemjs/system.src.js"></script>
+<script type="text/javascript" src="/scripts/vendor/systemjs/system.js"></script>
 <script>
 
   (function (System) {
@@ -54,8 +54,8 @@
 
   System.config({
     map: {
-      css: '/scripts/systemjs/css.js',  // path to css.js file
-      snippets: '/scripts/systemjs/snippets.js'  // path to snippets.js file
+      css: '/scripts/vendor/systemjs/css.js',  // path to css.js file
+      snippets: '/scripts/vendor/systemjs/snippets.js'  // path to snippets.js file
     },
     paths: {
       '*': 'scripts/vendor/*',
@@ -82,7 +82,7 @@
 <!-- Google Analytics -->
 <script>
   var host = window.location.host;
-  if (host.indexOf("rodinapp.com") !== -1) {
+  if (host.indexOf("rodinapp.com") !== -1 || host.indexOf("rodin.io") !== -1) {
     (function (i, s, o, g, r, a, m) {
       i['GoogleAnalyticsObject'] = r;
       i[r] = i[r] || function () {
