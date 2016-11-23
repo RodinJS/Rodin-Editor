@@ -4,7 +4,7 @@
 let self;
 
 class PreviewCtrl {
-  constructor($scope, RodinPreview, RodinTabs, RodinTree, RodinTabsConstants, $on, User, AppConstants, $stateParams) {
+  constructor($scope, RodinPreview, RodinTabs, RodinTree, RodinTabsConstants, $on, User, AppConstants, Socket) {
     'ngInject';
 
     self = this;
@@ -14,6 +14,7 @@ class PreviewCtrl {
     this._RodinPreview = RodinPreview;
     this._RodinTabs = RodinTabs;
     this._RodinTree = RodinTree;
+    this._Socket = Socket;
 
 
     this.currentUser = User.current;
@@ -24,17 +25,23 @@ class PreviewCtrl {
       "change": this._switchTab
     };
 
-    $on(`tabs:${this.tabsComponentId}:change-active-tab`, ()=> {
+    this._$on(`tabs:${this.tabsComponentId}:change-active-tab`, () => {
       this.tab = this._RodinTabs.get(this.tabsComponentId);
     });
 
 
     ///////// subscribe menu-bar events //////////
 
-    this._$on("menu-bar:run", (e, node, model)=> {
+    this._$on("menu-bar:run", (e, node, model) => {
       self._RodinPreview.run();
     });
 
+    console.log("this._Socket", this._Socket)
+    ///////// subscribe builder events //////////
+    this._Socket.on("projectTranspiled", (data) => {
+      console.log("projectTranspiled", data);
+      this._RodinPreview.update(false, true);
+    });
   }
 
 

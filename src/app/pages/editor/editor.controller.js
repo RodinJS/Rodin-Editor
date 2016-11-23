@@ -1,5 +1,5 @@
 class EditorCtrl {
-  constructor(AppConstants, $stateParams, Project, $state, $scope, RodinIdea, Socket) {
+  constructor(AppConstants, $stateParams, Project, $state, $scope, RodinIdea) {
     'ngInject';
 
     this.appName = AppConstants.appName;
@@ -8,7 +8,6 @@ class EditorCtrl {
     this._$state = $state;
     this._$scope = $scope;
     this._RodinIdea = RodinIdea;
-    this._Socket = Socket;
     this.projectId = null;
 
     this._Project.get(this._$stateParams.projectFolder).then((data)=> {
@@ -19,10 +18,6 @@ class EditorCtrl {
       this.projectId = this._RodinIdea.getProjectId();
     }, (errors)=> {
       this._$state.go('app.error');
-    });
-
-    Socket.on('projectTranspiled', (data)=>{
-      console.log('pushed', data);
     });
 
   }
