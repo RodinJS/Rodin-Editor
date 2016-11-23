@@ -1,6 +1,7 @@
 /**
  * Created by kh.levon98 on 20-Sep-16.
  */
+let verificationPromise;
 class User {
   constructor(JWT, AppConstants, Restangular, Validator, $state, $q, $window, $timeout, Analyser) {
     'ngInject';
@@ -46,12 +47,12 @@ class User {
   }
 
   signUp(fields = {}) {
-    return this.create(fields).then((res)=> {
+    return this.create(fields).then((res) => {
       this._JWT.save(res.token);
       this.current = res.user;
 
       return res;
-    }, err=> {
+    }, err => {
       return err;
     })
   }
@@ -76,7 +77,7 @@ class User {
     this.current = null;
     this._JWT.destroy();
 
-    this._$timeout(()=> {
+    this._$timeout(() => {
       this._$window.location.href = this._AppConstants.SITE;
     }, 100);
   }
@@ -92,13 +93,21 @@ class User {
     if (this.current) {
       deferred.resolve(true);
     } else {
+      if (verificationPromise) {
+        return verificationPromise;
+      }
+
       this._User.one("me").get().then((res) => {
         this.current = res.data;
+        verificationPromise = null;
         deferred.resolve(true);
       }, (err) => {
         this._JWT.destroy();
+        verificationPromise = null;
         deferred.resolve(false);
       });
+
+      verificationPromise = deferred.promise;
     }
     return deferred.promise;
   }
@@ -111,7 +120,7 @@ class User {
       deferred.resolve(authValid);
 
       if (!authValid) {
-        this._$timeout(()=> {
+        this._$timeout(() => {
           this._$window.location.href = this._AppConstants.SITE;
         }, 100);
       }

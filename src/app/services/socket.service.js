@@ -7,27 +7,28 @@ import * as _ from "lodash/dist/lodash.min";
 
 
 class Socket {
-  constructor(JWT, AppConstants, Restangular, Validator, $state, $q, Analyser) {
+  constructor(JWT, AppConstants, Restangular, Validator, $state, $q, Analyser, User) {
     'ngInject';
     this._JWT = JWT;
     this._AppConstants = AppConstants;
     this._Projects = Restangular.all('socket');
+    this._User = User;
     this._$state = $state;
     this._$q = $q;
     this._Validator = new Validator();
     this._Analyser = Analyser;
 
     this._socket = null;
-  }
 
-  init(params = {}) {
+    this._User.verifyAuth().then(() => {
+      if (!this._socket) {
+        let params = {
+          query: `x-access-token=${this.JWT.get()}`
+        };
 
-    if (!this._socket) {
-      params["x-access-token"] = this._JWT.get();
-      this._socket = io.connect('', params);
-    }
-
-    return this._socket;
+        this._socket = io.connect('', params);
+      }
+    })
   }
 
   on(eventName = "", callback) {
