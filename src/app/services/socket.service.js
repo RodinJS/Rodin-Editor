@@ -7,7 +7,7 @@ import * as _ from "lodash/dist/lodash.min";
 
 
 class Socket {
-  constructor(JWT, AppConstants, Restangular, Validator, $state, $q, Analyser, User) {
+  constructor(JWT, AppConstants, Restangular, Validator, $state, $q, $rootScope, Analyser, User) {
     'ngInject';
     this._JWT = JWT;
     this._AppConstants = AppConstants;
@@ -15,6 +15,7 @@ class Socket {
     this._User = User;
     this._$state = $state;
     this._$q = $q;
+    this._$rootScope = $rootScope;
     this._Validator = new Validator();
     this._Analyser = Analyser;
 
