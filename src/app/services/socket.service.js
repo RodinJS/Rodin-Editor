@@ -20,14 +20,14 @@ class Socket {
     this._Analyser = Analyser;
 
     this._socket = null;
-
     this._User.verifyAuth().then(() => {
       if (!this._socket) {
         let params = {
-          query: `x-access-token=${this.JWT.get()}`
+          query: `token=${this._JWT.get()}`
         };
 
-        this._socket = io.connect('', params);
+        this._socket = io.connect(AppConstants.API+"/", params);
+        console.log(this._socket);
       }
     })
   }
