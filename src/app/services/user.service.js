@@ -2,7 +2,7 @@
  * Created by kh.levon98 on 20-Sep-16.
  */
 class User {
-  constructor(JWT, AppConstants, Restangular, Validator, $state, $q, $window, $timeout) {
+  constructor(JWT, AppConstants, Restangular, Validator, $state, $q, $window, $timeout, Analyser) {
     'ngInject';
 
     this._JWT = JWT;
@@ -15,6 +15,7 @@ class User {
     this._$window = $window;
     this._$timeout = $timeout;
     this._Validator = new Validator();
+    this._Analyser = Analyser;
 
     this.current = null;
     this._inProgress = false;
@@ -56,43 +57,19 @@ class User {
   }
 
   update(userId = null, fields = {}) {
-    let deferred = this._$q.defer();
+    let Analyser = new this._Analyser();
 
-    this._User.put(fields).then((result) => {
-      this._Validator.validateHTTP(result);
-      if (this._Validator.isValidHTTP()) {
-        let response = this._Validator.getDataHTTP();
-        deferred.resolve(response);
-      } else {
-        deferred.reject(this._Validator.getErrorsHTTP());
-      }
-    }, (result) => {
-      this._Validator.validateHTTP(result.data);
+    this._User.put(fields).then(Analyser.resolve, Analyser.reject);
 
-      deferred.reject(this._Validator.getErrorsHTTP());
-    });
-
-    return deferred.promise;
+    return Analyser.promise;
   }
 
   create(fields = {}) {
-    let deferred = this._$q.defer();
+    let Analyser = new this._Analyser();
 
-    this._User.post(fields).then((result) => {
-      this._Validator.validateHTTP(result);
-      if (this._Validator.isValidHTTP()) {
-        let response = this._Validator.getDataHTTP();
-        deferred.resolve(response);
-      } else {
-        deferred.reject(this._Validator.getErrorsHTTP());
-      }
-    }, (result) => {
-      this._Validator.validateHTTP(result.data);
+    this._User.post(fields).then(Analyser.resolve, Analyser.reject);
 
-      deferred.reject(this._Validator.getErrorsHTTP());
-    });
-
-    return deferred.promise;
+    return Analyser.promise;
   }
 
   logout() {
