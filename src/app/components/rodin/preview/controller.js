@@ -47,7 +47,7 @@ class PreviewCtrl {
 
 
   updatePreview() {
-    this._RodinPreview.update(true);
+    this._RodinPreview.update(true, true);
   }
 
 
