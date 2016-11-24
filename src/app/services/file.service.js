@@ -2,13 +2,14 @@
  * Created by kh.levon98 on 28-Oct-16.
  */
 class File {
-  constructor(Editor, RodinIdea, RodinPreview) {
+  constructor(Editor, RodinIdea, RodinPreview, Project, Notification) {
     'ngInject';
 
     this._Editor = Editor;
     this._RodinIdea = RodinIdea;
     this._RodinPreview = RodinPreview;
-
+    this._Project = Project;
+    this._Notification = Notification;
   }
 
 
@@ -35,12 +36,17 @@ class File {
       filename: file.path
     }, {
       action: "save"
-    }).then(()=> {
+    }).then(() => {
       if (file) {
         file.originalContent = file.content;
         file.isUnsaved = false;
       }
-      this._RodinPreview.update();
+
+
+      this._Project.buildCode(this._RodinIdea.getProjectId()).then(()=>{
+        this._Notification.info("Build started.");
+      });
+      // this._RodinPreview.update();
     });
   }
 

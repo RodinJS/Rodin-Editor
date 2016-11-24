@@ -4,7 +4,7 @@
 let self;
 
 class PreviewCtrl {
-  constructor($scope, RodinPreview, RodinTabs, RodinTree, RodinTabsConstants, $on, User, AppConstants, Socket) {
+  constructor($scope, RodinPreview, RodinTabs, RodinTree, RodinTabsConstants, $on, User, Notification, Socket) {
     'ngInject';
 
     self = this;
@@ -14,6 +14,7 @@ class PreviewCtrl {
     this._RodinPreview = RodinPreview;
     this._RodinTabs = RodinTabs;
     this._RodinTree = RodinTree;
+    this._Notification = Notification;
     this._Socket = Socket;
 
 
@@ -39,7 +40,7 @@ class PreviewCtrl {
     console.log("this._Socket", this._Socket)
     ///////// subscribe builder events //////////
     this._Socket.on("projectTranspiled", (data) => {
-      console.log("projectTranspiled", data);
+      this._Notification.success("Build finished.");
       this._RodinPreview.update(false, true);
     });
   }

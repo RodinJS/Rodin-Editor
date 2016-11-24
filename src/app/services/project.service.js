@@ -54,6 +54,14 @@ class Project {
     return Analyser.promise;
   }
 
+  buildCode(projectId = null, fields = {}) {
+    let Analyser = new this._Analyser();
+
+    this._Projects.one(projectId).one("build", "transpile").get(fields).then(Analyser.resolve, Analyser.reject);
+
+    return Analyser.promise;
+  }
+
 }
 
 export default Project;

@@ -5,6 +5,7 @@
 import * as io from 'socket.io-client/socket.io.min';
 import * as _ from "lodash/dist/lodash.min";
 
+let queue = [];
 
 class Socket {
   constructor(JWT, AppConstants, Restangular, Validator, $state, $q, $rootScope, Analyser, User) {
@@ -26,30 +27,60 @@ class Socket {
           query: `token=${this._JWT.get()}`
         };
 
-        this._socket = io.connect(AppConstants.API+"/", params);
-        console.log(this._socket);
+        this._socket = io.connect(AppConstants.API + "/", params);
+
+        if (queue.length) {
+          for (let i = 0, ln = queue.length; i < ln; ++i) {
+            let action = queue[i];
+
+            if (action.name = "on") {
+              this.on(action.eventName, action.callback);
+            } else if (action.name = "emit") {
+              this.emit(action.eventName, action.data, action.callback);
+            }
+          }
+          queue.splice(0, queue.length);
+        }
       }
     })
   }
 
   on(eventName = "", callback) {
-    this._socket.on(eventName, (...args) => {
-      this._$rootScope.$apply(() => {
-        if (callback && _.isFunction(callback)) {
-          callback.apply(this._socket, args);
-        }
+    if (this._socket) {
+      this._socket.on(eventName, (...args) => {
+        this._$rootScope.$apply(() => {
+          if (callback && _.isFunction(callback)) {
+            callback.apply(this._socket, args);
+          }
+        });
       });
-    })
+    } else {
+      queue.push({
+        name: "on",
+        eventName: eventName,
+        callback: callback
+      })
+    }
   };
 
   emit(eventName = "", data = {}, callback) {
-    this._socket.emit(eventName, data, (...args) => {
-      this._$rootScope.$apply(() => {
-        if (callback && _.isFunction(callback)) {
-          callback.apply(this._socket, args);
-        }
+    if (this._socket) {
+      this._socket.emit(eventName, data, (...args) => {
+        this._$rootScope.$apply(() => {
+          if (callback && _.isFunction(callback)) {
+            callback.apply(this._socket, args);
+          }
+        });
       });
-    })
+    } else {
+      queue.push({
+        name: "emit",
+        eventName: eventName,
+        data: data,
+        callback: callback
+      })
+    }
+
   };
 
 }
