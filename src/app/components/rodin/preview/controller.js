@@ -37,10 +37,11 @@ class PreviewCtrl {
       self._RodinPreview.run();
     });
 
-    console.log("this._Socket", this._Socket)
+
     ///////// subscribe builder events //////////
     this._Socket.on("projectTranspiled", (data) => {
       this._Notification.success("Build finished.");
+      this._RodinTree.update();
       this._RodinPreview.update(false, true);
     });
   }

@@ -21,6 +21,7 @@ class Socket {
     this._Analyser = Analyser;
 
     this._socket = null;
+    return;
     this._User.verifyAuth().then(() => {
       if (!this._socket) {
         let params = {
