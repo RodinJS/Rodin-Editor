@@ -21,11 +21,12 @@ class Socket {
     this._Analyser = Analyser;
 
     this._socket = null;
-    return;
+
     this._User.verifyAuth().then(() => {
       if (!this._socket) {
         let params = {
-          query: `token=${this._JWT.get()}`
+          query: `token=${this._JWT.get()}`,
+          transports: ['websocket', 'polling']
         };
 
         this._socket = io.connect(AppConstants.API + "/", params);
