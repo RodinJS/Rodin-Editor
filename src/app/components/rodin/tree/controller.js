@@ -67,15 +67,15 @@ class TreeCtrl {
           let _buffer = this._buffer;
           this._copy(null, null, sourceNode);
 
-          this._paste(null, null, destNode, null, null, true).then(()=> {
-            self._RodinTree.deleteFile(sourceNode).then(()=> {
+          this._paste(null, null, destNode, null, null, true).then(() => {
+            self._RodinTree.deleteFile(sourceNode).then(() => {
               this._Notification.success("File successfully moved.");
               deferred.resolve();
-            }, ()=> {
+            }, () => {
               this._Notification.warning("File successfully moved, but original file can't be removed.");
               deferred.reject();
             });
-          }, ()=> {
+          }, () => {
             this._Notification.error("Can't move file");
             deferred.reject();
           });
@@ -89,28 +89,28 @@ class TreeCtrl {
       }
     };
 
-    this._$scope.$watch(()=> {
+    this._$scope.$watch(() => {
       return this._RodinIdea.getProjectId();
-    }, (id)=> {
+    }, (id) => {
       if (id) {
         this._RodinTree.update(["index.js", "index.html", ".html", ".js"]);
       }
     });
 
 
-    this._$on("menu-bar:uploadFile", (e, node, model)=> {
+    this._$on("menu-bar:uploadFile", (e, node, model) => {
       self._uploadFile(null, null, node);
     });
 
-    this._$on("menu-bar:uploadFolder", (e, node, model)=> {
+    this._$on("menu-bar:uploadFolder", (e, node, model) => {
       self._uploadFolder(null, null, node);
     });
 
-    this._$on("menu-bar:newFile", (e, node, model)=> {
+    this._$on("menu-bar:newFile", (e, node, model) => {
       self._createFile(null, null, node);
     });
 
-    this._$on("menu-bar:newFolder", (e, node, model)=> {
+    this._$on("menu-bar:newFolder", (e, node, model) => {
       self._createFolder(null, null, node);
     });
 
@@ -149,20 +149,20 @@ class TreeCtrl {
 
   _delete($itemScope, $event, node, text, $li) {
     self._Modal.confirm({
-      message: ()=> {
+      message: () => {
         return `Are you sure delete ${node.type}: ${node.name}`;
       }
-    }).result.then((res)=> {
+    }).result.then((res) => {
       self._RodinTree.deleteFile(node);
     });
   }
 
   _rename($itemScope, $event, node, text, $li) {
     self._Modal.rename({
-      name: ()=> {
+      name: () => {
         return node.name;
       }
-    }).result.then((res)=> {
+    }).result.then((res) => {
 
       self._RodinTree.renameFile(node, {
         newName: res.newName
@@ -173,16 +173,16 @@ class TreeCtrl {
 
   _createFolder($itemScope, $event, node, text, $li) {
     self._Modal.create({
-      name: ()=> {
+      name: () => {
         return "";
       },
-      path: ()=> {
+      path: () => {
         return node.path;
       },
-      type: ()=> {
+      type: () => {
         return "directory";
       }
-    }).result.then((res)=> {
+    }).result.then((res) => {
       self._RodinTree.createFolder(node, {
         path: res.path,
         name: res.name
@@ -193,16 +193,16 @@ class TreeCtrl {
   _createFile($itemScope, $event, node, text, $li) {
 
     self._Modal.create({
-      name: ()=> {
+      name: () => {
         return "";
       },
-      path: ()=> {
+      path: () => {
         return node.path;
       },
-      type: ()=> {
+      type: () => {
         return "file";
       }
-    }).result.then((res)=> {
+    }).result.then((res) => {
       self._RodinTree.createFile(node, {
         path: res.path,
         name: res.name
@@ -220,27 +220,27 @@ class TreeCtrl {
 
     if (self._buffer && node.type === "directory") {
       self._Modal.create({
-        name: ()=> {
+        name: () => {
           return self._buffer.name;
         },
-        path: ()=> {
+        path: () => {
           return node.path;
         },
-        srcPath: ()=> {
+        srcPath: () => {
           return self._buffer.path;
         },
-        type: ()=> {
+        type: () => {
           return self._buffer.type;
         }
-      }).result.then((res)=> {
+      }).result.then((res) => {
         if (res.type === "file") {
           self._RodinTree.copyFile(node, {
             name: res.name,
             path: res.path,
             srcPath: res.srcPath
-          }).then((res)=> {
+          }).then((res) => {
             deferred.resolve(res);
-          }, (err)=> {
+          }, (err) => {
             deferred.reject(err);
           });
         } else {
@@ -248,13 +248,13 @@ class TreeCtrl {
             name: res.name,
             path: res.path,
             srcPath: res.srcPath
-          }).then((res)=> {
+          }).then((res) => {
             deferred.resolve(res);
-          }, (err)=> {
+          }, (err) => {
             deferred.reject(err);
           });
         }
-      }, ()=> {
+      }, () => {
         deferred.reject();
       });
     }
@@ -264,13 +264,13 @@ class TreeCtrl {
 
   _uploadFile($itemScope, $event, node, text, $li) {
     self._Modal.upload({
-      path: ()=> {
+      path: () => {
         return node.path;
       },
-      type: ()=> {
+      type: () => {
         return "file";
       }
-    }).result.then((res)=> {
+    }).result.then((res) => {
       self._RodinTree.uploadFile(res.files, {
         path: res.path,
       });
@@ -279,13 +279,13 @@ class TreeCtrl {
 
   _uploadFolder($itemScope, $event, node, text, $li) {
     self._Modal.upload({
-      path: ()=> {
+      path: () => {
         return node.path;
       },
-      type: ()=> {
+      type: () => {
         return "directory";
       }
-    }).result.then((res)=> {
+    }).result.then((res) => {
 
       let zip = new JSZip();
       let deferred = self._$q.defer();
@@ -295,19 +295,17 @@ class TreeCtrl {
         let file = res.files[i];
         let deferred = self._$q.defer();
 
-        promise.then(()=> {
+        promise.then(() => {
           let reader = new FileReader();
           let filePath = file.webkitRelativePath || file.name;
 
-          console.log("file - ", i, file);
-
-          reader.onload = (e)=> {
-            zip.file(filePath, e.target.result);
+          reader.onload = (e) => {
+            zip.file(filePath, e.target.result, {binary: true});
 
             deferred.resolve(true);
           };
 
-          reader.readAsText(file);
+          reader.readAsBinaryString(file);
         });
 
         promise = deferred.promise;
@@ -315,8 +313,7 @@ class TreeCtrl {
 
       deferred.resolve(true);
 
-      promise.then(()=> {
-        console.log("end")
+      promise.then(() => {
         zip.generateAsync({type: "blob"})
           .then(function (content) {
             self._RodinTree.uploadFolder([content], {
