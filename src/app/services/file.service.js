@@ -44,7 +44,7 @@ class File {
 
 
       this._Project.buildCode(this._RodinIdea.getProjectId()).then(()=>{
-        this._Notification.info("Build started.");
+        this._Notification.info("Transpile started.");
       });
       // this._RodinPreview.update();
     });

@@ -17,7 +17,7 @@ class Socket {
     this._$state = $state;
     this._$q = $q;
     this._$rootScope = $rootScope;
-    this._Validator = new Validator();
+    this._Validator = Validator;
     this._Analyser = Analyser;
 
     this._socket = null;
@@ -48,13 +48,19 @@ class Socket {
   }
 
   on(eventName = "", callback) {
+
     if (this._socket) {
-      this._socket.on(eventName, (...args) => {
-        this._$rootScope.$apply(() => {
-          if (callback && _.isFunction(callback)) {
-            callback.apply(this._socket, args);
-          }
-        });
+      this._socket.on(eventName, (result) => {
+        if (callback && _.isFunction(callback)) {
+          this._$rootScope.$apply(() => {
+
+            const Validator = new this._Validator();
+
+            Validator.validateHTTP(result);
+
+            return callback.apply(this._socket, [Validator.getDataHTTP(), Validator.getErrorsHTTP()]);
+          });
+        }
       });
     } else {
       queue.push({
@@ -63,6 +69,7 @@ class Socket {
         callback: callback
       })
     }
+
   };
 
   emit(eventName = "", data = {}, callback) {

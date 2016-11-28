@@ -39,10 +39,30 @@ class PreviewCtrl {
 
 
     ///////// subscribe builder events //////////
-    this._Socket.on("projectTranspiled", (data) => {
-      this._Notification.success("Build finished.");
-      this._RodinTree.update();
-      this._RodinPreview.update(false, true);
+    this._Socket.on("projectTranspiled", (data, error) => {
+      if (!error.length) {
+        this._Notification.success("Transpile finished.");
+        this._RodinTree.update();
+        this._RodinPreview.update(false, true);
+      } else {
+        let err = error[0];
+        let message = "";
+
+        switch (err.code) {
+          case 606:
+            message = `${err.data.name}<br/>${err.data.message}`;
+            break;
+          case 607:
+            message = "Transpile in progress, please wait until done.";
+            return this._Notification.warning(message);
+            break;
+          default:
+            message = err.error;
+            break;
+        }
+
+        this._Notification.error(message);
+      }
     });
   }
 

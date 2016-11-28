@@ -8,8 +8,8 @@ const AppConstants = {
 
   local: {
     COOKIEDOMAIN: ['localhost', '.rodin.space'],
-    API: 'https://api.rodin.space/api',
-    // API: 'http://localhost:3000/api',
+    // API: 'https://api.rodin.space/api',
+    API: 'http://localhost:3000/api',
     SITE: 'http://localhost:8585/#/',
     PREVIEW: 'https://api.rodin.space/preview/',
     PUBLIC: 'https://api.rodin.space/public/',
@@ -192,6 +192,18 @@ const AppConstants = {
     },
     "604": {
       "message": "UNKNOWN_SOCKET_ACTION",
+      "field": ""
+    },
+    "605": {
+      "message": "SOCKET_ACTION_SUCCESS",
+      "field": ""
+    },
+    "606": {
+      "message": "SOCKET_ACTION_FAIL",
+      "field": ""
+    },
+    "607": {
+      "message": "SOCKET_ACTION_IN_PROGRESS",
       "field": ""
     }
   }
