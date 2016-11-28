@@ -16,6 +16,7 @@ class Editor {
 
   getProject(projectId = null, fields = {}) {
     let Analyser = new this._Analyser();
+    fields.getAll = true;
 
     this._Editors.one(projectId).get(fields).then(Analyser.resolve, Analyser.reject);
 
