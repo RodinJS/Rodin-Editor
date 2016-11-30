@@ -133,7 +133,8 @@ function Validator(AppConstants, $log) {
           errors.push({
             fieldName: error.field,
             code: backErrors.status,
-            error: error.message
+            error: error.message,
+            data: backErrors
           })
         } else {
           error = ERRORCODES[defaultCode];
@@ -161,8 +162,6 @@ function Validator(AppConstants, $log) {
      * @return {Array}
      * */
     function getErrorsHTTP() {
-      console.error("\n---------------\n")
-      console.log(errors)
       return errors;
     }
 

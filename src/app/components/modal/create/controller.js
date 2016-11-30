@@ -16,6 +16,9 @@ class CreateCtrl {
     this.name = "";
     this.path = "";
     this.type = "";
+
+    /// copy fields
+    this.srcPath = "";
   }
 
 
@@ -23,6 +26,9 @@ class CreateCtrl {
     this.name = this.resolve.name || "";
     this.path = this.resolve.path || "";
     this.type = this.resolve.type || "";
+
+    /// copy fields
+    this.srcPath = this.resolve.srcPath || "";
   }
 
   cancel() {
@@ -33,7 +39,10 @@ class CreateCtrl {
     let res = {
       name: this.name,
       path: this.path,
-      type: this.type
+      type: this.type,
+
+      /// copy fields
+      srcPath: this.srcPath
     };
 
     this.close({$value: res});

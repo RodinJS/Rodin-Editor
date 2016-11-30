@@ -1,0 +1,10 @@
+[
+  {
+    "src": "./bower_components/ace/lib/ace/**/*.*",
+    "dest": "/ace/"
+  },
+  {
+    "src": "./src/systemjs/*.js",
+    "dest": "/systemjs/"
+  }
+]

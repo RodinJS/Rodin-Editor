@@ -2,22 +2,29 @@
  * Created by kh.levon98 on 13-Sep-16.
  */
 const AppConstants = {
-  env: "dev",
+  env: "local",
   jwtKey: 'token',
   appName: 'Rodin',
 
-  dev: {
+  local: {
     COOKIEDOMAIN: ['localhost', '.rodin.space'],
-    // API: 'http://localhost:3000/api',
-    API: 'https://api.rodin.space/api',
-    // SITE: 'http://localhost:3000/api',
+    // API: 'https://api.rodin.space/api',
+    API: 'http://localhost:3000/api',
     SITE: 'http://localhost:8585/#/',
     PREVIEW: 'https://api.rodin.space/preview/',
     PUBLIC: 'https://api.rodin.space/public/',
     EDITOR: 'http://localhost:8000/#/',
   },
+  dev: {
+    COOKIEDOMAIN: ['.rodin.space'],
+    API: 'https://api.rodin.space/api',
+    SITE: 'https://rodin.space/',
+    PREVIEW: 'https://api.rodin.space/preview/',
+    PUBLIC: 'https://api.rodin.space/public/',
+    EDITOR: 'https://editor.rodin.space/',
+  },
   prod: {
-    COOKIEDOMAIN: ['.rodinapp.com', '.rodin.space'],
+    COOKIEDOMAIN: ['.rodinapp.com'],
     API: 'https://api.' + window.extractDomain() + '/api',
     SITE: 'https://' + window.extractDomain() + '/',
     PREVIEW: 'https://api.' + window.extractDomain() + '/preview/',
@@ -185,6 +192,18 @@ const AppConstants = {
     },
     "604": {
       "message": "UNKNOWN_SOCKET_ACTION",
+      "field": ""
+    },
+    "605": {
+      "message": "SOCKET_ACTION_SUCCESS",
+      "field": ""
+    },
+    "606": {
+      "message": "SOCKET_ACTION_FAIL",
+      "field": ""
+    },
+    "607": {
+      "message": "SOCKET_ACTION_IN_PROGRESS",
       "field": ""
     }
   }

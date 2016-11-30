@@ -19,6 +19,7 @@ class EditorCtrl {
     }, (errors)=> {
       this._$state.go('app.error');
     });
+
   }
 
 

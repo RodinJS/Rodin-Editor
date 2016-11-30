@@ -40,6 +40,11 @@ componentsModule.component('createModal', CreateModal);
 import ConfirmModal from './modal/confirm/index';
 componentsModule.component('confirmModal', ConfirmModal);
 
+/// upload-modal module
+
+import UploadModal from './modal/upload/index';
+componentsModule.component('uploadModal', UploadModal);
+
 
 /*
  * End of Modals modules

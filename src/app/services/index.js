@@ -39,4 +39,8 @@ import StorageService from './storage.service';
 servicesModule.service('Storage', StorageService);
 
 
+import SocketService from './socket.service';
+servicesModule.service('Socket', SocketService);
+
+
 export default servicesModule;

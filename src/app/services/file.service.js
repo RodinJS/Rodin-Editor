@@ -2,13 +2,14 @@
  * Created by kh.levon98 on 28-Oct-16.
  */
 class File {
-  constructor(Editor, RodinIdea, RodinPreview) {
+  constructor(Editor, RodinIdea, RodinPreview, Project, Notification) {
     'ngInject';
 
     this._Editor = Editor;
     this._RodinIdea = RodinIdea;
     this._RodinPreview = RodinPreview;
-
+    this._Project = Project;
+    this._Notification = Notification;
   }
 
 
@@ -31,22 +32,37 @@ class File {
     }
 
     return this._Editor.updateFile(this._RodinIdea.getProjectId(), {
-      content: file.content
-    }, {
-      action: "save",
+      content: file.content,
       filename: file.path
-    }).then(()=> {
+    }, {
+      action: "save"
+    }).then(() => {
       if (file) {
         file.originalContent = file.content;
         file.isUnsaved = false;
       }
-      this._RodinPreview.update();
+
+
+      this._Project.buildCode(this._RodinIdea.getProjectId()).then(()=>{
+        this._Notification.info("Transpile started.");
+      });
+      // this._RodinPreview.update();
     });
   }
 
 
   create(reqData = {}) {
+    reqData.action = "create";
     return this._Editor.createFile(this._RodinIdea.getProjectId(), reqData);
+  }
+
+  copy(reqData = {}) {
+    reqData.action = "copy";
+    return this._Editor.createFile(this._RodinIdea.getProjectId(), reqData);
+  }
+
+  upload(files = [], reqData = {}) {
+    return this._Editor.uploadFile(this._RodinIdea.getProjectId(), files, reqData);
   }
 
 
@@ -57,7 +73,9 @@ class File {
     }
     reqData.filename = file.path;
 
-    return this._Editor.updateFile(this._RodinIdea.getProjectId(), reqData);
+    return this._Editor.updateFile(this._RodinIdea.getProjectId(), reqData, {
+      action: "rename"
+    });
   }
 
 

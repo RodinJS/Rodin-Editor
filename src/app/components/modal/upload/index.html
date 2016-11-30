@@ -1,0 +1,49 @@
+<div class="modal-content">
+  <div class="modal-body">
+    <h2 class="modal-title">Upload</h2>
+    <form action="" class="modal-form" enctype="multipart/form-data">
+
+      <div class="form-group" data-ng-if="::($ctrl.type == 'file')" data-ng-hide="$ctrl.items.length">
+        <div class="form-label">Choose files</div>
+        <div class="input-group">
+          <input name="file[]" id="filesToUpload" type="file" multiple=""/>
+        </div>
+      </div>
+
+      <div class="form-group" data-ng-if="::($ctrl.type == 'directory')" data-ng-hide="$ctrl.items.length">
+        <div class="form-label">Choose folder</div>
+        <div class="input-group">
+          <input name="file[]" id="folderToUpload" type="file" webkitdirectory="" directory="" allowdirs=""/>
+        </div>
+      </div>
+
+
+      <div class="form-group" data-ng-show="$ctrl.items.length">
+        <div class="form-label">Selected {{($ctrl.type == "file" ? "files" : "folders")}}</div>
+        <div class="files-list clearfix">
+          <ul class="list-group files-list clearfix">
+            <li class="list-group-item clearfix" data-ng-repeat="item in $ctrl.items track by item.index" title="{{item.path}}">
+              <span class="badge">{{item.size | bytes}}</span>
+              {{item.name}}
+            </li>
+          </ul>
+        </div>
+      </div>
+
+
+      <div class="form-group">
+        <div class="form-label">Upload Path</div>
+        <div class="input-group">
+          <span class="input-group-addon">{{$ctrl.projectRoot}}/</span>
+          <input type="text" data-ng-model="$ctrl.path" class="form-control">
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <a class="btn btn-link" data-ng-click="$ctrl.cancel()">cancel</a>
+        <button type="button" class="btn btn-primary" data-ng-click="$ctrl.save()">Upload</button>
+      </div>
+
+    </form>
+  </div>
+</div>

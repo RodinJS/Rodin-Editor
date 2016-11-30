@@ -15,10 +15,12 @@ export default class JWT {
     let domains = this._AppConstants.COOKIEDOMAIN || [];
 
     for (let i = 0; i < domains.length; ++i) {
-      Cookies.set(this._AppConstants.jwtKey, token, {
-        expires: 7,
+
+      this._$cookies.put(this._AppConstants.jwtKey, token, {
+        expires: Date.now() + 6.048e+8,
         domain: domains[i]
       });
+
     }
 
     this._update();
@@ -32,16 +34,18 @@ export default class JWT {
   }
 
   _update() {
-    this._token = Cookies.get(this._AppConstants.jwtKey) || null;
+    this._token = this._$cookies.get(this._AppConstants.jwtKey) || null;
   }
 
   destroy() {
     let domains = this._AppConstants.COOKIEDOMAIN || [];
 
     for (let i = 0; i < domains.length; ++i) {
-      Cookies.remove(this._AppConstants.jwtKey, {
+
+      this._$cookies.remove(this._AppConstants.jwtKey, {
         domain: domains[i]
       });
+
     }
 
     this._update();

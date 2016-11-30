@@ -27,9 +27,7 @@ function Analyser(AppConstants, $log, $q, Validator) {
 
       if (_Validator.isValidHTTP()) {
 
-        let response = _Validator.getDataHTTP();
-
-        self.deferred.resolve(response);
+        self.deferred.resolve(_Validator.getDataHTTP());
 
       } else {
 

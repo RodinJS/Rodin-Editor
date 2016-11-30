@@ -1,8 +1,9 @@
 /**
  * Created by kh.levon98 on 20-Sep-16.
  */
+let verificationPromise;
 class User {
-  constructor(JWT, AppConstants, Restangular, Validator, $state, $q, $window, $timeout) {
+  constructor(JWT, AppConstants, Restangular, Validator, $state, $q, $window, $timeout, Analyser) {
     'ngInject';
 
     this._JWT = JWT;
@@ -15,6 +16,7 @@ class User {
     this._$window = $window;
     this._$timeout = $timeout;
     this._Validator = new Validator();
+    this._Analyser = Analyser;
 
     this.current = null;
     this._inProgress = false;
@@ -45,61 +47,37 @@ class User {
   }
 
   signUp(fields = {}) {
-    return this.create(fields).then((res)=> {
+    return this.create(fields).then((res) => {
       this._JWT.save(res.token);
       this.current = res.user;
 
       return res;
-    }, err=> {
+    }, err => {
       return err;
     })
   }
 
   update(userId = null, fields = {}) {
-    let deferred = this._$q.defer();
+    let Analyser = new this._Analyser();
 
-    this._User.put(fields).then((result) => {
-      this._Validator.validateHTTP(result);
-      if (this._Validator.isValidHTTP()) {
-        let response = this._Validator.getDataHTTP();
-        deferred.resolve(response);
-      } else {
-        deferred.reject(this._Validator.getErrorsHTTP());
-      }
-    }, (result) => {
-      this._Validator.validateHTTP(result.data);
+    this._User.put(fields).then(Analyser.resolve, Analyser.reject);
 
-      deferred.reject(this._Validator.getErrorsHTTP());
-    });
-
-    return deferred.promise;
+    return Analyser.promise;
   }
 
   create(fields = {}) {
-    let deferred = this._$q.defer();
+    let Analyser = new this._Analyser();
 
-    this._User.post(fields).then((result) => {
-      this._Validator.validateHTTP(result);
-      if (this._Validator.isValidHTTP()) {
-        let response = this._Validator.getDataHTTP();
-        deferred.resolve(response);
-      } else {
-        deferred.reject(this._Validator.getErrorsHTTP());
-      }
-    }, (result) => {
-      this._Validator.validateHTTP(result.data);
+    this._User.post(fields).then(Analyser.resolve, Analyser.reject);
 
-      deferred.reject(this._Validator.getErrorsHTTP());
-    });
-
-    return deferred.promise;
+    return Analyser.promise;
   }
 
   logout() {
     this.current = null;
     this._JWT.destroy();
 
-    this._$timeout(()=> {
+    this._$timeout(() => {
       this._$window.location.href = this._AppConstants.SITE;
     }, 100);
   }
@@ -115,28 +93,36 @@ class User {
     if (this.current) {
       deferred.resolve(true);
     } else {
+      if (verificationPromise) {
+        return verificationPromise;
+      }
+
       this._User.one("me").get().then((res) => {
         this.current = res.data;
+        verificationPromise = null;
         deferred.resolve(true);
       }, (err) => {
         this._JWT.destroy();
+        verificationPromise = null;
         deferred.resolve(false);
       });
+
+      verificationPromise = deferred.promise;
     }
     return deferred.promise;
   }
 
 
-  ensureAuthIs(bool = false) {
+  ensureAuthIs() {
     let deferred = this._$q.defer();
+
     this.verifyAuth().then((authValid) => {
-      if (authValid !== bool) {
-        this._$timeout(()=> {
+      deferred.resolve(authValid);
+
+      if (!authValid) {
+        this._$timeout(() => {
           this._$window.location.href = this._AppConstants.SITE;
         }, 100);
-        deferred.resolve(false);
-      } else {
-        deferred.resolve(true);
       }
 
     });

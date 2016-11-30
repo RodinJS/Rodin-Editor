@@ -2,7 +2,7 @@
  * Created by kh.levon98 on 20-Sep-16.
  */
 class Project {
-  constructor(JWT, AppConstants, Restangular, Validator, $state, $q) {
+  constructor(JWT, AppConstants, Restangular, Validator, $state, $q, Analyser) {
     'ngInject';
     this._JWT = JWT;
     this._AppConstants = AppConstants;
@@ -11,105 +11,55 @@ class Project {
     this._$state = $state;
     this._$q = $q;
     this._Validator = new Validator();
+    this._Analyser = Analyser;
   }
 
   get(projectId = null, fields) {
-    let deferred = this._$q.defer();
-    this._Projects.one(projectId).get(fields).then((result) => {
-      this._Validator.validateHTTP(result);
-      if (this._Validator.isValidHTTP()) {
-        let response = this._Validator.getDataHTTP();
-        deferred.resolve(response);
-      } else {
-        deferred.reject(this._Validator.getErrorsHTTP());
-      }
-    }, (result) => {
-      this._Validator.validateHTTP(result.data);
+    let Analyser = new this._Analyser();
 
-      deferred.reject(this._Validator.getErrorsHTTP());
-    });
+    this._Projects.one(projectId).get(fields).then(Analyser.resolve, Analyser.reject);
 
-    return deferred.promise;
+    return Analyser.promise;
   }
 
   getList(fields = {}) {
-    let deferred = this._$q.defer();
-    this._Projects.one('').get(fields).then((result) => {
-      this._Validator.validateHTTP(result);
-      if (this._Validator.isValidHTTP()) {
-        let response = this._Validator.getDataHTTP();
+    let Analyser = new this._Analyser();
 
-        deferred.resolve(response);
-      } else {
-        deferred.reject(this._Validator.getErrorsHTTP());
-      }
-    }, (result) => {
-      this._Validator.validateHTTP(result.data);
+    this._Projects.one('').get(fields).then(Analyser.resolve, Analyser.reject);
 
-      deferred.reject(this._Validator.getErrorsHTTP());
-    });
-
-    return deferred.promise;
+    return Analyser.promise;
   }
 
   update(projectId = null, fields = {}) {
-    let deferred = this._$q.defer();
+    let Analyser = new this._Analyser();
 
-    this._Projects.one(projectId).put(fields).then((result) => {
-      this._Validator.validateHTTP(result);
-      if (this._Validator.isValidHTTP()) {
-        let response = this._Validator.getDataHTTP();
-        deferred.resolve(response);
-      } else {
-        deferred.reject(this._Validator.getErrorsHTTP());
-      }
-    }, (result) => {
-      this._Validator.validateHTTP(result.data);
+    this._Projects.one(projectId).put(fields).then(Analyser.resolve, Analyser.reject);
 
-      deferred.reject(this._Validator.getErrorsHTTP());
-    });
-
-    return deferred.promise;
+    return Analyser.promise;
   }
 
   create(fields = {}) {
-    let deferred = this._$q.defer();
+    let Analyser = new this._Analyser();
 
-    this._Projects.post(fields).then((result) => {
-      this._Validator.validateHTTP(result);
-      if (this._Validator.isValidHTTP()) {
-        let response = this._Validator.getDataHTTP();
-        deferred.resolve(response);
-      } else {
-        deferred.reject(this._Validator.getErrorsHTTP());
-      }
-    }, (result) => {
-      this._Validator.validateHTTP(result.data);
+    this._Projects.post(fields).then(Analyser.resolve, Analyser.reject);
 
-      deferred.reject(this._Validator.getErrorsHTTP());
-    });
-
-    return deferred.promise;
+    return Analyser.promise;
   }
 
   remove(projectId = null, fields = {}) {
-    let deferred = this._$q.defer();
+    let Analyser = new this._Analyser();
 
-    this._Projects.one(projectId).remove(fields).then((result) => {
-      this._Validator.validateHTTP(result);
-      if (this._Validator.isValidHTTP()) {
-        let response = this._Validator.getDataHTTP();
-        deferred.resolve(response);
-      } else {
-        deferred.reject(this._Validator.getErrorsHTTP());
-      }
-    }, (result) => {
-      this._Validator.validateHTTP(result.data);
+    this._Projects.one(projectId).remove(fields).then(Analyser.resolve, Analyser.reject);
 
-      deferred.reject(this._Validator.getErrorsHTTP());
-    });
+    return Analyser.promise;
+  }
 
-    return deferred.promise;
+  buildCode(projectId = null, fields = {}) {
+    let Analyser = new this._Analyser();
+
+    this._Projects.one(projectId).one("build", "transpile").get(fields).then(Analyser.resolve, Analyser.reject);
+
+    return Analyser.promise;
   }
 
 }

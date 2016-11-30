@@ -25,6 +25,7 @@ import 'lodash/dist/lodash.min';
 
 import 'restangular/dist/restangular.min';
 import 'angular-bootstrap/ui-bootstrap-tpls.min';
+import 'angular-ui-notification/dist/angular-ui-notification.min';
 import 'angular-ui-tree/dist/angular-ui-tree.min';
 import 'angular-bootstrap-contextmenu/contextMenu';
 
@@ -54,6 +55,7 @@ const requires = [
 
 
   'ui.bootstrap',
+  'ui-notification',
   'ui.bootstrap.contextMenu',
   'ui.tree',
 

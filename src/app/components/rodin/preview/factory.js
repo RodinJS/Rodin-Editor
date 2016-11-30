@@ -25,7 +25,17 @@ function RodinPreviewFactory(Storage, RodinTabs, RodinTabsConstants, Utils, $sta
     Storage.set("autoReload", this.autoReload);
   }
 
-  function updatePreview(refresh = false) {
+  function updatePreview(refresh = false, isBuilder = false) {
+
+    ///////////////
+    /////TMP///////
+    if(!isBuilder){
+      return;
+    }
+    ///////////////
+
+
+
     let openTab = RodinTabs.get(tabsComponentId);
 
     if (refresh || this.autoReload) {
