@@ -4,7 +4,7 @@
 let self;
 
 class PreviewCtrl {
-  constructor($scope, RodinPreview, RodinTabs, RodinTree, RodinTabsConstants, $on, User, Notification, Socket) {
+  constructor($scope, RodinPreview, RodinTabs, RodinTree, RodinTabsConstants, $on, User, Notification, Socket, Utils) {
     'ngInject';
 
     self = this;
@@ -16,6 +16,7 @@ class PreviewCtrl {
     this._RodinTree = RodinTree;
     this._Notification = Notification;
     this._Socket = Socket;
+    this._Utils = Utils;
 
 
     this.currentUser = User.current;
@@ -42,7 +43,11 @@ class PreviewCtrl {
     this._Socket.on("projectTranspiled", (data, error) => {
       if (!error.length) {
         this._Notification.success("Transpile finished.");
-        this._RodinTree.update();
+
+        this._RodinTree.update({
+          folderPath: this._Utils.filterTree(this._RodinTree.data, {active: true}, "path")
+        });
+
         this._RodinPreview.update(false, true);
       } else {
         let err = error[0];

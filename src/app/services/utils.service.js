@@ -1,6 +1,9 @@
 /**
  * Created by kh.levon98 on 30-Sep-16.
  */
+
+import * as _ from "lodash/dist/lodash.min";
+
 class Utils {
   constructor($log) {
     'ngInject';
@@ -75,7 +78,7 @@ class Utils {
 
     opts = angular.extend({}, defaults, opts);
 
-    return obj ? Object.keys(obj).sort().map((key)=> {
+    return obj ? Object.keys(obj).sort().map((key) => {
       var val = obj[key];
 
       if (val === undefined) {
@@ -89,7 +92,7 @@ class Utils {
       if (Array.isArray(val)) {
         var result = [];
 
-        val.slice().forEach((val2)=> {
+        val.slice().forEach((val2) => {
           if (val2 === undefined) {
             return;
           }
@@ -120,6 +123,62 @@ class Utils {
     }
 
     return value;
+  }
+
+  filterTree(list = [], filter = {}, field = "") {
+    let filteredList = [];
+
+    filterTreeRecurrentFn(list, filter, field, filteredList);
+
+    return filteredList;
+  }
+
+  replaceInTree(list = [], item = null) {
+    let pathArr = [""];
+
+    if (!_.isEmpty(item.path)) {
+      pathArr = _.concat(pathArr, item.path.split("/"));
+    }
+
+    replaceWithPath(list, item, pathArr);
+  }
+}
+
+function replaceWithPath(list, item, pathArr = []) {
+  let name = pathArr.shift();
+
+  for (let i = 0, ln = list.length; i < ln; i++) {
+    console.log("list[i].name == name", list[i].name, name)
+    if (list[i].name == name && pathArr.length) {
+      return replaceWithPath(list[i].children, item, pathArr);
+    } else {
+      if (item) {
+        list[i] = item
+      } else {
+        delete list[i];
+      }
+      return true;
+    }
+  }
+}
+
+function filterTreeRecurrentFn(list, filter, field, filteredList) {
+  let res = _.filter(list, filter);
+
+  for (let i = 0, ln = res.length; i < ln; i++) {
+    let node = res[i];
+
+    if (!_.isEmpty(node.children)) {
+      filterTreeRecurrentFn(node.children, filter, field, filteredList);
+    }
+
+    if (_.isObject(node) && !_.isEmpty(field)) {
+      if (node[field]) {
+        filteredList.push(node[field]);
+      }
+    } else {
+      filteredList.push(node);
+    }
   }
 }
 

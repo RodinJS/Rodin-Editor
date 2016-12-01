@@ -47,7 +47,7 @@
       data-ui-tree-node
       data-ng-class="{
         'menu-item':$ctrl.isFolder(node),
-        'open': collapsed
+        'open': node.active
         }"
       data-ng-include="'components/rodin/tree/subNode.html'"></li>
 

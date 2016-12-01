@@ -4,7 +4,7 @@
 
 import * as _ from "lodash/dist/lodash.min";
 
-function RodinTreeFactory(Editor, RodinEditor, RodinTabs, RodinTabsConstants, Utils, File, RodinIdea, RodinPreview) {
+function RodinTreeFactory(Editor, RodinEditor, RodinTabs, RodinTabsConstants, Utils, File, RodinIdea, RodinPreview, Storage) {
   'ngInject';
 
   let model = {};
@@ -29,7 +29,7 @@ function RodinTreeFactory(Editor, RodinEditor, RodinTabs, RodinTabsConstants, Ut
   function openFile(node) {
     let file = RodinTabs.get(tabsComponentId, node, {"path": node.path});
     if (!file) {
-      return File.open(node).then((data)=> {
+      return File.open(node).then((data) => {
         file = {
           name: node.name,
           path: node.path,
@@ -54,7 +54,7 @@ function RodinTreeFactory(Editor, RodinEditor, RodinTabs, RodinTabsConstants, Ut
   function uploadFile(files = [], reqData = {}) {
     reqData.type = "file";
 
-    return File.upload(files, reqData).then((data)=> {
+    return File.upload(files, reqData).then((data) => {
       model.update();
     });
   }
@@ -63,7 +63,7 @@ function RodinTreeFactory(Editor, RodinEditor, RodinTabs, RodinTabsConstants, Ut
   function uploadFolder(files = [], reqData = {}) {
     reqData.type = "directory";
 
-    return File.upload(files, reqData).then((data)=> {
+    return File.upload(files, reqData).then((data) => {
       model.update();
     });
   }
@@ -72,7 +72,7 @@ function RodinTreeFactory(Editor, RodinEditor, RodinTabs, RodinTabsConstants, Ut
   function createFile(node, reqData = {}) {
     reqData.type = "file";
 
-    return File.create(reqData).then((data)=> {
+    return File.create(reqData).then((data) => {
       model.update();
       model.openFile({
         name: reqData.name,
@@ -86,7 +86,7 @@ function RodinTreeFactory(Editor, RodinEditor, RodinTabs, RodinTabsConstants, Ut
   function createFolder(node, reqData = {}) {
     reqData.type = "directory";
 
-    return File.create(reqData).then((data)=> {
+    return File.create(reqData).then((data) => {
       model.update();
     });
   }
@@ -95,7 +95,7 @@ function RodinTreeFactory(Editor, RodinEditor, RodinTabs, RodinTabsConstants, Ut
   function copyFile(node, reqData = {}) {
     reqData.type = "file";
 
-    return File.copy(reqData).then((data)=> {
+    return File.copy(reqData).then((data) => {
       model.update();
     });
   }
@@ -104,33 +104,64 @@ function RodinTreeFactory(Editor, RodinEditor, RodinTabs, RodinTabsConstants, Ut
   function copyFolder(node, reqData = {}) {
     reqData.type = "directory";
 
-    return File.copy(reqData).then((data)=> {
+    return File.copy(reqData).then((data) => {
       model.update();
     });
   }
 
 
   function renameFile(node, reqData = {}) {
-    return File.rename(node, reqData).then((data)=> {
+    return File.rename(node, reqData).then((data) => {
       model.update();
     });
   }
 
 
   function deleteFile(node) {
-    return File.delete(node).then((data)=> {
+    return File.delete(node).then((data) => {
       model.update();
     });
   }
 
 
-  function updateTree(openFile = "") {
-    Editor.getProject(RodinIdea.getProjectId()).then((data)=> {
-      treeIndexing(null, data.tree);
+  function updateTree({
+    folderPath = "",
+    getAll = false,
+    openFile = "",
+    runFile = ""
+  }) {
 
-      model.root = data.root;
+    console.log("\n------------\n");
+    console.log("folderPath = ", folderPath);
+    console.log("getAll = ", getAll);
+    console.log("openFile = ", openFile);
+    console.log("runFile = ", runFile);
 
-      model.data.splice(0, 1, data.tree);
+    let query = {};
+    if (getAll) {
+      query.getAll = getAll;
+    }
+
+    if (folderPath) {
+      query.folderPath = folderPath;
+    }
+
+    Editor.getProject(RodinIdea.getProjectId(), query).then((data) => {
+      if (_.isEmpty(folderPath)) {
+        model.root = data.root;
+
+        model.data.splice(0, 1, data.tree);
+
+        markActive(model.data);
+      } else {
+        let res = (_.isArray(data.tree) ? data.tree : [data.tree]);
+
+        for (let i = 0, ln = res.length; i < ln; i++) {
+          let item = res[i];
+          Utils.replaceInTree(model.data, item);
+        }
+      }
+
 
       if (!_.isEmpty(openFile)) {
         let node;
@@ -148,21 +179,44 @@ function RodinTreeFactory(Editor, RodinEditor, RodinTabs, RodinTabsConstants, Ut
         }
       }
 
+      if (!_.isEmpty(runFile)) {
+        let node;
 
-      //// TODO: fuckin logic remove this
-      let node;
-      for (let i = 0, openFile = ["index.html", ".html"], ln = openFile.length; i < ln; i++) {
-        node = Utils.findFileInTree(data.tree.children, openFile[i]);
-        if (node) {
-          RodinPreview.run(node);
-          break;
+        if (!_.isArray(runFile)) {
+          runFile = [runFile];
+        }
+
+        for (let i = 0, ln = runFile.length; i < ln; i++) {
+          node = Utils.findFileInTree(data.tree.children, runFile[i]);
+          if (node) {
+            RodinPreview.run(node);
+            break;
+          }
         }
       }
+
 
     });
   }
 
   //// local functions
+
+  function markActive(list = [], fromStorage = false, recursive = false) {
+    for (let i = 0, ln = list.length; i < ln; i++) {
+      let item = list[i];
+      let active = true;
+      if (fromStorage) {
+        active = !!Storage.get(`folderState_${item.path}`);
+      } else {
+        active = true;
+      }
+
+      item.active = active;
+      if (recursive && !_.isEmpty(item.children)) {
+        markActive(item.children, recursive);
+      }
+    }
+  }
 
   function treeIndexing(parentId = null, list = []) {
     if (_.isNull(parentId)) {
