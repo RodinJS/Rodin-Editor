@@ -34,6 +34,12 @@ function RodinIdeaFactory(Storage) {
   }
 
   function setProjectId(val = null) {
+    let state = Storage.get("treeState");
+
+    !state[val] && (state[val] = {});
+
+    Storage.set("treeState", state);
+
     return projectId = val;
   }
 

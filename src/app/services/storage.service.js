@@ -21,9 +21,7 @@ export default class Storage {
 
     this._settingsKey = "EditorSettings_" + this._currentUser.username;
 
-    if (!_.isObject(this.get(this._settingsKey, true))) {
-      this.set(this._settingsKey, this.defaultSettings, true);
-    }
+    this.set(this._settingsKey, _.merge(this.defaultSettings, this.get(this._settingsKey, true)), true);
   }
 
   get(key, getGlobal) {
@@ -32,7 +30,7 @@ export default class Storage {
     } else {
       let userSettings = this._store.get(this._settingsKey);
       if (_.isObject(userSettings)) {
-        return userSettings[key];
+        return userSettings[key] || this.defaultSettings[key];
       }
     }
     return null;

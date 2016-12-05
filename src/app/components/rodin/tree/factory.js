@@ -177,7 +177,7 @@ function RodinTreeFactory(Editor, RodinEditor, RodinTabs, RodinTabsConstants, Ut
         }
       }
 
-      let actionTree = firstCall ? model.data.first().children : data.tree.first().children;
+      let actionTree = _.isArray(data.tree) ? data.tree.first().children : model.data.first().children;
 
       if (!_.isEmpty(openFile)) {
         let node;
