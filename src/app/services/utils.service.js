@@ -125,19 +125,26 @@ class Utils {
     return value;
   }
 
-  filterTree(list = [], filter = {}, field = "") {
+  filterTree(list = [], filter = {}, field = "", startPath = "") {
     let filteredList = [];
+    let _list = [];
 
-    filterTreeRecurrentFn(list, filter, field, filteredList);
+    if (startPath) {
+      _list.push(findNodeByPath(list, _.concat([""], startPath.split(/[\/|\\]/g))));
+    } else {
+      _list = list;
+    }
 
-    return filteredList;
+    filterTreeRecurrentFn(_list, filter, field, filteredList);
+
+    return filteredList.reverse();
   }
 
   replaceInTree(list = [], item = null) {
     let pathArr = [""];
 
     if (!_.isEmpty(item.path)) {
-      pathArr = _.concat(pathArr, item.path.split("/"));
+      pathArr = _.concat(pathArr, item.path.split(/[\/|\\]/g));
     }
 
     replaceWithPath(list, item, pathArr);
@@ -148,21 +155,41 @@ function replaceWithPath(list, item, pathArr = []) {
   let name = pathArr.shift();
 
   for (let i = 0, ln = list.length; i < ln; i++) {
-    console.log("list[i].name == name", list[i].name, name)
-    if (list[i].name == name && pathArr.length) {
-      return replaceWithPath(list[i].children, item, pathArr);
-    } else {
-      if (item) {
-        list[i] = item
-      } else {
-        delete list[i];
-      }
+    let node = list[i];
+    if (node.parent === ".." && item.parent === "..") {
+      list[i] = item;
       return true;
+    } else if (node.name == name || node.parent === "..") {
+      if (!pathArr.length) {
+        if (item) {
+          list[i] = item
+        } else {
+          delete list[i];
+        }
+        return true;
+      }
+      return replaceWithPath(node.children, item, pathArr);
     }
   }
 }
 
-function filterTreeRecurrentFn(list, filter, field, filteredList) {
+function findNodeByPath(list = [], pathArr = []) {
+  let name = pathArr.shift();
+
+  for (let i = 0, ln = list.length; i < ln; i++) {
+    let node = list[i];
+    if (node.name == name || node.parent === "..") {
+      if (!pathArr.length) {
+        return node;
+      }
+
+      return findNodeByPath(node.children, pathArr);
+    }
+  }
+
+}
+
+function  filterTreeRecurrentFn(list, filter, field, filteredList) {
   let res = _.filter(list, filter);
 
   for (let i = 0, ln = res.length; i < ln; i++) {
@@ -173,7 +200,7 @@ function filterTreeRecurrentFn(list, filter, field, filteredList) {
     }
 
     if (_.isObject(node) && !_.isEmpty(field)) {
-      if (node[field]) {
+      if (node[field] != undefined) {
         filteredList.push(node[field]);
       }
     } else {

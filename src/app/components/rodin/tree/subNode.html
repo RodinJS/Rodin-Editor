@@ -43,7 +43,7 @@
     data-ui-tree-nodes
     data-ng-model="node.children">
 
-  <li data-ng-repeat="node in node.children"
+  <li data-ng-repeat="node in node.children | orderBy: 'type'"
       data-ui-tree-node
       data-ng-class="{
         'menu-item':$ctrl.isFolder(node),

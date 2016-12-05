@@ -15,7 +15,8 @@ export default class Storage {
 
     this.defaultSettings = {
       autoReload: false,
-      theme: 'monokai'
+      theme: 'monokai',
+      treeState: {}
     };
 
     this._settingsKey = "EditorSettings_" + this._currentUser.username;

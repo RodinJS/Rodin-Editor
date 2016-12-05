@@ -45,7 +45,7 @@ class PreviewCtrl {
         this._Notification.success("Transpile finished.");
 
         this._RodinTree.update({
-          folderPath: this._Utils.filterTree(this._RodinTree.data, {active: true}, "path")
+          folderPath: this._Utils.filterTree(this._RodinTree.data, {active: true}, "path", "build")
         });
 
         this._RodinPreview.update(false, true);

@@ -98,8 +98,15 @@ class TreeCtrl {
       return this._RodinIdea.getProjectId();
     }, (id) => {
       if (id) {
+        let state = this._Storage.get("treeState");
+
+        let folderPath = _.concat([""], _.keys(_.pickBy(state, (v, k, o) => {
+          return v;
+        })));
+
         this._RodinTree.update({
-          // getAll: true,
+          firstCall: true,
+          folderPath: folderPath,
           openFile: ["index.js", "index.html", ".html", ".js"],
           runFile: ["index.html", ".html"]
         });
@@ -143,11 +150,13 @@ class TreeCtrl {
 
   toggle(scope) {
     if (scope.node.type == "file") {
-      return;
+      return false;
     }
 
+    let state = this._Storage.get("treeState");
+
     scope.node.active = !scope.node.active;
-    this._Storage.set(`folderState_${scope.node.path}`, scope.node.active);
+    state[scope.node.path] = scope.node.active;
 
     if (scope.node.active && _.isEmpty(scope.node.children)) {
       this._RodinTree.update({
@@ -156,6 +165,8 @@ class TreeCtrl {
     }
 
     scope.toggle();
+
+    this._Storage.set("treeState", state);
   };
 
   getFileOptions(...args) {
