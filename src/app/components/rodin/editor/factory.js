@@ -7,7 +7,7 @@ import * as _ from "lodash/dist/lodash.min";
 import angular from 'angular/index';
 
 
-function RodinEditorFactory(Utils, RodinTabs, FileUtils, Ace, RodinTabsConstants, $emit, Storage, File, RodinIdea) {
+function RodinEditorFactory(Utils, RodinTabs, FileUtils, Ace, RodinTabsConstants, $emit, Storage) {
   'ngInject';
 
   let model = {};
@@ -31,7 +31,7 @@ function RodinEditorFactory(Utils, RodinTabs, FileUtils, Ace, RodinTabsConstants
           name: 'save',
           bindKey: {win: 'Ctrl-S', mac: 'Command-S'},
           exec: ()=> {
-            File.save(RodinTabs.get(tabsComponentId));
+            $emit("menu-bar:saveFile");
           }
         },
         /// save all files
@@ -39,10 +39,7 @@ function RodinEditorFactory(Utils, RodinTabs, FileUtils, Ace, RodinTabsConstants
           name: 'saveAll',
           bindKey: {win: 'Ctrl-Alt-Shift-S', mac: 'Command-Alt-Shift-S'},
           exec: ()=> {
-            let filesList = RodinTabs.getList(tabsComponentId);
-            filesList.map((file)=> {
-              File.save(file);
-            });
+            $emit("menu-bar:saveAllFiles");
           }
         }
       ],
@@ -53,7 +50,7 @@ function RodinEditorFactory(Utils, RodinTabs, FileUtils, Ace, RodinTabsConstants
         wrap: true,
         readOnly: false,
         enableBasicAutocompletion: true,
-        // enableLiveAutocompletion: true,
+        enableLiveAutocompletion: true,
         enableSnippets: true,
         autoScrollEditorIntoView: true,
       },

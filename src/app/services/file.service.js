@@ -31,6 +31,10 @@ class File {
       return false;
     }
 
+    if (!file.isUnsaved) {
+      return false;
+    }
+
     return this._Editor.updateFile(this._RodinIdea.getProjectId(), {
       content: file.content,
       filename: file.path
