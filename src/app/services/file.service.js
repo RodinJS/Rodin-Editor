@@ -24,10 +24,14 @@ class File {
     });
   }
 
-  save(file = null) {
+  save(file = null, transpile = true) {
 
     if (!file) {
       throw new Error("Please provide `file`");
+      return false;
+    }
+
+    if (!file.isUnsaved) {
       return false;
     }
 
@@ -42,11 +46,11 @@ class File {
         file.isUnsaved = false;
       }
 
-
-      this._Project.buildCode(this._RodinIdea.getProjectId()).then(()=>{
-        this._Notification.info("Transpile started.");
-      });
-      // this._RodinPreview.update();
+      if (transpile) {
+        this._Project.buildCode(this._RodinIdea.getProjectId()).then(() => {
+          this._Notification.info("Transpile started.");
+        });
+      }
     });
   }
 

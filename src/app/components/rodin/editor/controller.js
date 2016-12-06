@@ -32,52 +32,53 @@ class EditorCtrl {
       "change": this._switchFile,
     };
 
-    this._$on(`tabs:${this.tabsComponentId}:change-active-tab`, ()=> {
+    this._$on(`tabs:${this.tabsComponentId}:change-active-tab`, () => {
       this.file = this._RodinTabs.get(this.tabsComponentId);
     });
 
     ///////// subscribe menu-bar events //////////
 
-    this._$on("menu-bar:saveFile", (e, node, model)=> {
+    this._$on("menu-bar:saveFile", (e, node, model) => {
       self._File.save(self._RodinTabs.get(self.tabsComponentId));
     });
 
-    this._$on("menu-bar:saveAllFiles", (e, node, model)=> {
+    this._$on("menu-bar:saveAllFiles", (e, node, model) => {
       let filesList = self._RodinTabs.getList(self.tabsComponentId);
-      filesList.map((file)=> {
-        self._File.save(file);
+
+      filesList.map((file, index, list) => {
+        self._File.save(file, index === (list.length - 1));
       });
     });
 
-    this._$on("menu-bar:undo", (e, node, model)=> {
+    this._$on("menu-bar:undo", (e, node, model) => {
       self._RodinEditor.undo(node, model);
     });
 
-    this._$on("menu-bar:redo", (e, node, model)=> {
+    this._$on("menu-bar:redo", (e, node, model) => {
       self._RodinEditor.redo(node, model);
     });
 
 
-    this._$on("menu-bar:findInFile", (e, node, model)=> {
+    this._$on("menu-bar:findInFile", (e, node, model) => {
       self._RodinEditor.findInFile(node, model);
     });
 
 
-    this._$on("menu-bar:findInFolder", (e, node, model)=> {
+    this._$on("menu-bar:findInFolder", (e, node, model) => {
       self._RodinEditor.findInFolder(node, model);
     });
 
 
-    this._$on("menu-bar:replaceInFile", (e, node, model)=> {
+    this._$on("menu-bar:replaceInFile", (e, node, model) => {
       self._RodinEditor.replaceInFile(node, model);
     });
 
 
-    this._$on("menu-bar:replaceInFolder", (e, node, model)=> {
+    this._$on("menu-bar:replaceInFolder", (e, node, model) => {
       self._RodinEditor.replaceInFolder(node, model);
     });
 
-    this._$on("menu-bar:goToLine", (e, node, model)=> {
+    this._$on("menu-bar:goToLine", (e, node, model) => {
       self._RodinEditor.goToLine(node, model);
     });
 

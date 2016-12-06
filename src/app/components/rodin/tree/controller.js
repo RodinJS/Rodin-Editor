@@ -98,7 +98,7 @@ class TreeCtrl {
       return this._RodinIdea.getProjectId();
     }, (id) => {
       if (id) {
-        let state = this._Storage.get("treeState");
+        let state = this._Storage.get("treeState")[this._RodinIdea.getProjectId()];
 
         let folderPath = _.concat([""], _.keys(_.pickBy(state, (v, k, o) => {
           return v;
@@ -153,7 +153,9 @@ class TreeCtrl {
       return false;
     }
 
-    let state = this._Storage.get("treeState");
+    let globState = this._Storage.get("treeState");
+    let state = globState[this._RodinIdea.getProjectId()];
+
 
     scope.node.active = !scope.node.active;
     state[scope.node.path] = scope.node.active;
@@ -162,11 +164,17 @@ class TreeCtrl {
       this._RodinTree.update({
         folderPath: scope.node.path
       });
+    } else if (!scope.node.active) {
+      for (let i in state) {
+        if (i.indexOf(scope.node.path) > -1) {
+          state[i] = false;
+        }
+      }
     }
 
     scope.toggle();
 
-    this._Storage.set("treeState", state);
+    this._Storage.set("treeState", globState);
   };
 
   getFileOptions(...args) {
