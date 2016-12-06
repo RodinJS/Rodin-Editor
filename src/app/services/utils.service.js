@@ -189,7 +189,7 @@ function findNodeByPath(list = [], pathArr = []) {
 
 }
 
-function  filterTreeRecurrentFn(list, filter, field, filteredList) {
+function filterTreeRecurrentFn(list, filter, field, filteredList) {
   let res = _.filter(list, filter);
 
   for (let i = 0, ln = res.length; i < ln; i++) {

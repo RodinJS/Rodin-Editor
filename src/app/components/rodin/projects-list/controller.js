@@ -11,7 +11,7 @@ class ProjectsListCtrl {
 
     this.projectRoot = $stateParams.projectFolder;
 
-    this._Project.getList().then((data)=> {
+    this._Project.getList().then((data) => {
       this.projectList = data;
     })
   }

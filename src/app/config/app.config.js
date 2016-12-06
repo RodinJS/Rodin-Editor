@@ -32,15 +32,15 @@ function AppConfig(RestangularProvider, $stateProvider, $locationProvider, $urlR
 
       $logProvider.debugEnabled(false);
 
-      console.log = ()=> {
+      console.log = () => {
 
       };
 
-      console.warn = ()=> {
+      console.warn = () => {
 
       };
 
-      console.info = ()=> {
+      console.info = () => {
 
       };
 

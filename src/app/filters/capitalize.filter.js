@@ -17,7 +17,7 @@ function CapitalizeFilter() {
 
     input = input.toLowerCase();
 
-    return input.replace(reg, function(txt){
+    return input.replace(reg, function (txt) {
 
       return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
 

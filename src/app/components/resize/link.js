@@ -164,23 +164,23 @@ function ResizeLink(scope, element, attrs) {
     }
   }
 
-  function blockIframes () {
-    for(let i = 0; i < arguments.length; i ++) {
+  function blockIframes() {
+    for (let i = 0; i < arguments.length; i++) {
       let element = arguments[i];
 
       let iframes = element.querySelectorAll('iframe');
-      for(let j = 0; j < iframes.length; j ++) {
+      for (let j = 0; j < iframes.length; j++) {
         iframes[j].style['pointer-events'] = 'none';
       }
     }
   }
 
-  function unblockIframes () {
-    for(let i = 0; i < arguments.length; i ++) {
+  function unblockIframes() {
+    for (let i = 0; i < arguments.length; i++) {
       let element = arguments[i];
 
       let iframes = element.querySelectorAll('iframe');
-      for(let j = 0; j < iframes.length; j ++) {
+      for (let j = 0; j < iframes.length; j++) {
         iframes[j].style['pointer-events'] = 'auto';
       }
     }

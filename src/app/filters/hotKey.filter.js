@@ -24,7 +24,7 @@ function HotKeyFilter(deviceDetector) {
 
       output = output.replace(/-/g, "+");
 
-      if(os === "mac"){
+      if (os === "mac") {
         output = output.replace(/Alt/g, "&#8997;");
         output = output.replace(/Shift/g, "&#8679;");
         output = output.replace(/Command/g, "&#8984;");
