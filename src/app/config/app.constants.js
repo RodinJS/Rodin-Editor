@@ -8,9 +8,10 @@ const AppConstants = {
 
   local: {
     COOKIEDOMAIN: ['localhost', '.rodin.space'],
-    API: 'https://api.rodin.space/api',
-    //API: 'http://localhost:3000/api',
-    SOCKET: 'http://localhost:4000/api',
+    // API: 'https://api.rodin.space/api',
+    API: 'http://localhost:3000/api',
+    // SOCKET: 'http://localhost:4000/api',
+    SOCKET: 'https://ss.rodin.space/api',
     SITE: 'http://localhost:8585/#/',
     PREVIEW: 'https://api.rodin.space/preview/',
     PUBLIC: 'https://api.rodin.space/public/',
@@ -19,7 +20,7 @@ const AppConstants = {
   dev: {
     COOKIEDOMAIN: ['.rodin.space'],
     API: 'https://api.rodin.space/api',
-    SOCKET: `https://ss.rodin.space/api`,
+    SOCKET: 'https://ss.rodin.space/api',
     SITE: 'https://rodin.space/',
     PREVIEW: 'https://api.rodin.space/preview/',
     PUBLIC: 'https://api.rodin.space/public/',
