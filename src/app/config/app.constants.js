@@ -28,7 +28,7 @@ const AppConstants = {
   prod: {
     COOKIEDOMAIN: ['.rodinapp.com'],
     API: 'https://api.' + window.extractDomain() + '/api',
-    SOCKET: `https://ss.rodin.space/api`,
+    SOCKET: 'https://ss.' + window.extractDomain() + '/api',
     SITE: 'https://' + window.extractDomain() + '/',
     PREVIEW: 'https://api.' + window.extractDomain() + '/preview/',
     PUBLIC: 'https://api.' + window.extractDomain() + '/public/',
