@@ -8,15 +8,17 @@ let self;
 
 class EditorCtrl {
 
-  constructor($scope, RodinTabs, RodinEditor, Ace, $on, RodinTabsConstants, File) {
+  constructor($scope, RodinTabs, RodinEditor, Ace, $on, RodinTabsConstants, File, Modal, $q) {
     'ngInject';
 
     self = this;
 
     this._$scope = $scope;
     this._$on = $on;
+    this._$q = $q;
     this._RodinTabs = RodinTabs;
     this._File = File;
+    this._Modal = Modal;
     this._RodinEditor = RodinEditor;
     this._Ace = Ace;
 
@@ -85,7 +87,27 @@ class EditorCtrl {
   }
 
   _closeFile(oldFile, newFile) {
-    self._RodinEditor.openFile((newFile.isBlank ? null : newFile));
+
+    if (oldFile.isUnsaved) {
+      let deferred = self._$q.defer();
+
+      self._Modal.confirm({
+        message: () => {
+          return "Are you sure you want to close unsaved file?";
+        }
+      }).result.then(() => {
+        deferred.resolve();
+        self._RodinEditor.openFile((newFile.isBlank ? null : newFile));
+      }, () => {
+        deferred.reject();
+      });
+
+      return deferred.promise;
+    } else {
+      self._RodinEditor.openFile((newFile.isBlank ? null : newFile));
+    }
+
+
   }
 
   _switchFile(oldFile, newFile) {

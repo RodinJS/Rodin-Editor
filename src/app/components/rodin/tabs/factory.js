@@ -13,12 +13,14 @@ function RodinTabsFactory(Utils, RodinTabsConstants, $emit) {
   let info = {};
 
   model.initialize = initialize;
+  model.destroy = destroy;
   model.getInfo = getInfo;
   model.getList = getList;
   model.get = get;
   model.add = add;
   model.remove = remove;
   model.setActive = setActive;
+  model._removeImitation = _removeImitation;
 
   return model;
 
@@ -39,6 +41,11 @@ function RodinTabsFactory(Utils, RodinTabsConstants, $emit) {
     };
 
     return compId;
+  }
+
+  function destroy(compId) {
+    delete data[compId];
+    delete info[compId];
   }
 
   function setActive(compId = "", tab = 0) {
@@ -67,36 +74,22 @@ function RodinTabsFactory(Utils, RodinTabsConstants, $emit) {
   }
 
   function remove(compId = "", tab = null) {
-
     let comp = data[compId];
-    if (_.isArray(comp)) {
+    let tabs = model._removeImitation(compId, tab);
 
-      let compInfo = info[compId];
-
-      if (_.isNull(tab)) {
-        tab = compInfo.activeIndex;
-      }
-
-      const index = (_.isNumber(tab) ? tab : tab.index);
-
+    if (tabs.oldTab && tabs.nextTab) {
+      let index = tabs.oldTab.index;
       comp.splice(index, 1);
 
       for (let i = index, ln = comp.length; i < ln; ++i) {
         comp[i].index--;
       }
 
-      if (comp.length == 0) {
-        comp.push({
-          name: "untitled",
-          isBlank: true,
-          index: comp.length
-        });
+      if (tabs.nextTab.isBlank) {
+        comp.push(tabs.nextTab);
       }
 
-
-      let nextTab = comp[index];
-
-      this.setActive(compId, (nextTab ? nextTab : comp[index - 1]));
+      this.setActive(compId, tabs.nextTab);
     }
   }
 
@@ -125,6 +118,43 @@ function RodinTabsFactory(Utils, RodinTabsConstants, $emit) {
 
   function getInfo(compId = "") {
     return info[compId] || {};
+  }
+
+  function _removeImitation(compId = "", tab = null) {
+    let comp = data[compId];
+    let oldTab;
+    let nextTab;
+
+    if (_.isArray(comp)) {
+
+      let compInfo = info[compId];
+
+      if (_.isNull(tab)) {
+        tab = compInfo.activeIndex;
+      }
+
+      const index = (_.isNumber(tab) ? tab : tab.index);
+      oldTab = model.get(compId, index);
+
+      if (comp.length == index + 1) {
+        if (index === 0) {
+          nextTab = {
+            name: "untitled",
+            isBlank: true,
+            index: 0
+          };
+        } else {
+          nextTab = comp[index - 1];
+        }
+      } else {
+        nextTab = comp[index + 1];
+      }
+    }
+
+    return {
+      oldTab: oldTab,
+      nextTab: nextTab
+    }
   }
 
 }

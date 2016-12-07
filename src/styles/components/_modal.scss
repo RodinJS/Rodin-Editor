@@ -1,44 +1,50 @@
-.modal .modal-form {
-  .input-group {
-    .input-group-addon {
-      border-radius: 0;
-      height: 30px;
-      padding: 6px 0 4px 12px;
-      line-height: 1;
-      background-color: rgba(255, 255, 255, 0.05);
-      border-color: rgba(255, 255, 255, 0.1);
-      box-shadow: none;
-      color: #fff;
-      appearance: none;
-      font-size: 12px;
-    }
-
-    .form-control {
-      border-left: 0;
-      padding-left: 0;
-    }
-
-  }
-
-  .list-group.files-list {
-    margin: 0;
-    max-height: 200px;
-    overflow-y: auto;
-
-    .list-group-item {
-      background: transparent;
-      border: 0;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-      padding: 5px 0;
-      font-size: 12px;
-      color: #fff;
-
-      > .badge {
-        background: transparent;
+.modal {
+  .modal-form {
+    .input-group {
+      .input-group-addon {
+        border-radius: 0;
+        height: 30px;
+        padding: 6px 0 4px 12px;
+        line-height: 1;
+        background-color: rgba(255, 255, 255, 0.05);
+        border-color: rgba(255, 255, 255, 0.1);
+        box-shadow: none;
+        color: #fff;
+        appearance: none;
         font-size: 12px;
-        font-weight: 400;
-        padding-right: 0;
+      }
+      
+      .form-control {
+        border-left: 0;
+        padding-left: 0;
+      }
+      
+    }
+    
+    .list-group.files-list {
+      margin: 0;
+      max-height: 200px;
+      overflow-y: auto;
+      
+      .list-group-item {
+        background: transparent;
+        border: 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 5px 0;
+        font-size: 12px;
+        color: #fff;
+        
+        > .badge {
+          background: transparent;
+          font-size: 12px;
+          font-weight: 400;
+          padding-right: 0;
+        }
       }
     }
   }
+}
+
+.modal-open .modal{
+  z-index: 9999 !important;
 }

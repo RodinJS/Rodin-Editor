@@ -25,16 +25,24 @@ class TabsCtrl {
 
   }
 
+  $onDestroy() {
+    this._RodinTabs.destroy(this.componentId);
+  }
+
   closeTab(tab) {
-    let closedTab;
-    angular.merge({}, closedTab, tab);
+    let tabs = this._RodinTabs._removeImitation(this._componentId, tab);
+    let clFn = this.callbacks["close"];
+
+    if (_.isFunction(clFn)) {
+      let result = clFn(tabs.oldTab, tabs.nextTab);
+      if (result && _.isFunction(result.then)) {
+        return result.then(()=>{
+          this._RodinTabs.remove(this._componentId, tab);
+        });
+      }
+    }
 
     this._RodinTabs.remove(this._componentId, tab);
-
-    let clFn = this.callbacks["close"];
-    if (_.isFunction(clFn)) {
-      clFn(closedTab, this._RodinTabs.get(this._componentId));
-    }
   }
 
   changeTab(tab) {
