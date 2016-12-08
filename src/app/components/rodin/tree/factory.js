@@ -4,7 +4,7 @@
 
 import * as _ from "lodash/dist/lodash.min";
 
-function RodinTreeFactory(Editor, RodinEditor, RodinTabs, RodinTabsConstants, Utils, File, RodinIdea, RodinPreview, Storage) {
+function RodinTreeFactory(Editor, RodinEditor, RodinTabs, RodinTabsConstants, Utils, File, RodinIdea, RodinPreview, Storage, Modal, $q) {
   'ngInject';
 
   let model = {};
@@ -55,6 +55,18 @@ function RodinTreeFactory(Editor, RodinEditor, RodinTabs, RodinTabsConstants, Ut
     reqData.type = "file";
 
     return File.upload(files, reqData).then((data) => {
+
+      if (!_.isEmpty(data.files)) {
+        return Modal.replace({
+          files: () => {
+            return files;
+          }
+        }).result.then((res) => {
+          reqData.action = "replace";
+          uploadFile(res.files, reqData);
+        });
+      }
+
       model.update({
         folderPath: Utils.filterTree(model.data, {active: true}, "path", reqData.path),
         openFile: _.last(files).name
@@ -67,6 +79,18 @@ function RodinTreeFactory(Editor, RodinEditor, RodinTabs, RodinTabsConstants, Ut
     reqData.type = "directory";
 
     return File.upload(files, reqData).then((data) => {
+
+      if (!_.isEmpty(data.files)) {
+        return Modal.replace({
+          files: () => {
+            return files;
+          }
+        }).result.then((res) => {
+          reqData.action = "replace";
+          uploadFile(res.files, reqData);
+        });
+      }
+
       model.update({
         folderPath: Utils.filterTree(model.data, {active: true}, "path", reqData.path),
       });
@@ -104,6 +128,7 @@ function RodinTreeFactory(Editor, RodinEditor, RodinTabs, RodinTabsConstants, Ut
       model.update({
         folderPath: Utils.filterTree(model.data, {active: true}, "path", reqData.path)
       });
+      return $q.resolve(data);
     });
   }
 

@@ -15,6 +15,7 @@ function ModalFactory($uibModal) {
   model.confirm = confirm;
   model.prompt = prompt;
   model.upload = upload;
+  model.replace = replace;
 
   return model;
 
@@ -79,6 +80,18 @@ function ModalFactory($uibModal) {
     }));
   }
 
+  function replace(resolve = {}, closeActiveModal = true) {
+    if (closeActiveModal) {
+      closeModal(openModals);
+    }
+
+    return openModal($uibModal.open({
+      animation: true,
+      component: 'replaceModal',
+      resolve: resolve
+    }));
+  }
+
   function closeModal(modal = null) {
 
     if (_.isObject(modal)) {
@@ -96,7 +109,6 @@ function ModalFactory($uibModal) {
     modal.__INDEX__ = (parseInt(_.last(Object.keys(openModals))) || 0) + 1;
 
     modal.closed.then(function () {
-      console.log("closed", modal.__INDEX__)
       delete openModals[modal.__INDEX__];
     });
 

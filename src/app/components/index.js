@@ -20,7 +20,7 @@ componentsModule.directive('ace', Ace);
 
 /*
  * Modals modules
- * */
+ */
 
 import ModalFactory from './modal/factory';
 componentsModule.factory('Modal', ModalFactory);
@@ -44,6 +44,11 @@ componentsModule.component('confirmModal', ConfirmModal);
 
 import UploadModal from './modal/upload/index';
 componentsModule.component('uploadModal', UploadModal);
+
+/// replace-modal module
+
+import ReplaceModal from './modal/replace/index';
+componentsModule.component('replaceModal', ReplaceModal);
 
 
 /*

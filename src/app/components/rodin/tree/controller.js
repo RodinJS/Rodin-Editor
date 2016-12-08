@@ -37,7 +37,13 @@ class TreeCtrl {
     this.rootMenuOptions = [
       ['New File', this._createFile],
       ['Upload File', this._uploadFile],
-      ['Paste', this._paste],
+      ['Paste', ($itemScope, $event, node, text, $li) => {
+        this._paste($itemScope, $event, node, text, $li).then((data) => {
+          this._Notification.success("File successfully copied.");
+        }, (err) => {
+          this._Notification.error("Can't copy file.");
+        });
+      }],
       null,
       ['New Folder', this._createFolder],
       ['Upload Folder', this._uploadFolder],
@@ -55,7 +61,13 @@ class TreeCtrl {
       ['Upload File', this._uploadFile],
       ['Rename...', this._rename],
       ['Copy', this._copy],
-      ['Paste', this._paste],
+      ['Paste',  ($itemScope, $event, node, text, $li) => {
+        this._paste($itemScope, $event, node, text, $li).then((data) => {
+          this._Notification.success("File successfully copied.");
+        }, (err) => {
+          this._Notification.error("Can't copy file.");
+        });
+      }],
       null,
       ['New Folder', this._createFolder],
       ['Upload Folder', this._uploadFolder],
@@ -108,7 +120,7 @@ class TreeCtrl {
           firstCall: true,
           folderPath: folderPath,
           openFile: ["index.js", "index.html", ".html", ".js"],
-          runFile: ["index.html", ".html"]
+          // runFile: ["index.html", ".html"]
         });
       }
     });
