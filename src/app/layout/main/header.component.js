@@ -7,7 +7,7 @@ class AppHeaderCtrl {
     this._$scope = $scope;
     this._$rootScope = $rootScope;
     this.projectRoot = $stateParams.projectFolder;
-    this.logout = ()=> {
+    this.logout = () => {
       User.logout(...arguments);
     };
 

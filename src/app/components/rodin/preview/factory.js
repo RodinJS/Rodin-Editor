@@ -29,11 +29,10 @@ function RodinPreviewFactory(Storage, RodinTabs, RodinTabsConstants, Utils, $sta
 
     ///////////////
     /////TMP///////
-    if(!isBuilder){
+    if (!isBuilder) {
       return;
     }
     ///////////////
-
 
 
     let openTab = RodinTabs.get(tabsComponentId);

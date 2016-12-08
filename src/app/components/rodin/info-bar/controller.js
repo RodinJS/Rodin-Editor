@@ -12,7 +12,7 @@ class InfoBarCtrl {
     this.SITE = AppConstants.SITE;
     this.currentUser = User.current;
 
-    this.logout = (...args)=> {
+    this.logout = (...args) => {
       User.logout(args);
     };
   }

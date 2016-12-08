@@ -4,12 +4,14 @@
 
 
 import JSZip from "jszip/dist/jszip.min";
+import * as _ from "lodash/dist/lodash.min";
+
 
 let self;
 
 class TreeCtrl {
 
-  constructor($scope, $timeout, Editor, $log, FileUtils, RodinTabs, RodinTree, RodinIdea, Modal, $on, $q, Notification) {
+  constructor($scope, $timeout, Editor, $log, FileUtils, RodinTabs, RodinTree, RodinIdea, Modal, $on, $q, Notification, Storage, Utils) {
     'ngInject';
 
     self = this;
@@ -21,6 +23,8 @@ class TreeCtrl {
     this._FileUtils = FileUtils;
     this._RodinIdea = RodinIdea;
     this._Modal = Modal;
+    this._Storage = Storage;
+    this._Utils = Utils;
     this._Notification = Notification;
     this._$log = $log;
     this._$q = $q;
@@ -33,6 +37,13 @@ class TreeCtrl {
     this.rootMenuOptions = [
       ['New File', this._createFile],
       ['Upload File', this._uploadFile],
+      ['Paste', ($itemScope, $event, node, text, $li) => {
+        this._paste($itemScope, $event, node, text, $li).then((data) => {
+          this._Notification.success("File successfully copied.");
+        }, (err) => {
+          this._Notification.error("Can't copy file.");
+        });
+      }],
       null,
       ['New Folder', this._createFolder],
       ['Upload Folder', this._uploadFolder],
@@ -50,7 +61,13 @@ class TreeCtrl {
       ['Upload File', this._uploadFile],
       ['Rename...', this._rename],
       ['Copy', this._copy],
-      ['Paste', this._paste],
+      ['Paste',  ($itemScope, $event, node, text, $li) => {
+        this._paste($itemScope, $event, node, text, $li).then((data) => {
+          this._Notification.success("File successfully copied.");
+        }, (err) => {
+          this._Notification.error("Can't copy file.");
+        });
+      }],
       null,
       ['New Folder', this._createFolder],
       ['Upload Folder', this._uploadFolder],
@@ -93,7 +110,18 @@ class TreeCtrl {
       return this._RodinIdea.getProjectId();
     }, (id) => {
       if (id) {
-        this._RodinTree.update(["index.js", "index.html", ".html", ".js"]);
+        let state = this._Storage.get("treeState")[this._RodinIdea.getProjectId()];
+
+        let folderPath = _.concat([""], _.keys(_.pickBy(state, (v, k, o) => {
+          return v;
+        })));
+
+        this._RodinTree.update({
+          firstCall: true,
+          folderPath: folderPath,
+          openFile: ["index.js", "index.html", ".html", ".js"],
+          // runFile: ["index.html", ".html"]
+        });
       }
     });
 
@@ -118,7 +146,9 @@ class TreeCtrl {
 
 
   updateTree() {
-    return this._RodinTree.update();
+    return this._RodinTree.update({
+      folderPath: this._Utils.filterTree(this._RodinTree.data, {active: true}, "path")
+    });
   }
 
   open(scope = {}, node = {}) {
@@ -131,7 +161,32 @@ class TreeCtrl {
 
 
   toggle(scope) {
+    if (scope.node.type == "file") {
+      return false;
+    }
+
+    let globState = this._Storage.get("treeState");
+    let state = globState[this._RodinIdea.getProjectId()];
+
+
+    scope.node.active = !scope.node.active;
+    state[scope.node.path] = scope.node.active;
+
+    if (scope.node.active && _.isEmpty(scope.node.children)) {
+      this._RodinTree.update({
+        folderPath: scope.node.path
+      });
+    } else if (!scope.node.active) {
+      for (let i in state) {
+        if (i.indexOf(scope.node.path) > -1) {
+          state[i] = false;
+        }
+      }
+    }
+
     scope.toggle();
+
+    this._Storage.set("treeState", globState);
   };
 
   getFileOptions(...args) {

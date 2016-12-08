@@ -32,7 +32,7 @@ class UploadCtrl {
   }
 
   $postLink() {
-    let tim = this._$timeout(()=> {
+    let tim = this._$timeout(() => {
       this.input = this._$document.querySelector(`input#${(self.type == "file") ? "filesToUpload" : "folderToUpload"}`);
       this.input.addEventListener("change", self.change);
       this._$timeout.cancel(tim);

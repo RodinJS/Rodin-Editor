@@ -10,6 +10,8 @@ const AppConstants = {
     COOKIEDOMAIN: ['localhost', '.rodin.space'],
     // API: 'https://api.rodin.space/api',
     API: 'http://localhost:3000/api',
+    // SOCKET: 'http://localhost:4000/api',
+    SOCKET: 'https://ss.rodin.space/api',
     SITE: 'http://localhost:8585/#/',
     PREVIEW: 'https://api.rodin.space/preview/',
     PUBLIC: 'https://api.rodin.space/public/',
@@ -18,6 +20,7 @@ const AppConstants = {
   dev: {
     COOKIEDOMAIN: ['.rodin.space'],
     API: 'https://api.rodin.space/api',
+    SOCKET: 'https://ss.rodin.space/api',
     SITE: 'https://rodin.space/',
     PREVIEW: 'https://api.rodin.space/preview/',
     PUBLIC: 'https://api.rodin.space/public/',
@@ -26,6 +29,7 @@ const AppConstants = {
   prod: {
     COOKIEDOMAIN: ['.rodinapp.com'],
     API: 'https://api.' + window.extractDomain() + '/api',
+    SOCKET: 'https://ss.' + window.extractDomain() + '/api',
     SITE: 'https://' + window.extractDomain() + '/',
     PREVIEW: 'https://api.' + window.extractDomain() + '/preview/',
     PUBLIC: 'https://api.' + window.extractDomain() + '/public/',
@@ -38,6 +42,10 @@ const AppConstants = {
 
   get SITE() {
     return this[this.env].SITE;
+  },
+
+  get SOCKET() {
+    return this[this.env].SOCKET;
   },
 
   get PREVIEW() {

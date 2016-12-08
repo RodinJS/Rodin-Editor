@@ -1,11 +1,12 @@
 export default class JWT {
-  constructor(AppConstants, store, $cookies, $state, $q, Restangular) {
+  constructor(AppConstants, store, $cookies, $state, $window, $q, Restangular) {
     'ngInject';
 
     this._AppConstants = AppConstants;
     this._store = store;
     this._$cookies = $cookies;
     this._$state = $state;
+    this._$window = $window;
     this._$q = $q;
     this._Auth = Restangular.all("auth");
     this._token = null;
@@ -55,11 +56,11 @@ export default class JWT {
     let deferred = this._$q.defer();
 
     if (this.get()) {
-      return this._Auth.one("verify").get().then((res)=> {
+      return this._Auth.one("verify").get().then((res) => {
         return res;
-      }, (err)=> {
+      }, (err) => {
         this.destroy();
-        this._$location.href = this._AppConstants.SITE;
+        this._$window.location.href = this._AppConstants.SITE;
         return err;
       });
     }

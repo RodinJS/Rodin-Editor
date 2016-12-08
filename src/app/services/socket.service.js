@@ -29,7 +29,7 @@ class Socket {
           transports: ['websocket', 'polling']
         };
 
-        this._socket = io.connect(AppConstants.API + "/", params);
+        this._socket = io.connect(AppConstants.SOCKET + "/", params);
 
         if (queue.length) {
           for (let i = 0, ln = queue.length; i < ln; ++i) {

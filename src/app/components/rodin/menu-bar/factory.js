@@ -45,7 +45,7 @@ function RodinMenuBarFactory(Utils, HotKeyFilter, RodinPreview, RodinIdea, Rodin
     }
   };
 
-  for(let i in AceThems.themesByName) {
+  for (let i in AceThems.themesByName) {
     let theme = AceThems.themesByName[i];
     const themeType = theme.isDark ? "dark" : "light";
     themesMenu.subMenus[themeType][theme.name] = {

@@ -4,7 +4,7 @@
 
 import * as _ from "lodash/dist/lodash.min";
 
-function RodinTreeFactory(Editor, RodinEditor, RodinTabs, RodinTabsConstants, Utils, File, RodinIdea, RodinPreview) {
+function RodinTreeFactory(Editor, RodinEditor, RodinTabs, RodinTabsConstants, Utils, File, RodinIdea, RodinPreview, Storage, Modal, $q) {
   'ngInject';
 
   let model = {};
@@ -29,7 +29,7 @@ function RodinTreeFactory(Editor, RodinEditor, RodinTabs, RodinTabsConstants, Ut
   function openFile(node) {
     let file = RodinTabs.get(tabsComponentId, node, {"path": node.path});
     if (!file) {
-      return File.open(node).then((data)=> {
+      return File.open(node).then((data) => {
         file = {
           name: node.name,
           path: node.path,
@@ -54,8 +54,23 @@ function RodinTreeFactory(Editor, RodinEditor, RodinTabs, RodinTabsConstants, Ut
   function uploadFile(files = [], reqData = {}) {
     reqData.type = "file";
 
-    return File.upload(files, reqData).then((data)=> {
-      model.update();
+    return File.upload(files, reqData).then((data) => {
+
+      if (!_.isEmpty(data.files)) {
+        return Modal.replace({
+          files: () => {
+            return files;
+          }
+        }).result.then((res) => {
+          reqData.action = "replace";
+          uploadFile(res.files, reqData);
+        });
+      }
+
+      model.update({
+        folderPath: Utils.filterTree(model.data, {active: true}, "path", reqData.path),
+        openFile: _.last(files).name
+      });
     });
   }
 
@@ -63,8 +78,22 @@ function RodinTreeFactory(Editor, RodinEditor, RodinTabs, RodinTabsConstants, Ut
   function uploadFolder(files = [], reqData = {}) {
     reqData.type = "directory";
 
-    return File.upload(files, reqData).then((data)=> {
-      model.update();
+    return File.upload(files, reqData).then((data) => {
+
+      if (!_.isEmpty(data.files)) {
+        return Modal.replace({
+          files: () => {
+            return files;
+          }
+        }).result.then((res) => {
+          reqData.action = "replace";
+          uploadFile(res.files, reqData);
+        });
+      }
+
+      model.update({
+        folderPath: Utils.filterTree(model.data, {active: true}, "path", reqData.path),
+      });
     });
   }
 
@@ -72,13 +101,11 @@ function RodinTreeFactory(Editor, RodinEditor, RodinTabs, RodinTabsConstants, Ut
   function createFile(node, reqData = {}) {
     reqData.type = "file";
 
-    return File.create(reqData).then((data)=> {
-      model.update();
-      model.openFile({
-        name: reqData.name,
-        path: `${reqData.path}/${reqData.name}`,
-        type: reqData.type
-      })
+    return File.create(reqData).then((data) => {
+      model.update({
+        folderPath: Utils.filterTree(model.data, {active: true}, "path", reqData.path),
+        openFile: reqData.name
+      });
     });
   }
 
@@ -86,8 +113,10 @@ function RodinTreeFactory(Editor, RodinEditor, RodinTabs, RodinTabsConstants, Ut
   function createFolder(node, reqData = {}) {
     reqData.type = "directory";
 
-    return File.create(reqData).then((data)=> {
-      model.update();
+    return File.create(reqData).then((data) => {
+      model.update({
+        folderPath: Utils.filterTree(model.data, {active: true}, "path", reqData.path)
+      });
     });
   }
 
@@ -95,8 +124,11 @@ function RodinTreeFactory(Editor, RodinEditor, RodinTabs, RodinTabsConstants, Ut
   function copyFile(node, reqData = {}) {
     reqData.type = "file";
 
-    return File.copy(reqData).then((data)=> {
-      model.update();
+    return File.copy(reqData).then((data) => {
+      model.update({
+        folderPath: Utils.filterTree(model.data, {active: true}, "path", reqData.path)
+      });
+      return $q.resolve(data);
     });
   }
 
@@ -104,33 +136,73 @@ function RodinTreeFactory(Editor, RodinEditor, RodinTabs, RodinTabsConstants, Ut
   function copyFolder(node, reqData = {}) {
     reqData.type = "directory";
 
-    return File.copy(reqData).then((data)=> {
-      model.update();
+    return File.copy(reqData).then((data) => {
+      model.update({
+        folderPath: Utils.filterTree(model.data, {active: true}, "path", reqData.path)
+      });
     });
   }
 
 
   function renameFile(node, reqData = {}) {
-    return File.rename(node, reqData).then((data)=> {
-      model.update();
+    return File.rename(node, reqData).then((data) => {
+      model.update({
+        folderPath: Utils.filterTree(model.data, {active: true}, "path", node.parent)
+      });
     });
   }
 
 
   function deleteFile(node) {
-    return File.delete(node).then((data)=> {
-      model.update();
+
+    console.log("fuck", arguments);
+
+    return File.delete(node).then((data) => {
+      model.update({
+        folderPath: Utils.filterTree(model.data, {active: true}, "path", node.parent)
+      });
     });
   }
 
 
-  function updateTree(openFile = "") {
-    Editor.getProject(RodinIdea.getProjectId()).then((data)=> {
-      treeIndexing(null, data.tree);
+  function updateTree({
+    folderPath = "",
+    getAll = false,
+    openFile = "",
+    runFile = "",
+    firstCall = false
+  }) {
 
-      model.root = data.root;
+    let query = {};
 
-      model.data.splice(0, 1, data.tree);
+    if (getAll) {
+      query.getAll = getAll;
+    }
+
+    if (folderPath) {
+      query.folderPath = folderPath;
+    }
+
+    Editor.getProject(RodinIdea.getProjectId(), query).then((data) => {
+      if ((_.isEmpty(folderPath) || firstCall) && !_.isArray(data.tree)) {
+        model.root = data.root;
+
+        model.data.splice(0, 1, data.tree);
+
+        markActive(model.data);
+      } else {
+        if (firstCall) {
+          model.data.splice(0, 1, data.tree[0]);
+        }
+        let res = (_.isArray(data.tree) ? data.tree : [data.tree]);
+        for (let i = 0, ln = res.length; i < ln; i++) {
+          let item = res[i];
+          item.active = true;
+          Utils.replaceInTree(model.data, item);
+        }
+      }
+
+      let actionTree = _.isArray(data.tree) ? data.tree.first().children : model.data.first().children;
 
       if (!_.isEmpty(openFile)) {
         let node;
@@ -140,7 +212,7 @@ function RodinTreeFactory(Editor, RodinEditor, RodinTabs, RodinTabsConstants, Ut
         }
 
         for (let i = 0, ln = openFile.length; i < ln; i++) {
-          node = Utils.findFileInTree(data.tree.children, openFile[i]);
+          node = Utils.findFileInTree(actionTree, openFile[i]);
           if (node) {
             model.openFile(node);
             break;
@@ -148,21 +220,47 @@ function RodinTreeFactory(Editor, RodinEditor, RodinTabs, RodinTabsConstants, Ut
         }
       }
 
+      if (!_.isEmpty(runFile)) {
+        let node;
 
-      //// TODO: fuckin logic remove this
-      let node;
-      for (let i = 0, openFile = ["index.html", ".html"], ln = openFile.length; i < ln; i++) {
-        node = Utils.findFileInTree(data.tree.children, openFile[i]);
-        if (node) {
-          RodinPreview.run(node);
-          break;
+        if (!_.isArray(runFile)) {
+          runFile = [runFile];
+        }
+
+        for (let i = 0, ln = runFile.length; i < ln; i++) {
+          node = Utils.findFileInTree(actionTree, runFile[i]);
+          if (node) {
+            RodinPreview.run(node);
+            break;
+          }
         }
       }
+
 
     });
   }
 
   //// local functions
+
+  function markActive(list = [], fromStorage = false, recursive = false) {
+
+    let state = Storage.get("treeState");
+
+    for (let i = 0, ln = list.length; i < ln; i++) {
+      let item = list[i];
+      let active = true;
+      if (fromStorage) {
+        active = !!state[item.path];
+      } else {
+        active = true;
+      }
+
+      item.active = active;
+      if (recursive && !_.isEmpty(item.children)) {
+        markActive(item.children, recursive);
+      }
+    }
+  }
 
   function treeIndexing(parentId = null, list = []) {
     if (_.isNull(parentId)) {

@@ -8,7 +8,7 @@
         data-ng-repeat="project in $ctrl.projectList track by $index"
         data-ng-class="{'active': $ctrl.projectRoot == project.root}">
 
-      <a data-ng-href="{{::(($ctrl.projectRoot != project.root) ? $ctrl.EDITOR+project.root : '')}}"
+      <a role="button" data-ng-click="$ctrl.changeProject(project.root)"
          data-ng-bind="::project.root"></a>
 
     </li>

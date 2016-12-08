@@ -10,13 +10,13 @@ class EditorCtrl {
     this._RodinIdea = RodinIdea;
     this.projectId = null;
 
-    this._Project.get(this._$stateParams.projectFolder).then((data)=> {
+    this._Project.get(this._$stateParams.projectFolder).then((data) => {
       this.project = data;
 
       this._RodinIdea.setProjectId(data._id);
 
       this.projectId = this._RodinIdea.getProjectId();
-    }, (errors)=> {
+    }, (errors) => {
       this._$state.go('app.error');
     });
 
