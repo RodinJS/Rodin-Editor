@@ -16,6 +16,7 @@ class CreateCtrl {
     this.name = "";
     this.path = "";
     this.type = "";
+    this.action = "";
 
     /// copy fields
     this.srcPath = "";
@@ -26,6 +27,7 @@ class CreateCtrl {
     this.name = this.resolve.name || "";
     this.path = this.resolve.path || "";
     this.type = this.resolve.type || "";
+    this.action = this.resolve.action || "";
 
     /// copy fields
     this.srcPath = this.resolve.srcPath || "";
@@ -40,6 +42,7 @@ class CreateCtrl {
       name: this.name,
       path: this.path,
       type: this.type,
+      action: this.action,
 
       /// copy fields
       srcPath: this.srcPath

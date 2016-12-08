@@ -16,10 +16,16 @@
       <div class="form-group">
         <div class="col-lg-6 col-md-6">
           <span class="form-group-addon">
-            <input type="checkbox" name="{{item.name}}" data-ng-model="item.model">
+            <input type="radio" data-ng-model="$ctrl.action" value="replace">
           </span>
+          Replace existing {{$ctrl.type}}.
         </div>
-        Replace
+        <div class="col-lg-6 col-md-6">
+          <span class="form-group-addon">
+            <input type="radio" data-ng-model="$ctrl.action" value="rename">
+          </span>
+          Add suffix to {{$ctrl.type}} name.
+        </div>
 
       </div>
       <div class="form-actions">

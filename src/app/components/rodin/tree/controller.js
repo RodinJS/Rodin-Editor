@@ -240,7 +240,8 @@ class TreeCtrl {
     }).result.then((res) => {
       self._RodinTree.createFolder(node, {
         path: res.path,
-        name: res.name
+        name: res.name,
+
       });
     });
   }
