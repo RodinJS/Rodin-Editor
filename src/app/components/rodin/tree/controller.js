@@ -186,7 +186,6 @@ class TreeCtrl {
 
   }
 
-
   updateTree() {
     return this._RodinTree.update({
       folderPath: this._Utils.filterTree(this._RodinTree.data, {active: true}, "path")
@@ -200,7 +199,6 @@ class TreeCtrl {
       self._RodinTree.openFile(node);
     }
   }
-
 
   toggle(scope) {
     if (scope.node.type == "file") {
