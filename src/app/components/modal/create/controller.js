@@ -27,7 +27,8 @@ class CreateCtrl {
     this.name = this.resolve.name || "";
     this.path = this.resolve.path || "";
     this.type = this.resolve.type || "";
-    this.action = this.resolve.action || "";
+    this.flag = this.resolve.flag || "";
+    this.action = this.resolve.action || "create";
 
     /// copy fields
     this.srcPath = this.resolve.srcPath || "";
@@ -42,7 +43,7 @@ class CreateCtrl {
       name: this.name,
       path: this.path,
       type: this.type,
-      action: this.action,
+      flag: this.flag,
 
       /// copy fields
       srcPath: this.srcPath

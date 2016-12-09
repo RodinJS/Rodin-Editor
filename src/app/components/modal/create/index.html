@@ -13,18 +13,25 @@
           <input type="text" data-ng-model="$ctrl.path" class="form-control">
         </div>
       </div>
-      <div class="form-group">
-        <div class="col-lg-6 col-md-6">
-          <span class="form-group-addon">
-            <input type="radio" data-ng-model="$ctrl.action" value="replace">
-          </span>
-          Replace existing {{$ctrl.type}}.
+      <div class="form-group clearfix" data-ng-show="$ctrl.action === 'copy'">
+
+        <div class="col-lg-6 col-md-6 col-sm-6 padding-left-0">
+          <label for="replace_radio" class="radio_box">
+            <span class="form-group-addon">
+              <input type="radio" data-ng-model="$ctrl.flag" id="replace_radio" value="replace">
+            </span>
+            Replace existing {{$ctrl.type}}.
+          </label>
         </div>
-        <div class="col-lg-6 col-md-6">
-          <span class="form-group-addon">
-            <input type="radio" data-ng-model="$ctrl.action" value="rename">
-          </span>
-          Add suffix to {{$ctrl.type}} name.
+
+        <div class="col-lg-6 col-md-6 col-sm-6 padding-right-0">
+          <label for="rename_radio" class="radio_box">
+            <span class="form-group-addon">
+              <input type="radio" data-ng-model="$ctrl.flag" id="rename_radio" value="rename">
+            </span>
+            Add suffix to {{$ctrl.type}} name.
+          </label>
+
         </div>
 
       </div>

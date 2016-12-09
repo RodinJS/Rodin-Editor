@@ -41,7 +41,21 @@ class TreeCtrl {
         this._paste($itemScope, $event, node, text, $li).then((data) => {
           this._Notification.success("File successfully copied.");
         }, (err) => {
-          this._Notification.error("Can't copy file.");
+          if (err && err.length) {
+            err = err.first();
+            let message;
+            switch (err.code) {
+              case 336:
+              case 333:
+                message = "File already exists.";
+                break;
+              default:
+                message = "Can't copy file";
+                break;
+            }
+
+            this._Notification.error(message);
+          }
         });
       }],
       null,
@@ -61,11 +75,25 @@ class TreeCtrl {
       ['Upload File', this._uploadFile],
       ['Rename...', this._rename],
       ['Copy', this._copy],
-      ['Paste',  ($itemScope, $event, node, text, $li) => {
+      ['Paste', ($itemScope, $event, node, text, $li) => {
         this._paste($itemScope, $event, node, text, $li).then((data) => {
           this._Notification.success("File successfully copied.");
         }, (err) => {
-          this._Notification.error("Can't copy file.");
+          if (err && err.length) {
+            err = err.first();
+            let message;
+            switch (err.code) {
+              case 336:
+              case 333:
+                message = "File already exists.";
+                break;
+              default:
+                message = "Can't copy file";
+                break;
+            }
+
+            this._Notification.error(message);
+          }
         });
       }],
       null,
@@ -92,8 +120,22 @@ class TreeCtrl {
               this._Notification.warning("File successfully moved, but original file can't be removed.");
               deferred.reject();
             });
-          }, () => {
-            this._Notification.error("Can't move file");
+          }, (err) => {
+            if (err && err.length) {
+              err = err.first();
+              let message;
+              switch (err.code) {
+                case 336:
+                case 333:
+                  message = "File already exists.";
+                  break;
+                default:
+                  message = "Can't move file";
+                  break;
+              }
+
+              this._Notification.error(message);
+            }
             deferred.reject();
           });
 
@@ -120,7 +162,7 @@ class TreeCtrl {
           firstCall: true,
           folderPath: folderPath,
           openFile: ["index.js", "index.html", ".html", ".js"],
-          // runFile: ["index.html", ".html"]
+          runFile: ["index.html", ".html"]
         });
       }
     });
@@ -240,8 +282,7 @@ class TreeCtrl {
     }).result.then((res) => {
       self._RodinTree.createFolder(node, {
         path: res.path,
-        name: res.name,
-
+        name: res.name
       });
     });
   }
@@ -287,13 +328,17 @@ class TreeCtrl {
         },
         type: () => {
           return self._buffer.type;
+        },
+        action: () => {
+          return "copy";
         }
       }).result.then((res) => {
         if (res.type === "file") {
           self._RodinTree.copyFile(node, {
             name: res.name,
             path: res.path,
-            srcPath: res.srcPath
+            srcPath: res.srcPath,
+            flag: res.flag
           }).then((res) => {
             deferred.resolve(res);
           }, (err) => {
@@ -303,7 +348,8 @@ class TreeCtrl {
           self._RodinTree.copyFolder(node, {
             name: res.name,
             path: res.path,
-            srcPath: res.srcPath
+            srcPath: res.srcPath,
+            flag: res.flag
           }).then((res) => {
             deferred.resolve(res);
           }, (err) => {
