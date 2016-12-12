@@ -25,7 +25,7 @@ function RodinEditorFactory(Utils, RodinTabs, FileUtils, Ace, RodinTabsConstants
       showGutter: true,
       showPrintMargin: false,
       // cursorPosition: 0,
-      commands: [
+      /*commands: [
         /// save one file
         {
           name: 'save',
@@ -42,7 +42,7 @@ function RodinEditorFactory(Utils, RodinTabs, FileUtils, Ace, RodinTabsConstants
             $emit("menu-bar:saveAllFiles");
           }
         }
-      ],
+      ],*/
       advanced: {
         basePath: "/scripts/vendor/",
         fontSize: "12px",

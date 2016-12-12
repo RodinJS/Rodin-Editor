@@ -18,6 +18,8 @@ import 'angular-event-emitter/angular-event-emitter';
 
 import 're-tree/re-tree.min';
 import 'ng-device-detector/ng-device-detector.min';
+import 'mousetrap/mousetrap.min';
+import 'mousetrap/plugins/global-bind/mousetrap-global-bind';
 
 import 'angular-ui-router/release/angular-ui-router.min';
 import 'a0-angular-storage/dist/angular-storage.min';
