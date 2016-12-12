@@ -37,7 +37,7 @@ const typeToIconMap = {
 };
 
 
-class FileUtils {
+export default class FileUtils {
   constructor($log) {
     'ngInject';
 
@@ -46,6 +46,25 @@ class FileUtils {
 
 
   getFileOptions(node) {
+    let fileType = this.getFileType(node);
+
+    let fileOpts = typeToIconMap[fileType];
+
+    if (!fileOpts) {
+      fileType = "unknown";
+      fileOpts = typeToIconMap[fileType];
+    }
+
+    fileOpts["fileType"] = fileType;
+
+    return fileOpts;
+  }
+
+  isImage(node) {
+    return (["jpg", "jpeg", "png", "gif"].indexOf(this.getFileType(node)) !== -1);
+  }
+
+  getFileType(node) {
     const fileName = node.name;
     let fileType;
     if (node.type === "directory") {
@@ -53,17 +72,7 @@ class FileUtils {
     } else {
       fileType = ((/[.]/.exec(fileName)) ? /[^.]+$/.exec(fileName)[0] : "unknown").toLowerCase();
     }
-
-    let fileOpts = typeToIconMap[fileType];
-    if (!fileOpts) {
-      fileType = "unknown"
-    }
-
-    fileOpts = typeToIconMap[fileType];
-    fileOpts["fileType"] = fileType;
-
-    return fileOpts;
+    return fileType;
   }
 }
 
-export default FileUtils;

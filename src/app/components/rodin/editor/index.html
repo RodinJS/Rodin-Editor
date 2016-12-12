@@ -11,7 +11,13 @@
     -->
 
     <div class="space-box-content ace-editor clearfix" id="rodin-ace-editor-container">
-      <ace class="clearfix" data-ng-model="$ctrl.file.content" data-ace-config="$ctrl.aceConfig"></ace>
+
+      <div class="clearfix preview-box preview-box-editor" data-ng-show="$ctrl.file.isEditable">
+        <ace class="clearfix" data-ng-model="$ctrl.file.content" data-ace-config="$ctrl.aceConfig"></ace>
+      </div>
+
+      <div class="clearfix preview-box preview-box-file" data-ng-if="!$ctrl.file.isEditable" data-file-preview="$ctrl.file"></div>
+
     </div>
   </div>
 </div>

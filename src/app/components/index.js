@@ -9,6 +9,9 @@ const componentsModule = angular.module('app.components', []);
 import Compile from './compile/index';
 componentsModule.directive('compile', Compile);
 
+import FilePreview from './filePreview/index';
+componentsModule.directive('filePreview', FilePreview);
+
 import Resize from './resize/index';
 componentsModule.directive('resize', Resize);
 

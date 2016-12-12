@@ -21,6 +21,7 @@ class EditorCtrl {
     this._Modal = Modal;
     this._RodinEditor = RodinEditor;
     this._Ace = Ace;
+    this.file = {};
 
 
     this.options = this._RodinEditor.options;
@@ -35,7 +36,7 @@ class EditorCtrl {
     };
 
     this._$on(`tabs:${this.tabsComponentId}:change-active-tab`, () => {
-      this.file = this._RodinTabs.get(this.tabsComponentId);
+      this.file = this._RodinTabs.get(this.tabsComponentId) || {};
     });
 
     ///////// subscribe menu-bar events //////////

@@ -4,7 +4,7 @@
 
 import * as _ from "lodash/dist/lodash.min";
 
-function RodinTreeFactory(Editor, RodinEditor, RodinTabs, RodinTabsConstants, Utils, File, RodinIdea, RodinPreview, Storage, Modal, $q) {
+function RodinTreeFactory(Editor, RodinEditor, RodinTabs, RodinTabsConstants, Utils, FileUtils, File, RodinIdea, RodinPreview, Storage, Modal, $q) {
   'ngInject';
 
   let model = {};
@@ -35,6 +35,7 @@ function RodinTreeFactory(Editor, RodinEditor, RodinTabs, RodinTabsConstants, Ut
           path: node.path,
           type: node.type,
           isUnsaved: false,
+          isEditable: !FileUtils.isImage(node),
           originalContent: data.content,
           content: data.content
         };
