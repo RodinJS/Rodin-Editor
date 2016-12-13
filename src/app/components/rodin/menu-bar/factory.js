@@ -24,31 +24,27 @@ function RodinMenuBarFactory(Utils, HotKeyFilter, RodinPreview, RodinIdea, Rodin
     name: "Theme",
     template: defaultTemplateWithSubMenu,
     subMenus: {
-      light: {
-        id: "theme_light",
-        name: "Light",
-        template: defaultTemplateWithSubMenu,
-        subMenus: {
-          test: {
-            id: "adasd",
-            name: "asdasdasd",
-            template: defaultTemplateWithSubMenu
-          }
-        }
-      },
-      dark: {
-        id: "theme_dark",
-        name: "Dark",
-        template: defaultTemplateWithSubMenu,
-        subMenus: {}
-      }
+      /*
+       light: {
+       id: "theme_light",
+       name: "Light",
+       template: defaultTemplateWithSubMenu,
+       subMenus: {}
+       },
+       dark: {
+       id: "theme_dark",
+       name: "Dark",
+       template: defaultTemplateWithSubMenu,
+       subMenus: {}
+       }*/
     }
   };
 
   for (let i in AceThems.themesByName) {
     let theme = AceThems.themesByName[i];
-    const themeType = theme.isDark ? "dark" : "light";
-    themesMenu.subMenus[themeType][theme.name] = {
+    // const themeType = theme.isDark ? "dark" : "light";
+    // themesMenu.subMenus[themeType][theme.name] = {
+    themesMenu.subMenus[theme.name] = {
       id: `${theme.name}`,
       name: theme.caption,
       template: radioTemplate,
