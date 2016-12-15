@@ -20,6 +20,8 @@ class VCS {
   pull(projectId = null, fields = {}) {
     let Analyser = new this._Analyser();
 
+    fields.id = projectId;
+
     this._Git.all("theirs").post(fields, {
       id: projectId
     }).then(Analyser.resolve, Analyser.reject);
@@ -29,6 +31,8 @@ class VCS {
 
   push(projectId = null, fields = {}) {
     let Analyser = new this._Analyser();
+
+    fields.id = projectId;
 
     this._Git.all("ours").post(fields, {
       id: projectId
