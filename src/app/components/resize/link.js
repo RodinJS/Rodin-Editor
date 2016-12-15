@@ -26,7 +26,8 @@ function ResizeLink(scope, element, attrs) {
   }, 1000);
 
   function initHorizontal(element) {
-    let minWidth = element.getAttribute('resize-item-min');
+    let minWidth = element.getAttribute('' +
+      '-min');
     let initialWidth = element.getAttribute('resize-item-initial');
 
     if (isNaN(parseInt(minWidth))) {

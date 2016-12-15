@@ -7,6 +7,13 @@ function RodinIdeaFactory(Storage) {
   let model = {};
   let projectId = null;
 
+  let projectDefaultSett = {
+    treeState: {},
+    resizeItemConfig: {
+      vertical: [],
+      horizontal: ["20%", "40%", "40%"]
+    }
+  };
 
   model.windowActivity = {
     tree: Storage.get("window_tree") || true,
@@ -33,14 +40,10 @@ function RodinIdeaFactory(Storage) {
     return projectId;
   }
 
-  function setProjectId(val = null) {
-    let state = Storage.get("treeState");
+  function setProjectId(id = null) {
+    Storage.set(`project_${id}`, _.merge(projectDefaultSett, Storage.get(`project_${id}`)));
 
-    !state[val] && (state[val] = {});
-
-    Storage.set("treeState", state);
-
-    return projectId = val;
+    return projectId = id;
   }
 
 }

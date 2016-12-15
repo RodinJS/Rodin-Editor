@@ -245,7 +245,7 @@ function RodinTreeFactory(Editor, RodinEditor, RodinTabs, RodinTabsConstants, Ut
 
   function markActive(list = [], fromStorage = false, recursive = false) {
 
-    let state = Storage.get("treeState");
+    let state = Storage.projectScopeGet(RodinIdea.getProjectId(), "treeState");
 
     for (let i = 0, ln = list.length; i < ln; i++) {
       let item = list[i];

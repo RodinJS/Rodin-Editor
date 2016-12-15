@@ -31,6 +31,9 @@ servicesModule.service('Project', ProjectService);
 import EditorService from './editor.service';
 servicesModule.service('Editor', EditorService);
 
+import VCSService from './vcs.service';
+servicesModule.service('VCS', VCSService);
+
 import FileService from './file.service';
 servicesModule.service('File', FileService);
 

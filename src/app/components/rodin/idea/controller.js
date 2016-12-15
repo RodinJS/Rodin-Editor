@@ -13,13 +13,15 @@ Mousetrap.stopCallback = function () {
 let self;
 
 class IdeaCtrl {
-  constructor($scope, RodinIdea, RodinMenuBar, $emit) {
+  constructor($scope, RodinIdea, RodinMenuBar, $emit, Storage) {
     'ngInject';
     self = this;
 
     this._$scope = $scope;
     this._$emit = $emit;
     this.windowActivity = RodinIdea.windowActivity;
+
+    this.resizeItemConfig = Storage.get("resizeItemConfig");
 
     this._registerKeys(RodinMenuBar.getList());
   }

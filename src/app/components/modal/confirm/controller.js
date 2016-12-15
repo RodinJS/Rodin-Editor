@@ -12,11 +12,14 @@ class ConfirmCtrl {
     this._$scope = $scope;
 
     this.message = "";
+    this.flag = false;
+    this.showFlag = false;
   }
 
 
   $onInit() {
     this.message = this.resolve.message || "";
+    this.showFlag = this.resolve.showFlag || false;
   }
 
   cancel() {
@@ -25,7 +28,8 @@ class ConfirmCtrl {
 
   save() {
     let res = {
-      confirm: true
+      confirm: true,
+      flag: this.flag
     };
 
     this.close({$value: res});
