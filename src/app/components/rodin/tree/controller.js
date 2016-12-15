@@ -11,13 +11,14 @@ let self;
 
 class TreeCtrl {
 
-  constructor($scope, $timeout, Editor, $log, FileUtils, RodinTabs, RodinTree, RodinIdea, Modal, $on, $q, Notification, Storage, Utils) {
+  constructor($scope, $timeout, Editor, VCS, $log, FileUtils, RodinTabs, RodinTree, RodinIdea, Modal, $on, $q, Notification, Storage, Utils) {
     'ngInject';
 
     self = this;
     this._$scope = $scope;
     this._$timeout = $timeout;
     this._Editor = Editor;
+    this._VCS = VCS;
     this._RodinTabs = RodinTabs;
     this._RodinTree = RodinTree;
     this._FileUtils = FileUtils;
@@ -184,6 +185,13 @@ class TreeCtrl {
       self._createFolder(null, null, node);
     });
 
+    this._$on("menu-bar:pull", (e, node, model) => {
+      self._pull(null, null, node);
+    });
+
+    this._$on("menu-bar:push", (e, node, model) => {
+      self._push(null, null, node);
+    });
   }
 
   updateTree() {
@@ -423,6 +431,78 @@ class TreeCtrl {
       });
 
     });
+  }
+
+  _pull($itemScope, $event, node, text, $li) {
+
+    let doRequest = () => {
+
+      self._VCS.pull(this._RodinIdea.getProjectId(), {
+        root: self._RodinTree.root
+      }).then(() => {
+        self._Notification.error("VCS pull success.");
+        self._RodinTree.update({
+          folderPath: this._Utils.filterTree(this._RodinTree.data, {active: true}, "path", "")
+        });
+      }, (err) => {
+        self._Notification.error("VCS pull failed.");
+      });
+
+    };
+
+    if (!self._Storage.get("pull_dialog_flag")) {
+      self._Modal.confirm({
+        message: () => {
+          return `Warning, <u>in case of version merge conflict</u>, this will automatically accept the changes from outside and ignore your changes.`;
+        },
+        showFlag: () => {
+          return true;
+        }
+      }).result.then((res) => {
+
+        self._Storage.set("pull_dialog_flag", res.flag);
+
+        doRequest();
+      });
+    } else {
+      doRequest();
+    }
+  }
+
+  _push($itemScope, $event, node, text, $li) {
+
+
+    let doRequest = () => {
+
+      self._VCS.push(this._RodinIdea.getProjectId(), {
+        root: self._RodinTree.root
+      }).then(() => {
+        self._Notification.error("VCS push success.");
+      }, (err) => {
+        self._Notification.error("VCS push failed.");
+      });
+
+    };
+
+    if (!self._Storage.get("push_dialog_flag")) {
+      self._Modal.confirm({
+        message: () => {
+          return `Warning, <u>in case of version merge conflict</u>, this will automatically accept the changes from your side and ignore changes from outside.`;
+        },
+        showFlag: () => {
+          return true;
+        }
+      }).result.then((res) => {
+
+        self._Storage.set("push_dialog_flag", res.flag);
+
+        doRequest();
+      });
+    } else {
+      doRequest();
+    }
+
+
   }
 
 }

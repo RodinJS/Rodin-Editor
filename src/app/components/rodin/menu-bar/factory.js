@@ -37,6 +37,7 @@ function RodinMenuBarFactory(Utils, HotKeyFilter, RodinPreview, RodinIdea, Rodin
        template: defaultTemplateWithSubMenu,
        subMenus: {}
        }*/
+
     }
   };
 
@@ -198,6 +199,24 @@ function RodinMenuBarFactory(Utils, HotKeyFilter, RodinPreview, RodinIdea, Rodin
     },
     {
       "index": 4,
+      "name": "VCS",
+      "subMenus": {
+        "pull": {
+          "id": "pull",
+          "name": "Pull",
+          "hotKey": Utils.bindKey("Ctrl-Shift-J", "Command-Shift-J"),
+          "template": "<span><i class='fa fa-arrow-down'></i> {{::name}}</span>",
+        },
+        "push": {
+          "id": "push",
+          "name": "Push",
+          "hotKey": Utils.bindKey("Ctrl-Shift-K", "Command-Shift-K"),
+          "template": "<span><i class='fa fa-arrow-up'></i> {{::name}}</span>",
+        }
+      }
+    },
+    {
+      "index": 5,
       "name": "Window",
       "subMenus": {
         "tree": {
