@@ -15,8 +15,7 @@ export default class Storage {
 
     this.defaultSettings = {
       autoReload: false,
-      theme: 'monokai',
-      treeState: {}
+      theme: 'monokai'
     };
 
     this._settingsKey = "EditorSettings_" + this._currentUser.username;
@@ -48,5 +47,27 @@ export default class Storage {
       this._store.set(this._settingsKey, userSettings);
     }
     return value;
+  }
+
+  //// getter and setter functions by scope
+
+  projectScopeGet(projectId = null, key) {
+    if (!projectId) {
+      return console.error("Please provide projectID");
+    }
+    let projectScope = this.get(`project_${projectId}`) || {};
+
+    return projectScope[key] || null;
+  }
+
+  projectScopeSet(projectId = null, key, value) {
+    if (!projectId) {
+      return console.error("Please provide projectID");
+    }
+    let projectScope = this.get(`project_${projectId}`) || {};
+
+    projectScope[key] = value;
+
+    this.set(`project_${projectId}`, projectScope);
   }
 }

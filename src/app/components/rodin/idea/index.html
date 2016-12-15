@@ -15,18 +15,18 @@
                   ng-show="$ctrl.windowActivity.tree"
                   resize-item
                   resize-item-min="200"
-                  resize-item-initial="20%"></rodin-tree>
+                  resize-item-initial="{{$ctrl.resizeItemConfig.horizontal[0]}}"></rodin-tree>
 
 
       <rodin-editor class="work-space-box editor-box clearfix"
                     resize-item
-                    resize-item-initial="40%"></rodin-editor>
+                    resize-item-initial="{{$ctrl.resizeItemConfig.horizontal[1]}}"></rodin-editor>
 
 
       <rodin-preview class="work-space-box view-box clearfix"
                      ng-show="$ctrl.windowActivity.preview"
                      resize-item
-                     resize-item-initial="40%"></rodin-preview>
+                     resize-item-initial="{{$ctrl.resizeItemConfig.horizontal[2]}}"></rodin-preview>
 
     </div>
 
