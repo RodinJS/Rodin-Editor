@@ -12,8 +12,9 @@ componentsModule.directive('compile', Compile);
 import FilePreview from './filePreview/index';
 componentsModule.directive('filePreview', FilePreview);
 
-import Resize from './resize/index';
+import {Resize, ResizeItem} from './resize/index';
 componentsModule.directive('resize', Resize);
+componentsModule.directive('resizeItem', ResizeItem);
 
 import AceFactory from './ace/factory';
 componentsModule.factory('Ace', AceFactory);

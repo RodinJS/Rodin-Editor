@@ -1,5 +1,6 @@
 function ResizeLink(scope, element, attrs) {
-  let type = scope.resizeType || 'horizontal';
+  !scope.resizeType && (scope.resizeType = 'horizontal');
+  let type = scope.resizeType;
 
   let columns = [];
 
@@ -23,12 +24,14 @@ function ResizeLink(scope, element, attrs) {
         setup(columns[i], columns[i - 1]);
       }
     }
-  }, 1000);
+  }, 500);
 
   function initHorizontal(element) {
-    let minWidth = element.getAttribute('' +
-      '-min');
-    let initialWidth = element.getAttribute('resize-item-initial');
+    let minWidth = element.getAttribute('' + '-min');
+    let initialWidth = attrs.resizeItemInitial;
+    console.log("attrs", attrs)
+
+    console.log("initialWidth", initialWidth)
 
     if (isNaN(parseInt(minWidth))) {
       minWidth = 0;

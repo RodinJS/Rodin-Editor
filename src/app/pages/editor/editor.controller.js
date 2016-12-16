@@ -16,7 +16,7 @@ class EditorCtrl {
       this._RodinIdea.setProjectId(data._id);
 
       this.projectId = this._RodinIdea.getProjectId();
-    }, (errors) => {
+    }, (err) => {
       this._$state.go('app.error');
     });
 

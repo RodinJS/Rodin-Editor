@@ -1,6 +1,7 @@
-import ResizeLink from './link';
+import ResizeLink from './resize.link';
+import ResizeItemLink from './resizeItem.link';
 
-function Resize($compile) {
+function Resize() {
   'ngInject';
   return {
     restrict: 'A',
@@ -11,4 +12,13 @@ function Resize($compile) {
   };
 }
 
-export default Resize;
+function ResizeItem() {
+  'ngInject';
+  return {
+    restrict: 'A',
+    require: "?^resize",
+    link: ResizeItemLink
+  };
+}
+
+export {Resize, ResizeItem};

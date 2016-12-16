@@ -21,7 +21,7 @@ class IdeaCtrl {
     this._$emit = $emit;
     this.windowActivity = RodinIdea.windowActivity;
 
-    this.resizeItemConfig = Storage.get("resizeItemConfig");
+    this.resizeItemConfig = Storage.projectScopeGet(RodinIdea.getProjectId(), "resizeItemConfig");
 
     this._registerKeys(RodinMenuBar.getList());
   }
