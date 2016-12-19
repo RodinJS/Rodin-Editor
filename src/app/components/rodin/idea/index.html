@@ -1,0 +1,54 @@
+<div class="rodin-idea clearfix">
+  <rodin-toolbar></rodin-toolbar>
+
+
+  <div class="workspace"
+       data-resize
+       data-resize-type="vertical">
+
+    <div class="work-space-container"
+         data-resize-item
+         data-resize-item-initial="100%"
+         data-resize>
+
+      <rodin-tree class="work-space-sidebar clearfix"
+                  data-ng-show="$ctrl.windowActivity.tree"
+                  data-resize-item
+                  data-resize-item-min="200"
+                  data-resize-item-initial="{{::$ctrl.resizeItemConfig.horizontal[0]}}"></rodin-tree>
+
+
+      <rodin-editor class="work-space-box editor-box clearfix"
+                    data-resize-item
+                    data-resize-item-initial="{{::$ctrl.resizeItemConfig.horizontal[1]}}"></rodin-editor>
+
+
+      <rodin-preview class="work-space-box view-box clearfix"
+                     data-ng-show="$ctrl.windowActivity.preview"
+                     data-resize-item
+                     data-resize-item-initial="{{::$ctrl.resizeItemConfig.horizontal[2]}}"></rodin-preview>
+
+    </div>
+
+    <!--<div class="work-space-container"-->
+    <!--data-ng-show="$ctrl.windowActivity.inspector || $ctrl.windowActivity.monitor"-->
+    <!--resize-item-->
+    <!--resize-item-initial="50%"-->
+    <!--data-resize>-->
+
+    <!--<rodin-tree data-project-id="projectId" class="work-space-sidebar clearfix"-->
+    <!--ng-show="$ctrl.windowActivity.inspector"-->
+    <!--resize-item-->
+    <!--resize-item-min="200"-->
+    <!--resize-item-initial="30%"></rodin-tree>-->
+
+
+    <!--<rodin-preview class="work-space-box view-box clearfix"-->
+    <!--ng-show="$ctrl.windowActivity.monitor"-->
+    <!--resize-item-->
+    <!--resize-item-initial="60%"></rodin-preview>-->
+
+    <!--<div class="drag-handle-vertical"></div>-->
+    <!--</div>-->
+  </div>
+</div>

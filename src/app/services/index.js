@@ -4,6 +4,9 @@ import angular from 'angular/index';
 let servicesModule = angular.module('app.services', []);
 
 
+import UtilsService from './utils.service';
+servicesModule.service('Utils', UtilsService);
+
 import FileUtilsService from './fileUtils.service';
 servicesModule.service('FileUtils', FileUtilsService);
 
@@ -28,9 +31,19 @@ servicesModule.service('Project', ProjectService);
 import EditorService from './editor.service';
 servicesModule.service('Editor', EditorService);
 
+import VCSService from './vcs.service';
+servicesModule.service('VCS', VCSService);
+
+import FileService from './file.service';
+servicesModule.service('File', FileService);
+
 
 import StorageService from './storage.service';
 servicesModule.service('Storage', StorageService);
+
+
+import SocketService from './socket.service';
+servicesModule.service('Socket', SocketService);
 
 
 export default servicesModule;

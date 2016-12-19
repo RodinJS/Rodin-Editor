@@ -6,6 +6,19 @@
   @import "fileTree";
   @import "editor";
 
+  & > .work-space-box {
+    width: 42%;
+  }
+
+  & > .work-space-sidebar,
+  & > .work-space-box {
+    flex: 1 1 auto;
+  }
+
+  & > .work-space-box {
+    flex-basis: auto;
+  }
+
   .work-space-box .space-box-header .space-box-tab li {
     cursor: pointer;
   }
@@ -13,7 +26,7 @@
   .space-box-content-bottom {
     display: block;
     iframe {
-      height: calc(100vh - 63px) !important;
+      height: calc(100vh - 93px) !important;
     }
   }
 
@@ -44,3 +57,5 @@
     }
   }
 }
+
+@import "idea";

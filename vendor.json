@@ -1,0 +1,10 @@
+{
+  "ace-builds": {
+    "src": "./node_modules/ace/lib/ace/**/*.*",
+    "dest": "/ace/"
+  },
+  "systemjs-module": {
+    "src": "./src/systemjs-module/**/*.*",
+    "dest": "/systemjs-module/"
+  }
+}

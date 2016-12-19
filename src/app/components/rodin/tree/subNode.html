@@ -1,0 +1,54 @@
+<a data-ng-if="node.parent === '..'"
+   class="text-small tree-node tree-node-content menu-item-header btn-menu-drop"
+   data-context-menu="$ctrl.rootMenuOptions"
+   data-model="node">
+
+      <span class="item-header-inner">
+
+        <i class="ion ion-android-arrow-dropdown dropdown-icon color-icon-dark"></i>
+
+        <i data-ng-class="::$ctrl.getFileOptions(node).class" class="file-icon" data-ng-bind="::$ctrl.getFileOptions(node).content"></i>
+
+        <span class="file-name">{{::node.name}}</span>
+
+      </span>
+
+</a>
+
+<a data-ng-if="node.parent !== '..'"
+   class="text-small tree-node tree-node-content"
+   data-ng-class="{'menu-item-header btn-menu-drop':$ctrl.isFolder(node)}"
+   data-ng-dblclick="$ctrl.open(this, node)"
+   data-context-menu="$ctrl[node.type+'MenuOptions']"
+   data-model="node"
+   ui-tree-handle
+   data-ng-click="$ctrl.toggle(this)">
+
+      <span data-ng-class="{'item-header-inner':$ctrl.isFolder(node)}" data-nodrag>
+
+        <i class="ion ion-android-arrow-dropdown dropdown-icon color-icon-dark"
+           data-ng-show="$ctrl.isFolder(node)"></i>
+
+        <i data-ng-class="$ctrl.getFileOptions(node).class" class="file-icon" data-ng-bind="$ctrl.getFileOptions(node).content"></i>
+
+        <span class="file-name">{{node.name}}</span>
+
+      </span>
+
+</a>
+
+
+<ul class="sidebar-submenu"
+    data-ng-show="(node.type == 'directory')"
+    data-ui-tree-nodes
+    data-ng-model="node.children">
+
+  <li data-ng-repeat="node in node.children | orderBy: 'type'"
+      data-ui-tree-node
+      data-ng-class="{
+        'menu-item':$ctrl.isFolder(node),
+        'open': node.active
+        }"
+      data-ng-include="'components/rodin/tree/subNode.html'"></li>
+
+</ul>

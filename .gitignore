@@ -81,6 +81,5 @@ Temporary Items
 .Trash-*
 /node_modules/
 /bower_components/
-/build
-#/build/scripts/vendor/
+/build/
 /src/app/config/app.templates.js

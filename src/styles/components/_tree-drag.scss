@@ -1,0 +1,92 @@
+.angular-ui-tree-drag {
+  position: absolute;
+  &.sidebar-submenu {
+    display: block;
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+    a {
+      white-space: nowrap;
+      display: block;
+      color: $white;
+      text-decoration: none;
+      height: 24px;
+      line-height: 23px;
+      padding-right: 20px;
+      position: relative;
+      .item-header-inner {
+        position: relative;
+        display: block;
+        i.dropdown-icon {
+          position: absolute;
+          right: 100%;
+          padding-top: 2px;
+          top: 1px;
+        }
+      }
+      i,
+      span {
+        position: relative;
+        z-index: 23;
+      }
+      i {
+        display: inline-block;
+        vertical-align: middle;
+        margin-right: 3px;
+        transition: all .3s;
+        &.dropdown-icon {
+          transform: rotate(-90deg);
+        }
+        &.ion {
+          font-size: 20px;
+        }
+        &.material-icons {
+          font-size: 18px;
+        }
+        &.fa {
+          font-size: 14px;
+        }
+        &.color-icon-red {
+          color: $colorRed;
+        }
+        &.color-icon-orange {
+          color: $colorOrange;
+        }
+        &.color-icon-green {
+          color: $colorGreen;
+        }
+        &.color-icon-blue {
+          color: $colorBlue;
+        }
+        &.color-icon-dark {
+          color: $colorSemiWhite;
+        }
+      }
+      .file-icon {
+        margin-right: 5px;
+      }
+      .file-name {
+        display: inline-block;
+        vertical-align: middle;
+      }
+      &:before {
+        content: "";
+        display: block;
+        position: absolute;
+        right: 0;
+        top: 0;
+        height: 100%;
+        width: 1000px;
+        transition: background .3s;
+      }
+    }
+
+    .sidebar-submenu {
+      display: none;
+    }
+  }
+}
+
+.work-space-container .work-space-sidebar .sidebar-menu a .item-header-inner {
+  display: inline-block;
+}

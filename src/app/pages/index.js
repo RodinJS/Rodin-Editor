@@ -10,9 +10,9 @@ import './error/index';
 
 // Create the module where our functionality can attach to
 let pagesModule = angular.module('app.pages', [
-	'app.error',
+  'app.error',
 
-	'app.editor',
+  'app.editor',
 
 ]);
 

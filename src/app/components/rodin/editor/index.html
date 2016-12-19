@@ -1,0 +1,23 @@
+<div class="clearfix">
+  <div class="drag-handle"></div>
+  <div class="space-box-header">
+
+    <rodin-tabs class="space-box-tab" data-component-id="{{::$ctrl.tabsComponentId}}" data-callbacks="$ctrl.tabsCallbacks"></rodin-tabs>
+
+    <!--
+      <div class="btn-tab-settings-wrapper">
+        <a href="#" class="btn-tab-settings"><i class="icon icon-more"></i></a>
+      </div>
+    -->
+
+    <div class="space-box-content ace-editor clearfix" id="rodin-ace-editor-container">
+
+      <div class="clearfix preview-box preview-box-editor" data-ng-show="$ctrl.file.isEditable">
+        <ace class="clearfix" data-ng-model="$ctrl.file.content" data-ace-config="$ctrl.aceConfig"></ace>
+      </div>
+
+      <div class="clearfix preview-box preview-box-file" data-ng-if="!$ctrl.file.isEditable" data-file-preview="$ctrl.file"></div>
+
+    </div>
+  </div>
+</div>

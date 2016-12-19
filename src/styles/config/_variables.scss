@@ -1,3 +1,5 @@
+
+
 // ==== Color
 $black:               #000;
 $white:               #fff;
@@ -5,12 +7,20 @@ $dropdown-bg:         $white;
 $dropdown-border:     darken($dropdown-bg, 10%);
 $colorOrange:         #FF9A2B;
 $colorBlue:           #33DEFF;
+$colorId:             #4790D0;
 $colorSemiWhite:      rgba(255, 255, 255, .5);
 $colorMainBg:         #252527;
 $colorDivider:        #212123;
 $colorRed:            #F95957;
+$colorGreen:          #B8E986;
 $colorBodyBg:         #1E1E20;
 $sectionBorder:       #3B3B3D;
+$colorDivider:        #535355;
+$colorGray:           #28282B;
+$colorGrayD:          #181818;
+$colorGreen2:         #44FF64;
+$colorEditorDropdown: #757577;
+$colorEditorDivider:  #909092;
 
 // ========= SIZE ========= //
 
@@ -19,10 +29,12 @@ $btn-vert-padding:     6px;
 $btn-horiz-padding:    32px;
 $btn-fontSize:         21px;
 
+// ws
+$base_s: 28px;
+$diff: 16px;
+
 // == Dropdown
 $dropdown-caret-size:  8px;
-
-
 
 // ==== Font
 $font-base:          16px;
@@ -30,9 +42,11 @@ $fontHelvetic:       "Helvetica Neue", Helvetica, sans-serif;
 $fontOpenSans:       'Open Sans', sans-serif;
 
 // ===== Icons
-
 $icomoon-font-path:  "../fonts/rodin-icon" !default;
 
+$icon-fullscreen:    "\e919";
+$icon-reload:        "\e91a";
+$icon-download:      "\e918";
 $icon-glasses-bold:  "\e917";
 $icon-eye:           "\e914";
 $icon-eye-close:     "\e915";

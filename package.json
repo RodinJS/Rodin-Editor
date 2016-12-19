@@ -1,7 +1,7 @@
 {
-  "name": "Rodin-JS-front",
-  "version": "0.0.1",
-  "description": "Build system for Rodin-JS-front project, based on Gulp.js",
+  "name": "Rodin-Editor",
+  "version": "0.1.10",
+  "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -9,22 +9,24 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/grigorkh/Rodin-JS-front.git"
+    "url": "git+https://github.com/RodinJS/Rodin-Editor.git"
   },
   "keywords": [
     "Rodin",
+    "Rodin editor",
+    "editor",
     "Rodinjs",
     "gulp",
     "library",
     "vr",
     "ar"
   ],
-  "author": "Grigor Khachatryan <g@yvn.io>",
+  "author": "RodinVR <suport@rodin.io>",
   "license": "UNLICENSED",
   "bugs": {
-    "url": "https://github.com/grigorkh/Rodin-JS-front/issues"
+    "url": "https://github.com/RodinJS/Rodin-Editor/issues"
   },
-  "homepage": "https://github.com/grigorkh/Rodin-JS-front#readme",
+  "homepage": "https://github.com/RodinJS/Rodin-Editor#readme",
   "devDependencies": {
     "babel-plugin-angularjs-annotate": "^0.6.0",
     "babel-plugin-transform-class-properties": "^6.18.0",
@@ -32,6 +34,7 @@
     "babel-plugin-undeclared-variables-check": "^6.8.0",
     "babel-preset-es2015": "^6.18.0",
     "del": "^2.2.2",
+    "events-stream": "^0.2.0",
     "gulp": "^3.9.1",
     "gulp-angular-templatecache": "^2.0.0",
     "gulp-autoprefixer": "^3.1.1",
@@ -49,5 +52,30 @@
     "gulp-uglify": "^2.0.0",
     "gulp-watch": "^4.3.11",
     "run-sequence": "^1.2.2"
+  },
+  "dependencies": {
+    "ace":"git+https://github.com/ajaxorg/ace#master",
+    "angular": "1.5.9",
+    "angular-animate": "1.5.9",
+    "angular-ui-bootstrap": "^2.3.1",
+    "angular-bootstrap-contextmenu": "^0.9.9",
+    "angular-cookies": "1.5.9",
+    "angular-event-emitter": "0.0.1",
+    "angular-sanitize": "1.5.9",
+    "angular-storage": "0.0.15",
+    "angular-touch": "1.5.9",
+    "angular-ui-ace": "^0.2.3",
+    "angular-ui-notification": "^0.2.0",
+    "angular-ui-router": "^0.3.2",
+    "angular-ui-tree": "^2.22.1",
+    "bootstrap-sass": "^3.3.7",
+    "font-awesome": "^4.7.0",
+    "jszip": "^3.1.3",
+    "mousetrap": "^1.6.0",
+    "ng-device-detector": "^3.0.1",
+    "query-string": "^4.2.3",
+    "restangular": "^1.5.2",
+    "socket.io-client": "^1.7.2",
+    "systemjs": "^0.19.41"
   }
 }
