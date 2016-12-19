@@ -93,6 +93,7 @@ class User {
     if (this.current) {
       deferred.resolve(true);
     } else {
+
       if (verificationPromise) {
         return verificationPromise;
       }
@@ -109,6 +110,7 @@ class User {
 
       verificationPromise = deferred.promise;
     }
+
     return deferred.promise;
   }
 

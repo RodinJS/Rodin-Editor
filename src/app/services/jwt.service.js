@@ -56,15 +56,19 @@ export default class JWT {
     let deferred = this._$q.defer();
 
     if (this.get()) {
-      return this._Auth.one("verify").get().then((res) => {
+      this._Auth.one("verify").get().then((res) => {
+        deferred.resolve(true);
         return res;
       }, (err) => {
         this.destroy();
-        this._$window.location.href = this._AppConstants.SITE;
+        deferred.reject(false);
+        // this._$window.location.href = this._AppConstants.SITE;
         return err;
       });
+    } else {
+      deferred.reject(false);
     }
-    deferred.resolve(true);
+
     return deferred.promise;
   }
 

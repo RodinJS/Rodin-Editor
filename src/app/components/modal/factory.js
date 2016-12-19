@@ -6,6 +6,7 @@ import * as _ from "lodash/lodash.min";
 
 function ModalFactory($uibModal) {
   'ngInject';
+
   let model = {};
 
   let openModals = {};

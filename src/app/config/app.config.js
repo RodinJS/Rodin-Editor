@@ -60,7 +60,7 @@ function AppConfig(RestangularProvider, $stateProvider, $locationProvider, $urlR
       templateUrl: 'layout/main/app-view.html',
       resolve: {
         auth: function (User) {
-          return User.verifyAuth(false);
+          return User.verifyAuth();
         }
       }
     });
