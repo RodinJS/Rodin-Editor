@@ -4,7 +4,7 @@
 
 
 import JSZip from "jszip/dist/jszip.min";
-import * as _ from "lodash/dist/lodash.min";
+import * as _ from "lodash/lodash.min";
 
 
 let self;

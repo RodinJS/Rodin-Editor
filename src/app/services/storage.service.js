@@ -2,7 +2,7 @@
  * Created by kh.levon98 on 12-Oct-16.
  */
 
-import * as _ from "lodash/dist/lodash.min";
+import * as _ from "lodash/lodash.min";
 
 export default class Storage {
   constructor(AppConstants, store, $q, User) {

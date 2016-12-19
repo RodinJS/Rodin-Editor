@@ -2,7 +2,7 @@
  * Created by kh.levon98 on 17-Oct-16.
  */
 
-import * as _ from "lodash/dist/lodash.min";
+import * as _ from "lodash/lodash.min";
 
 function RodinTreeFactory(Editor, RodinEditor, RodinTabs, RodinTabsConstants, Utils, FileUtils, File, RodinIdea, RodinPreview, Storage, Modal, $q) {
   'ngInject';

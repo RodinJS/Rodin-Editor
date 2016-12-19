@@ -21,6 +21,8 @@
 
 'use strict';
 
+const _ = require('lodash');
+const es = require('event-stream');
 const gulp = require('gulp');
 const babel = require('gulp-babel');
 const sass = require('gulp-sass');
@@ -38,6 +40,8 @@ const plumber = require('gulp-plumber');
 const size = require('gulp-size');
 const connect = require('gulp-connect');
 const templateCache = require('gulp-angular-templatecache');
+const VERSION = require('./package.json').version;
+const VENDOR = require('./package.json').dependencies;
 const VENDORMAP = require('./vendor.json');
 
 
@@ -71,19 +75,51 @@ const ERROR_MESSAGE = {
 };
 
 gulp.task('vendor', () => {
-  let task = gulp.src(`./bower_components/**/*.*`);
-  task.pipe(gulp.dest(`./build/scripts/vendor/`));
+  let vendor_tasks = generate_vendor(VENDOR);
 
-  if (VENDORMAP) {
-    for (let i = 0, ln = VENDORMAP.length; i < VENDORMAP.length; i++) {
-      let module = VENDORMAP[i];
-      let task = gulp.src(module.src);
-      task.pipe(gulp.dest(`./build/scripts/vendor${(module.dest || "/")}`));
+  let custom_vendor_tasks = _.map(VENDORMAP, (item, key) => {
+    let src, dest;
+
+    src = item.src;
+    if (!src) {
+      throw new Error(`Please provide ${key} external module src.`);
     }
-  }
+    dest = `./build/scripts/vendor/${item.dest || ""}`;
 
-  return task;
+    return gulp.src(src).pipe(gulp.dest(dest))
+  });
+
+  es.merge(_.concat(vendor_tasks, custom_vendor_tasks));
 });
+
+function generate_vendor(vendor) {
+  let list = [];
+  return _.concat(list, _.map(vendor, (item, key) => {
+    let src, dest, dependencies;
+    let module = key;
+    if (VENDORMAP && VENDORMAP[module]) {
+      let moduleMap = VENDORMAP[module];
+      src = moduleMap.src;
+      if (!src) {
+        throw new Error(`Please provide ${key} module src.`);
+      }
+      dest = `./build/scripts/vendor/${moduleMap.dest || key}`;
+    } else {
+      dependencies = require(`./node_modules/${module}/package.json`).dependencies;
+      src = `./node_modules/${module}/**/*.*`;
+      dest = `./build/scripts/vendor/${module}`;
+    }
+
+    delete VENDORMAP[module];
+    let task = gulp.src(src).pipe(gulp.dest(dest));
+
+    if (dependencies) {
+      _.concat(list, generate_vendor(dependencies));
+    }
+
+    return task;
+  }));
+}
 
 gulp.task('js', () => {
   const s = size({title: 'JS -> ', pretty: true});

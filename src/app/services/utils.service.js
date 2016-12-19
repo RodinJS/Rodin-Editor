@@ -2,7 +2,7 @@
  * Created by kh.levon98 on 30-Sep-16.
  */
 
-import * as _ from "lodash/dist/lodash.min";
+import * as _ from "lodash/lodash.min";
 
 class Utils {
   constructor($log) {

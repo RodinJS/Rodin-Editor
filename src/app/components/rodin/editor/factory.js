@@ -3,7 +3,7 @@
  */
 
 
-import * as _ from "lodash/dist/lodash.min";
+import * as _ from "lodash/lodash.min";
 import angular from 'angular/index';
 
 

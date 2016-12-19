@@ -18,22 +18,24 @@ const AppConstants = {
     EDITOR: 'http://localhost:8000/#/',
   },
   dev: {
-    COOKIEDOMAIN: ['.rodin.space'],
+    COOKIEDOMAIN: ['localhost', '.rodin.space'],
     API: 'https://api.rodin.space/api',
     SOCKET: 'https://ss.rodin.space/api',
     SITE: 'https://rodin.space/',
-    PREVIEW: 'https://api.rodin.space/preview/',
-    PUBLIC: 'https://api.rodin.space/public/',
+    PREVIEW: 'https://rodin.space/projects/',
+    PUBLIC: 'https://rodin.space/public/',
+    PUBLISH: `https://rodin.space/`,
     EDITOR: 'https://editor.rodin.space/',
   },
   prod: {
-    COOKIEDOMAIN: ['.rodinapp.com', '.rodin.io'],
-    API: 'https://api.' + window.extractDomain() + '/api',
-    SOCKET: 'https://ss.' + window.extractDomain() + '/api',
-    SITE: 'https://' + window.extractDomain() + '/',
-    PREVIEW: 'https://api.' + window.extractDomain() + '/preview/',
-    PUBLIC: 'https://api.' + window.extractDomain() + '/public/',
-    EDITOR: 'https://editor.' + window.extractDomain() + '/',
+    COOKIEDOMAIN: ['.rodinapp.com', '.rodin.io', '.rodin.space'],
+    API: `${window.location.protocol}//api.${window.extractDomain()}/api`,
+    SOCKET: `${window.location.protocol}//ss.rodin.space/api`,
+    SITE: `${window.location.protocol}//${window.extractDomain()}/`,
+    PREVIEW: `${window.location.protocol}//${window.extractDomain()}/projects/`,
+    PUBLIC: `${window.location.protocol}//${window.extractDomain()}/public/`,
+    PUBLISH: `${window.location.protocol}//${window.extractDomain()}/`,
+    EDITOR: `${window.location.protocol}//editor.${window.extractDomain()}/`,
   },
 
   get API() {
@@ -68,6 +70,10 @@ const AppConstants = {
   ERRORCODES: {
     "400": {
       "message": "BAD_REQUEST",
+      "field": ""
+    },
+    "500": {
+      "message": "INTERNAL_SERVER_ERROR",
       "field": ""
     },
     "404": {

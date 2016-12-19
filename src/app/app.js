@@ -22,8 +22,8 @@ import 'mousetrap/mousetrap.min';
 import 'mousetrap/plugins/global-bind/mousetrap-global-bind';
 
 import 'angular-ui-router/release/angular-ui-router.min';
-import 'a0-angular-storage/dist/angular-storage.min';
-import 'lodash/dist/lodash.min';
+import 'angular-storage/dist/angular-storage.min';
+import 'lodash/lodash.min';
 
 import 'restangular/dist/restangular.min';
 import 'angular-bootstrap/ui-bootstrap-tpls.min';

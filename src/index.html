@@ -19,7 +19,7 @@
 
 <div data-ui-view class="app-container clearfix"></div>
 
-<script type="text/javascript" src="/scripts/vendor/systemjs/system.js"></script>
+<script type="text/javascript" src="/scripts/vendor/systemjs/dist/system.js"></script>
 <script>
 
   (function (System) {
@@ -54,8 +54,8 @@
 
   System.config({
     map: {
-      css: '/scripts/vendor/systemjs/css.js',  // path to css.js file
-      snippets: '/scripts/vendor/systemjs/snippets.js'  // path to snippets.js file
+      css: '/scripts/vendor/systemjs-module/css.js',  // path to css.js file
+      snippets: '/scripts/vendor/systemjs-module/snippets.js'  // path to snippets.js file
     },
     paths: {
       '*': 'scripts/vendor/*',

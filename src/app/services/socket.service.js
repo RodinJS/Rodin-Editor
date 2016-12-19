@@ -2,8 +2,8 @@
  * Created by kh.levon98 on 23-Nov-16.
  */
 
-import * as io from 'socket.io-client/socket.io.min';
-import * as _ from "lodash/dist/lodash.min";
+import * as io from 'socket.io-client/dist/socket.io.min';
+import * as _ from "lodash/lodash.min";
 
 let queue = [];
 
