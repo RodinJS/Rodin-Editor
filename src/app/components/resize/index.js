@@ -1,4 +1,5 @@
 import ResizeLink from './resize.link';
+import ResizeCtrl from './resize.controller';
 import ResizeItemLink from './resizeItem.link';
 
 function Resize() {
@@ -8,7 +9,8 @@ function Resize() {
     scope: {
       resizeType: '@'
     },
-    link: ResizeLink
+    link: ResizeLink,
+    controller: ResizeCtrl
   };
 }
 
@@ -16,7 +18,7 @@ function ResizeItem() {
   'ngInject';
   return {
     restrict: 'A',
-    require: "?^resize",
+    require: "^^resize",
     link: ResizeItemLink
   };
 }
