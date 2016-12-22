@@ -13,6 +13,7 @@ import FilePreview from './filePreview/index';
 componentsModule.directive('filePreview', FilePreview);
 
 import {Resize, ResizeItem} from './resize/index';
+
 componentsModule.directive('resize', Resize);
 componentsModule.directive('resizeItem', ResizeItem);
 
