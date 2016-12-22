@@ -6,7 +6,6 @@ import * as _ from "lodash/lodash.min";
 import Mousetrap from "mousetrap/mousetrap.min";
 
 Mousetrap.stopCallback = function () {
-  console.dir(arguments);
   return false;
 };
 
