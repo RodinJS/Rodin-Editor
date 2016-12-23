@@ -115,10 +115,11 @@ function ResizeCtrl($scope, $timeout, Storage, RodinIdea) {
     }
 
     function drag(evt) {
-      evt.preventDefault();
       if (!isDragging) {
         return;
       }
+
+      evt.preventDefault();
 
       self.resizeType === 'vertical' ? dragVertical(evt) : dragHorizontal(evt)
     }
@@ -158,9 +159,12 @@ function ResizeCtrl($scope, $timeout, Storage, RodinIdea) {
     }
 
     function stopDrag() {
-      isDragging = false;
-      Storage.projectScopeSet(RodinIdea.getProjectId(), "resizeItemConfig", resizeItemConfig);
-      unblockIframes(column, right);
+      if (isDragging) {
+        isDragging = false;
+        Storage.projectScopeSet(RodinIdea.getProjectId(), "resizeItemConfig", resizeItemConfig);
+        unblockIframes(column, right);
+
+      }
     }
   }
 

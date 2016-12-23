@@ -4,18 +4,21 @@
 
 import * as _ from "lodash/lodash.min";
 
-function RodinTabsFactory(Utils, RodinTabsConstants, $emit) {
+function RodinTabsFactory(Utils, RodinIdea, $emit, Storage) {
   'ngInject';
 
   let model = {};
 
   let data = {};
   let info = {};
+  let config = {};
 
   model.initialize = initialize;
   model.destroy = destroy;
   model.getInfo = getInfo;
   model.getList = getList;
+  model.setList = setList;
+  model.setInfo = setInfo;
   model.get = get;
   model.add = add;
   model.remove = remove;
@@ -24,7 +27,7 @@ function RodinTabsFactory(Utils, RodinTabsConstants, $emit) {
 
   return model;
 
-  function initialize(compId = Utils.generateUniqueString()) {
+  function initialize(compId = Utils.generateUniqueString(), bindings = {}) {
     if (compId in data) {
       throw new Error('Component with this ID already exists.');
       return false;
@@ -39,6 +42,8 @@ function RodinTabsFactory(Utils, RodinTabsConstants, $emit) {
     info[compId] = {
       activeIndex: 0
     };
+
+    config[compId] = bindings;
 
     return compId;
   }
@@ -70,6 +75,10 @@ function RodinTabsFactory(Utils, RodinTabsConstants, $emit) {
       comp.push(tab);
 
       this.setActive(compId, tab);
+
+      if (config[compId].saveState) {
+        saveState(compId, config[compId].callbacks.stateMiddleware);
+      }
     }
   }
 
@@ -90,6 +99,10 @@ function RodinTabsFactory(Utils, RodinTabsConstants, $emit) {
       }
 
       this.setActive(compId, tabs.nextTab);
+
+      if (config[compId].saveState) {
+        saveState(compId, config[compId].callbacks.stateMiddleware);
+      }
     }
   }
 
@@ -116,8 +129,18 @@ function RodinTabsFactory(Utils, RodinTabsConstants, $emit) {
     return data[compId];
   }
 
+  function setList(compId = "", val = {}) {
+    return data[compId] = val;
+  }
+
   function getInfo(compId = "") {
     return info[compId] || {};
+  }
+
+  function setInfo(compId = "", val = {}) {
+    info[compId] = val;
+
+    model.setActive(compId, val.activeIndex);
   }
 
   function _removeImitation(compId = "", tab = null) {
@@ -157,6 +180,14 @@ function RodinTabsFactory(Utils, RodinTabsConstants, $emit) {
     }
   }
 
+  function saveState(compId, cb) {
+    let state = {
+      data: data[compId],
+      info: info[compId]
+    };
+
+    Storage.projectScopeSet(RodinIdea.getProjectId(), compId, (cb && _.isFunction(cb) ? cb(_.cloneDeep(state)) : state));
+  }
 }
 
 export default RodinTabsFactory;

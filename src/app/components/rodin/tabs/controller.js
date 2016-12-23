@@ -7,13 +7,23 @@ import * as _ from "lodash/lodash.min";
 import angular from 'angular/index';
 
 class TabsCtrl {
-  constructor($scope, RodinTabs) {
+  constructor($scope, RodinTabs, RodinIdea, Storage) {
     'ngInject';
 
     this._$scope = $scope;
     this._RodinTabs = RodinTabs;
 
-    this._componentId = RodinTabs.initialize(this.componentId);
+    this._componentId = RodinTabs.initialize(this.componentId, {
+      saveState: !!this.saveState,
+      callbacks: this.callbacks || {}
+    });
+
+    let savedState = Storage.projectScopeGet(RodinIdea.getProjectId(), this._componentId);
+
+    if (savedState) {
+      RodinTabs.setList(this._componentId, savedState.data);
+      RodinTabs.setInfo(this._componentId, savedState.info);
+    }
 
     this.tabs = RodinTabs.getList(this._componentId);
 
@@ -36,7 +46,7 @@ class TabsCtrl {
     if (_.isFunction(clFn)) {
       let result = clFn(tabs.oldTab, tabs.nextTab);
       if (result && _.isFunction(result.then)) {
-        return result.then(()=>{
+        return result.then(() => {
           this._RodinTabs.remove(this._componentId, tab);
         });
       }
