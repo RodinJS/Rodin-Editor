@@ -295,9 +295,7 @@ function AceLink(scope, elm, attrs, ngModel) {
     setOptions(AceFactory.editor, AceFactory.session, opts);
   };
 
-  scope.$watch(function () {
-    return scope.aceConfig;
-  }, updateOptions, /* deep watch */ true);
+  scope.$watch(() => scope.aceConfig, updateOptions, /* deep watch */ true);
 
   // set the options here, even if we try to watch later, if this
   // line is missing things go wrong (and the tests will also fail)

@@ -11,7 +11,7 @@ function AceEditor() {
 
   return {
     restrict: 'E',
-    require: '?ngModel',
+    require: 'ngModel',
     replace: true,
     link: AceLink,
     controller: AceCtrl,

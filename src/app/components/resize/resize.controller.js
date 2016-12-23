@@ -121,7 +121,7 @@ function ResizeCtrl($scope, $timeout, Storage, RodinIdea) {
 
       evt.preventDefault();
 
-      self.resizeType === 'vertical' ? dragVertical(evt) : dragHorizontal(evt)
+      $scope.$apply(() => self.resizeType === 'vertical' ? dragVertical(evt) : dragHorizontal(evt));
     }
 
     function dragHorizontal(evt) {
