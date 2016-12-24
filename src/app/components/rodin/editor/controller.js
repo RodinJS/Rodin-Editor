@@ -39,7 +39,9 @@ class EditorCtrl {
     };
 
     this._$on(`tabs:${this.tabsComponentId}:change-active-tab`, () => {
-      this.file = this._RodinTabs.get(this.tabsComponentId) || {};
+      let file = this._RodinTabs.get(this.tabsComponentId);
+      this._RodinEditor.openFile(!_.isEmpty(file) && !file.isBlank ? file : null);
+      this.file = file;
     });
 
     ///////// subscribe menu-bar events //////////
@@ -100,23 +102,16 @@ class EditorCtrl {
         }
       }).result.then(() => {
         deferred.resolve();
-        self._RodinEditor.openFile((newFile.isBlank ? null : newFile));
       }, () => {
         deferred.reject();
       });
 
       return deferred.promise;
-    } else {
-      self._RodinEditor.openFile((newFile.isBlank ? null : newFile));
     }
-
   }
 
   _switchFile(oldFile, newFile) {
-
     self._RodinEditor.saveState(oldFile);
-
-    self._RodinEditor.openFile(newFile); /// change ace content and settings
   }
 
   _storeFileMiddleware(state) {

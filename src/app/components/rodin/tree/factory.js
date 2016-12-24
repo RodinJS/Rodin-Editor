@@ -42,13 +42,11 @@ function RodinTreeFactory(Editor, RodinEditor, RodinTabs, RodinTabsConstants, Ut
 
         RodinEditor.saveState();
         RodinTabs.add(tabsComponentId, file);
-        RodinEditor.openFile(RodinTabs.get(tabsComponentId));
       });
     }
 
     RodinEditor.saveState();
     RodinTabs.setActive(tabsComponentId, file);
-    RodinEditor.openFile(file);
   }
 
 
