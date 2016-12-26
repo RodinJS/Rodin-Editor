@@ -42,13 +42,11 @@ function RodinTreeFactory(Editor, RodinEditor, RodinTabs, RodinTabsConstants, Ut
 
         RodinEditor.saveState();
         RodinTabs.add(tabsComponentId, file);
-        RodinEditor.openFile(RodinTabs.get(tabsComponentId));
       });
     }
 
     RodinEditor.saveState();
     RodinTabs.setActive(tabsComponentId, file);
-    RodinEditor.openFile(file);
   }
 
 
@@ -155,9 +153,6 @@ function RodinTreeFactory(Editor, RodinEditor, RodinTabs, RodinTabsConstants, Ut
 
 
   function deleteFile(node) {
-
-    console.log("fuck", arguments);
-
     return File.delete(node).then((data) => {
       model.update({
         folderPath: Utils.filterTree(model.data, {active: true}, "path", node.parent)

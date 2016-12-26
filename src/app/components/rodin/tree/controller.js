@@ -11,7 +11,7 @@ let self;
 
 class TreeCtrl {
 
-  constructor($scope, $timeout, Editor, VCS, $log, FileUtils, RodinTabs, RodinTree, RodinIdea, Modal, $on, $q, Notification, Storage, Utils) {
+  constructor($scope, $timeout, Editor, VCS, $log, File, FileUtils, RodinTabs, RodinTabsConstants, RodinTree, RodinIdea, Modal, $on, $q, Notification, Storage, Utils) {
     'ngInject';
 
     self = this;
@@ -20,8 +20,10 @@ class TreeCtrl {
     this._Editor = Editor;
     this._VCS = VCS;
     this._RodinTabs = RodinTabs;
+    this._RodinTabsConstants = RodinTabsConstants;
     this._RodinTree = RodinTree;
     this._FileUtils = FileUtils;
+    this._File = File;
     this._RodinIdea = RodinIdea;
     this._Modal = Modal;
     this._Storage = Storage;
@@ -159,10 +161,26 @@ class TreeCtrl {
           return v;
         })));
 
+        let editor_tabs = this._Storage.projectScopeGet(this._RodinIdea.getProjectId(), this._RodinTabsConstants.editor);
+
+        if (editor_tabs) {
+
+          for (let i = 0, ln = editor_tabs.data.length; i < ln; i++) {
+            let tab = editor_tabs.data[i];
+            if (!tab.isBlank && !tab.isUnsaved) {
+              this._File.open(tab).then((data) => {
+                let file = this._RodinTabs.get(this._RodinTabsConstants.editor, tab);
+                file.content = data.content;
+                file.originalContent = data.content;
+              });
+            }
+          }
+        }
+
         this._RodinTree.update({
           firstCall: true,
           folderPath: folderPath,
-          openFile: ["index.js", "index.html", ".html", ".js"],
+          openFile: editor_tabs && editor_tabs.info ? null : ["index.js", "index.html", ".html", ".js"],
           runFile: ["index.html", ".html"]
         });
       }

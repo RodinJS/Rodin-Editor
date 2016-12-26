@@ -33,7 +33,6 @@ function ModalFactory($uibModal) {
   }
 
   function create(resolve = {}, closeActiveModal = true) {
-    console.log("create", closeActiveModal)
     if (closeActiveModal) {
       closeModal(openModals);
     }

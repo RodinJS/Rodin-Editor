@@ -6,6 +6,7 @@ let Tabs = {
   controller: TabsCtrl,
   bindings: {
     componentId: "@",
+    saveState: "<",
     callbacks: "<"
   }
 };

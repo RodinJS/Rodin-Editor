@@ -44,6 +44,7 @@ export default class Storage {
         userSettings = {};
       }
       userSettings[key] = value;
+
       this._store.set(this._settingsKey, userSettings);
     }
     return value;
@@ -60,14 +61,17 @@ export default class Storage {
     return projectScope[key] || null;
   }
 
-  projectScopeSet(projectId = null, key, value) {
+  projectScopeSet(projectId = null, key = "", value = null) {
     if (!projectId) {
       return console.error("Please provide projectID");
     }
-    let projectScope = this.get(`project_${projectId}`) || {};
+
+    let p_key = `project_${projectId}`;
+
+    let projectScope = this.get(p_key) || {};
 
     projectScope[key] = value;
 
-    this.set(`project_${projectId}`, projectScope);
+    this.set(p_key, projectScope);
   }
 }

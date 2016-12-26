@@ -26,23 +26,23 @@ function RodinEditorFactory(Utils, RodinTabs, FileUtils, Ace, RodinTabsConstants
       showPrintMargin: false,
       // cursorPosition: 0,
       /*commands: [
-        /// save one file
-        {
-          name: 'save',
-          bindKey: {win: 'Ctrl-S', mac: 'Command-S'},
-          exec: () => {
-            $emit("menu-bar:saveFile");
-          }
-        },
-        /// save all files
-        {
-          name: 'saveAll',
-          bindKey: {win: 'Ctrl-Alt-Shift-S', mac: 'Command-Alt-Shift-S'},
-          exec: () => {
-            $emit("menu-bar:saveAllFiles");
-          }
-        }
-      ],*/
+       /// save one file
+       {
+       name: 'save',
+       bindKey: {win: 'Ctrl-S', mac: 'Command-S'},
+       exec: () => {
+       $emit("menu-bar:saveFile");
+       }
+       },
+       /// save all files
+       {
+       name: 'saveAll',
+       bindKey: {win: 'Ctrl-Alt-Shift-S', mac: 'Command-Alt-Shift-S'},
+       exec: () => {
+       $emit("menu-bar:saveAllFiles");
+       }
+       }
+       ],*/
       advanced: {
         basePath: "/scripts/vendor/",
         fontSize: "12px",
@@ -103,7 +103,6 @@ function RodinEditorFactory(Utils, RodinTabs, FileUtils, Ace, RodinTabsConstants
   model.replaceInFile = replaceInFile;
   model.replaceInFolder = replaceInFolder;
   model.goToLine = goToLine;
-
 
   return model;
 
@@ -168,7 +167,7 @@ function RodinEditorFactory(Utils, RodinTabs, FileUtils, Ace, RodinTabsConstants
   }
 
   function findInFolder() {
-    console.log("findInFolder");
+    // console.log("findInFolder");
   }
 
   function replaceInFile() {
@@ -176,7 +175,7 @@ function RodinEditorFactory(Utils, RodinTabs, FileUtils, Ace, RodinTabsConstants
   }
 
   function replaceInFolder() {
-    console.log("findInFolder");
+    // console.log("findInFolder");
   }
 
   function goToLine() {

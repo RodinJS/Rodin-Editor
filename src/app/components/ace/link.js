@@ -71,6 +71,7 @@ function setOptions(acee, session, opts) {
   if (angular.isString(opts.theme)) {
     acee.setTheme('ace/theme/' + opts.theme);
   }
+
   if (angular.isString(opts.mode)) {
     session.setMode('ace/mode/' + opts.mode);
   }
@@ -269,6 +270,8 @@ function AceLink(scope, elm, attrs, ngModel) {
     if (current === previous) return;
     opts = angular.extend({}, options, scope.aceConfig);
 
+    console.log("opts - ", opts.mode)
+
     opts.callbacks = [opts.onLoad];
     if (opts.onLoad !== options.onLoad) {
       // also call the global onLoad handler
@@ -295,9 +298,7 @@ function AceLink(scope, elm, attrs, ngModel) {
     setOptions(AceFactory.editor, AceFactory.session, opts);
   };
 
-  scope.$watch(function () {
-    return scope.aceConfig;
-  }, updateOptions, /* deep watch */ true);
+  scope.$watch(() => scope.aceConfig, updateOptions, /* deep watch */ true);
 
   // set the options here, even if we try to watch later, if this
   // line is missing things go wrong (and the tests will also fail)

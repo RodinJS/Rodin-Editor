@@ -8,7 +8,7 @@ let self;
 
 class EditorCtrl {
 
-  constructor($scope, RodinTabs, RodinEditor, Ace, $on, RodinTabsConstants, File, Modal, $q) {
+  constructor($scope, RodinTabs, RodinEditor, Ace, $on, RodinTabsConstants, File, Modal, $q, Storage, RodinIdea) {
     'ngInject';
 
     self = this;
@@ -21,7 +21,28 @@ class EditorCtrl {
     this._Modal = Modal;
     this._RodinEditor = RodinEditor;
     this._Ace = Ace;
+    this._Storage = Storage;
+    this._RodinIdea = RodinIdea;
     this.file = {};
+
+
+    $scope.$watch(() => Ace.session, () => {
+
+      console.log("watch", Ace.session)
+      if (Ace.session) {
+        let ll = function () {
+          console.log("changeSession", arguments)
+        };
+
+        Ace.session.removeListener('change', ll);
+
+        Ace.session.on("changeSession", ll);
+
+        Ace.session.removeListener('changeSelectionStyle', ll);
+
+        Ace.session.on("changeSelectionStyle", ll);
+      }
+    });
 
 
     this.options = this._RodinEditor.options;
@@ -33,10 +54,18 @@ class EditorCtrl {
     this.tabsCallbacks = {
       "close": this._closeFile,
       "change": this._switchFile,
+      "stateMiddleware": this._storeFileMiddleware
     };
 
     this._$on(`tabs:${this.tabsComponentId}:change-active-tab`, () => {
-      this.file = this._RodinTabs.get(this.tabsComponentId) || {};
+      let file = this._RodinTabs.get(this.tabsComponentId);
+      this._RodinEditor.openFile(!_.isEmpty(file) && !file.isBlank ? file : null);
+      this.file = file;
+      /*
+       self._RodinEditor.saveState();
+       self._RodinTabs.saveState(this.tabsComponentId);
+       */
+
     });
 
     ///////// subscribe menu-bar events //////////
@@ -88,7 +117,6 @@ class EditorCtrl {
   }
 
   _closeFile(oldFile, newFile) {
-
     if (oldFile.isUnsaved) {
       let deferred = self._$q.defer();
 
@@ -98,24 +126,30 @@ class EditorCtrl {
         }
       }).result.then(() => {
         deferred.resolve();
-        self._RodinEditor.openFile((newFile.isBlank ? null : newFile));
       }, () => {
         deferred.reject();
       });
 
       return deferred.promise;
-    } else {
-      self._RodinEditor.openFile((newFile.isBlank ? null : newFile));
     }
-
-
   }
 
   _switchFile(oldFile, newFile) {
-
     self._RodinEditor.saveState(oldFile);
+  }
 
-    self._RodinEditor.openFile(newFile); /// change ace content and settings
+  _storeFileMiddleware(state) {
+    let data = state.data;
+    for (let i = 0, ln = data.length; i < ln; i++) {
+      let file = data[i];
+
+      if (!file.isUnsaved) {
+        delete file.content;
+        delete file.originalContent;
+      }
+
+    }
+    return state;
   }
 }
 
