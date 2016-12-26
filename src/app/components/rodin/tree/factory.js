@@ -179,7 +179,7 @@ function RodinTreeFactory(Editor, RodinEditor, RodinTabs, RodinTabsConstants, Ut
       query.folderPath = folderPath;
     }
 
-    Editor.getProject(RodinIdea.getProjectId(), query).then((data) => {
+    return Editor.getProject(RodinIdea.getProjectId(), query).then((data) => {
       if ((_.isEmpty(folderPath) || firstCall) && !_.isArray(data.tree)) {
         model.root = data.root;
 
