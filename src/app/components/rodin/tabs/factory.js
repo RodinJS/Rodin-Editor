@@ -23,6 +23,9 @@ function RodinTabsFactory(Utils, RodinIdea, $emit, Storage) {
   model.add = add;
   model.remove = remove;
   model.setActive = setActive;
+  model.saveState = (compId = "") => {
+    saveState(compId, config[compId] ? config[compId].callbacks.stateMiddleware : null);
+  };
   model._removeImitation = _removeImitation;
 
   return model;
@@ -59,6 +62,9 @@ function RodinTabsFactory(Utils, RodinIdea, $emit, Storage) {
     if (_.isObject(compInfo)) {
       compInfo.activeIndex = (_.isNumber(tab) ? tab : tab.index);
       $emit(`tabs:${compId}:change-active-tab`);
+      if (config[compId].saveState) {
+        saveState(compId, config[compId].callbacks.stateMiddleware);
+      }
     }
   }
 
@@ -75,10 +81,6 @@ function RodinTabsFactory(Utils, RodinIdea, $emit, Storage) {
       comp.push(tab);
 
       this.setActive(compId, tab);
-
-      if (config[compId].saveState) {
-        saveState(compId, config[compId].callbacks.stateMiddleware);
-      }
     }
   }
 
@@ -99,10 +101,6 @@ function RodinTabsFactory(Utils, RodinIdea, $emit, Storage) {
       }
 
       this.setActive(compId, tabs.nextTab);
-
-      if (config[compId].saveState) {
-        saveState(compId, config[compId].callbacks.stateMiddleware);
-      }
     }
   }
 

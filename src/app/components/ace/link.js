@@ -71,6 +71,7 @@ function setOptions(acee, session, opts) {
   if (angular.isString(opts.theme)) {
     acee.setTheme('ace/theme/' + opts.theme);
   }
+
   if (angular.isString(opts.mode)) {
     session.setMode('ace/mode/' + opts.mode);
   }
@@ -266,8 +267,6 @@ function AceLink(scope, elm, attrs, ngModel) {
 
   // Listen for option updates
   let updateOptions = function (current, previous) {
-    console.log("isEqual", _.isEqual(current, previous))
-    console.log("isEqual", current === previous)
     if (current === previous) return;
     opts = angular.extend({}, options, scope.aceConfig);
 

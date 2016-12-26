@@ -26,6 +26,25 @@ class EditorCtrl {
     this.file = {};
 
 
+    $scope.$watch(() => Ace.session, () => {
+
+      console.log("watch", Ace.session)
+      if (Ace.session) {
+        let ll = function () {
+          console.log("changeSession", arguments)
+        };
+
+        Ace.session.removeListener('change', ll);
+
+        Ace.session.on("changeSession", ll);
+
+        Ace.session.removeListener('changeSelectionStyle', ll);
+
+        Ace.session.on("changeSelectionStyle", ll);
+      }
+    });
+
+
     this.options = this._RodinEditor.options;
 
     this.aceConfig = this._RodinEditor.options.ace;
@@ -42,6 +61,11 @@ class EditorCtrl {
       let file = this._RodinTabs.get(this.tabsComponentId);
       this._RodinEditor.openFile(!_.isEmpty(file) && !file.isBlank ? file : null);
       this.file = file;
+      /*
+       self._RodinEditor.saveState();
+       self._RodinTabs.saveState(this.tabsComponentId);
+       */
+
     });
 
     ///////// subscribe menu-bar events //////////
