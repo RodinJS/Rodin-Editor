@@ -11,17 +11,16 @@ let self;
 
 class TreeCtrl {
 
-  constructor($scope, $timeout, Editor, VCS, $log, File, FileUtils, RodinTabs, RodinTabsConstants, RodinTree, RodinIdea, Modal, $on, $q, Notification, Storage, Utils) {
+  constructor($scope, $timeout, VCS, $log, File, FileUtils, RodinTabs, RodinTabsConstants, RodinTree, RodinEditor, RodinIdea, Modal, $on, $q, Notification, Storage, Utils) {
     'ngInject';
-
     self = this;
     this._$scope = $scope;
     this._$timeout = $timeout;
-    this._Editor = Editor;
     this._VCS = VCS;
     this._RodinTabs = RodinTabs;
     this._RodinTabsConstants = RodinTabsConstants;
     this._RodinTree = RodinTree;
+    this._RodinEditor = RodinEditor;
     this._FileUtils = FileUtils;
     this._File = File;
     this._RodinIdea = RodinIdea;
@@ -103,7 +102,7 @@ class TreeCtrl {
       ['New Folder', this._createFolder],
       ['Upload Folder', this._uploadFolder],
       ['Delete Folder', this._delete],
-      // ['Find in Folder', this._findInFolder]
+      ['Find in Folder', this._findInFolder]
     ];
 
     this.treeOptions = {
@@ -210,6 +209,15 @@ class TreeCtrl {
     this._$on("menu-bar:push", (e, node, model) => {
       self._push(null, null, node);
     });
+
+    this._$on("menu-bar:findInFolder", (e, node, model) => {
+      self._findInFolder(null, null, node);
+    });
+
+    this._$on("menu-bar:replaceInFolder", (e, node, model) => {
+      self._replaceInFolder(null, null, node);
+    });
+
   }
 
   updateTree() {
@@ -285,6 +293,52 @@ class TreeCtrl {
 
       self._RodinTree.renameFile(node, {
         newName: res.newName
+      });
+
+    });
+  }
+
+  _findInFolder($itemScope, $event, node, text, $li) {
+    self._Modal.findAndReplace({
+      findText: () => {
+        return "";
+      },
+      path: () => {
+        return node.path;
+      }
+    }).result.then((res) => {
+
+      self._RodinEditor.findInFolder({
+        search: res.findText,
+        caseSensitive: res.caseSensitive,
+        regexp: res.regexp
+      });
+
+    });
+  }
+
+  _replaceInFolder($itemScope, $event, node, text, $li) {
+    return;
+    self._Modal.findAndReplace({
+      findText: () => {
+        return "";
+      },
+      replaceText: () => {
+        return "";
+      },
+      replace: () => {
+        return true;
+      },
+      path: () => {
+        return node.path;
+      }
+    }).result.then((res) => {
+
+      self._RodinEditor.replaceInFolder(node, {
+        search: res.findText,
+        replace: res.replaceText,
+        caseSensitive: res.caseSensitive,
+        regexp: res.regexp
       });
 
     });

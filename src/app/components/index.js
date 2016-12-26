@@ -55,6 +55,9 @@ componentsModule.component('uploadModal', UploadModal);
 import ReplaceModal from './modal/replace/index';
 componentsModule.component('replaceModal', ReplaceModal);
 
+import FindAndReplaceModal from './modal/findandreplace/index';
+componentsModule.component('findAndReplaceModal', FindAndReplaceModal);
+
 
 /*
  * End of Modals modules

@@ -1,0 +1,53 @@
+<div class="modal-content">
+  <div class="modal-body">
+    <h2 class="modal-title">{{::($ctrl.replace?'Find and replace in folder':'Find in folder')}}</h2>
+    <form action="" class="modal-form">
+
+      <div class="form-group">
+        <div class="form-label">Find</div>
+        <input type="text" data-ng-model="$ctrl.findText" class="form-control">
+      </div>
+
+      <div class="form-group clearfix" data-ng-show="$ctrl.replace">
+        <div class="form-label">Replace</div>
+        <input type="text" data-ng-model="$ctrl.replaceText" class="form-control">
+      </div>
+
+      <div class="form-group">
+        <div class="form-label">Folder Path</div>
+        <div class="input-group">
+          <span class="input-group-addon">{{$ctrl.projectRoot}}/</span>
+          <input type="text" data-ng-model="$ctrl.path" class="form-control">
+        </div>
+      </div>
+
+      <div class="form-group clearfix">
+        <div class="col-lg-6 col-md-6 col-sm-6 padding-left-0">
+          <label for="caseSensitive_checkbox" class="radio_box">
+            <span class="form-group-addon">
+              <input type="checkbox" data-ng-model="$ctrl.caseSensitive" id="caseSensitive_checkbox">
+            </span>
+            Case sensitive
+          </label>
+        </div>
+
+        <!--<div class="col-lg-6 col-md-6 col-sm-6 padding-right-0">
+          <label for="regexp_checkbox" class="radio_box">
+            <span class="form-group-addon">
+              <input type="checkbox" data-ng-model="$ctrl.regexp" id="regexp_checkbox">
+            </span>
+            Regular expression
+          </label>
+
+        </div>-->
+      </div>
+
+      <div class="form-actions">
+        <a class="btn btn-link" data-ng-click="$ctrl.cancel()">cancel</a>
+        <button type="button" class="btn btn-primary" data-ng-click="$ctrl.save()">
+          {{::($ctrl.replace?"Find and Replace":"Find")}}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

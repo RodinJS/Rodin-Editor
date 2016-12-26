@@ -7,7 +7,7 @@ import * as _ from "lodash/lodash.min";
 import angular from 'angular/index';
 
 
-function RodinEditorFactory(Utils, RodinTabs, FileUtils, Ace, RodinTabsConstants, $emit, Storage) {
+function RodinEditorFactory(Utils, RodinTabs, RodinIdea, Editor, FileUtils, Ace, RodinTabsConstants, $emit, Storage) {
   'ngInject';
 
   let model = {};
@@ -166,8 +166,8 @@ function RodinEditorFactory(Utils, RodinTabs, FileUtils, Ace, RodinTabsConstants
     Ace.editor.execCommand("find");
   }
 
-  function findInFolder() {
-    // console.log("findInFolder");
+  function findInFolder(fields) {
+    Editor.findAndReplace(RodinIdea.getProjectId(), fields);
   }
 
   function replaceInFile() {
