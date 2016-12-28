@@ -180,7 +180,7 @@ class TreeCtrl {
           firstCall: true,
           folderPath: folderPath,
           openFile: editor_tabs && editor_tabs.info ? null : ["index.js", "index.html", ".html", ".js"],
-          runFile: ["index.html", ".html"]
+          // runFile: ["index.html", ".html"]
         });
       }
     });

@@ -4,7 +4,7 @@
 let self;
 
 class PreviewCtrl {
-  constructor($scope, RodinPreview, RodinTabs, RodinTree, RodinTabsConstants, $on, User, Notification, Socket, Utils) {
+  constructor($scope, RodinPreview, RodinIdea, RodinTabs, RodinTree, RodinTabsConstants, $on, User, Notification, Socket, Utils) {
     'ngInject';
 
     self = this;
@@ -17,7 +17,10 @@ class PreviewCtrl {
     this._Notification = Notification;
     this._Socket = Socket;
     this._Utils = Utils;
+    this._RodinIdea = RodinIdea;
 
+
+    this.windowActivity = RodinIdea.windowActivity;
 
     this.currentUser = User.current;
     this.tabsComponentId = RodinTabsConstants.preview;
