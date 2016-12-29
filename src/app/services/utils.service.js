@@ -5,10 +5,11 @@
 import * as _ from "lodash/lodash.min";
 
 class Utils {
-  constructor($log) {
+  constructor($log, Storage) {
     'ngInject';
 
     this._$log = $log;
+    this._Storage = Storage;
   }
 
   generateUniqueString(length = 8) {
@@ -79,38 +80,38 @@ class Utils {
     opts = angular.extend({}, defaults, opts);
 
     return obj ? Object.keys(obj).sort().map((key) => {
-      var val = obj[key];
+        var val = obj[key];
 
-      if (val === undefined) {
-        return '';
-      }
+        if (val === undefined) {
+          return '';
+        }
 
-      if (val === null) {
-        return this.encode(key, opts);
-      }
+        if (val === null) {
+          return this.encode(key, opts);
+        }
 
-      if (Array.isArray(val)) {
-        var result = [];
+        if (Array.isArray(val)) {
+          var result = [];
 
-        val.slice().forEach((val2) => {
-          if (val2 === undefined) {
-            return;
-          }
+          val.slice().forEach((val2) => {
+            if (val2 === undefined) {
+              return;
+            }
 
-          if (val2 === null) {
-            result.push(this.encode(key, opts));
-          } else {
-            result.push(this.encode(key, opts) + '=' + this.encode(val2, opts));
-          }
-        });
+            if (val2 === null) {
+              result.push(this.encode(key, opts));
+            } else {
+              result.push(this.encode(key, opts) + '=' + this.encode(val2, opts));
+            }
+          });
 
-        return result.join('&');
-      }
+          return result.join('&');
+        }
 
-      return this.encode(key, opts) + '=' + this.encode(val, opts);
-    }).filter(function (x) {
-      return x.length > 0;
-    }).join('&') : '';
+        return this.encode(key, opts) + '=' + this.encode(val, opts);
+      }).filter(function (x) {
+        return x.length > 0;
+      }).join('&') : '';
   };
 
   encode(value = "", opts = {}) {
@@ -148,6 +149,14 @@ class Utils {
     }
 
     replaceWithPath(list, item, pathArr);
+  }
+
+  getTreeActiveState(projectId = "") {
+    let state = this._Storage.projectScopeGet(projectId, "treeState");
+
+    return _.concat([""], _.keys(_.pickBy(state, (v, k, o) => {
+      return v;
+    })));
   }
 }
 

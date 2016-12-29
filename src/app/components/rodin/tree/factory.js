@@ -155,7 +155,7 @@ function RodinTreeFactory(Editor, RodinEditor, RodinTabs, RodinTabsConstants, Ut
   function deleteFile(node) {
     return File.delete(node).then((data) => {
       model.update({
-        folderPath: Utils.filterTree(model.data, {active: true}, "path", node.parent)
+        folderPath: Utils.getTreeActiveState(RodinIdea.getProjectId())
       });
     });
   }
