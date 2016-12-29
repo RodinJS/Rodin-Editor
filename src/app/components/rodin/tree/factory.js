@@ -232,7 +232,7 @@ function RodinTreeFactory(Editor, RodinEditor, RodinTabs, RodinTabsConstants, Ut
         }
       }
 
-
+      return $q.resolve(data);
     });
   }
 

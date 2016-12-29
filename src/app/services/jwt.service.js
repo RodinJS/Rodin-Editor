@@ -18,7 +18,7 @@ export default class JWT {
     for (let i = 0; i < domains.length; ++i) {
 
       this._$cookies.put(this._AppConstants.jwtKey, token, {
-        expires: Date.now() + 6.048e+8,
+        expires: new Date(Date.now() + 6.048e+8),
         domain: domains[i]
       });
 

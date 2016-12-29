@@ -170,7 +170,7 @@ function RodinMenuBarFactory(Utils, HotKeyFilter, RodinPreview, RodinIdea, Rodin
         "run": {
           "id": "run",
           "name": "Run {{compileScope.model.name}}",
-          "hotKey": Utils.bindKey("Shift-R", "Shift-R"),
+          "hotKey": Utils.bindKey("Alt-R", "Alt-R"),
           "template": "<span class='text' data-compile='name' data-compile-scope='compileScope'></span><i class='hotkey' data-ng-show='hotKey' data-ng-bind-html='::hotKey'></i>",
           get model() {
             let openFile = RodinTabs.get(editorTabsComponentId);
