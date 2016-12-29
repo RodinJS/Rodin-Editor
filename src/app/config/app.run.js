@@ -1,10 +1,10 @@
 /**
  * Created by kh.levon98 on 13-Sep-16.
  */
-function AppRun(AppConstants, $rootScope, Restangular, JWT, $state, $location, $sce) {
+function AppRun(AppConstants, $rootScope, Restangular, JWT, $state, $location, $sce, Loader) {
   'ngInject';
 
-  window.AppConstants = AppConstants;
+  let loader;
 
   Restangular.addFullRequestInterceptor(function (element, operation, route, url, headers, params, httpConfig) {
     headers["x-access-token"] = JWT.get();
@@ -13,7 +13,6 @@ function AppRun(AppConstants, $rootScope, Restangular, JWT, $state, $location, $
       headers: headers
     };
   });
-
 
   Restangular.setErrorInterceptor(function (response, deferred, responseHandler) {
     if (response.status === 401) {
@@ -25,30 +24,32 @@ function AppRun(AppConstants, $rootScope, Restangular, JWT, $state, $location, $
     return true; // error not handled
   });
 
-
   // change page title based on state
-  $rootScope.$on('$stateChangeSuccess', (event, toState) => {
-    $rootScope.setPageTitle(toState.title);
-
-    $rootScope.setPageClass(toState.pageClass);
-  });
 
   $rootScope.$on("$stateChangeStart", function (event, toState, toParams, fromState, fromParams) {
+    loader = Loader.show();
     if (toState.redirectToWhenAuthenticated && JWT.get()) {
       // User isn’t authenticated
       $state.go(toState.redirectToWhenAuthenticated);
+      Loader.hide();
       event.preventDefault();
     }
   });
 
+  $rootScope.$on('$stateChangeSuccess', (event, toState) => {
+    $rootScope.setPageTitle(toState.title);
+
+    $rootScope.setPageClass(toState.pageClass);
+    Loader.hide(loader);
+  });
+
   // Helper method for setting the page's title
   $rootScope.setPageTitle = (title) => {
-    $rootScope.pageTitle = '';
+    $rootScope.pageTitle = AppConstants.appName;
     if (title) {
+      $rootScope.pageTitle += ' - ';
       $rootScope.pageTitle += title;
-      $rootScope.pageTitle += ' \u2014 ';
     }
-    $rootScope.pageTitle += AppConstants.appName;
   };
 
   // Helper method for setting the page's class
