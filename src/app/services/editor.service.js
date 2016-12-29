@@ -49,7 +49,9 @@ class Editor {
 
   deleteFile(projectId = null, fields = {}) {
     let Analyser = new this._Analyser();
+
     fields.id = projectId;
+
     this._Editors.one("serve").remove(fields).then(Analyser.resolve, Analyser.reject);
 
     return Analyser.promise;
@@ -57,6 +59,7 @@ class Editor {
 
   uploadFile(projectId = null, files = [], fields = {}) {
     let Analyser = new this._Analyser();
+
     let formData = new FormData();
 
     for (let i = 0, ln = files.length; i < ln; ++i) {
@@ -85,6 +88,15 @@ class Editor {
     return Analyser.promise;
   }
 
+  findAndReplace(projectId = null, fields = {}) {
+    let Analyser = new this._Analyser();
+
+    fields.id = projectId;
+
+    this._Editors.one("search").get(fields).then(Analyser.resolve, Analyser.reject);
+
+    return Analyser.promise;
+  }
 }
 
 export default Editor;

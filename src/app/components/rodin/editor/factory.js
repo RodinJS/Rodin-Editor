@@ -7,7 +7,7 @@ import * as _ from "lodash/lodash.min";
 import angular from 'angular/index';
 
 
-function RodinEditorFactory(Utils, RodinTabs, FileUtils, Ace, RodinTabsConstants, $emit, Storage) {
+function RodinEditorFactory(Utils, RodinTabs, RodinIdea, Editor, FileUtils, Ace, RodinTabsConstants, $q, Storage) {
   'ngInject';
 
   let model = {};
@@ -166,8 +166,36 @@ function RodinEditorFactory(Utils, RodinTabs, FileUtils, Ace, RodinTabsConstants
     Ace.editor.execCommand("find");
   }
 
-  function findInFolder() {
-    // console.log("findInFolder");
+  function findInFolder(fields) {
+    return Editor.findAndReplace(RodinIdea.getProjectId(), fields).then((data) => {
+
+      let content = "";
+      for (let path in data) {
+        content += `${path}\n\n`;
+        for (let i = 0, ln = data[path].length; i < ln; i++) {
+          let file = data[path][i];
+          content += `${file.text} (column: ${file.column}, line: ${file.line})\n\n`;
+        }
+      }
+
+      !content && (content = "Nothing found.");
+
+      let file = {
+        "name": "Find result",
+        "path": "...",
+        "type": "file",
+        "isUnsaved": false,
+        "isEditable": true,
+        "content": content,
+        "originalContent": content
+      };
+
+      RodinTabs.add(tabsComponentId, file);
+
+      return $q.resolve(data);
+    }, (...args) => {
+      return $q.reject(...args);
+    });
   }
 
   function replaceInFile() {

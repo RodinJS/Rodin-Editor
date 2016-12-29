@@ -17,6 +17,7 @@ function ModalFactory($uibModal) {
   model.prompt = prompt;
   model.upload = upload;
   model.replace = replace;
+  model.findAndReplace = findAndReplace;
 
   return model;
 
@@ -88,6 +89,18 @@ function ModalFactory($uibModal) {
     return openModal($uibModal.open({
       animation: true,
       component: 'replaceModal',
+      resolve: resolve
+    }));
+  }
+
+  function findAndReplace(resolve = {}, closeActiveModal = true) {
+    if (closeActiveModal) {
+      closeModal(openModals);
+    }
+
+    return openModal($uibModal.open({
+      animation: true,
+      component: 'findAndReplaceModal',
       resolve: resolve
     }));
   }

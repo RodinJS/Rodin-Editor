@@ -44,8 +44,8 @@ const VERSION = require('./package.json').version;
 const VENDOR = require('./package.json').dependencies;
 const VENDORMAP = require('./vendor.json');
 
+const JS = ['src/app/**/*.js', '!src/systemjs-modules/**/*.*', '!src/scripts/{vendor,vendor/**}'];
 
-const JS = ['src/app/**/*.js', '!src/systemjs/system.js', '!src/scripts/{vendor,vendor/**}'];
 const HTML = ['src/app/**/*.html', 'src/app/**/**/*.html'];
 const SYSTEMJS = ['src/systemjs/*.js'];
 const SASS = ['src/styles/**/*.scss', '!src/styles/{vendor,vendor/**}'];

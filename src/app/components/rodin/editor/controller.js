@@ -90,24 +90,12 @@ class EditorCtrl {
       self._RodinEditor.redo(node, model);
     });
 
-
     this._$on("menu-bar:findInFile", (e, node, model) => {
       self._RodinEditor.findInFile(node, model);
     });
 
-
-    this._$on("menu-bar:findInFolder", (e, node, model) => {
-      self._RodinEditor.findInFolder(node, model);
-    });
-
-
     this._$on("menu-bar:replaceInFile", (e, node, model) => {
       self._RodinEditor.replaceInFile(node, model);
-    });
-
-
-    this._$on("menu-bar:replaceInFolder", (e, node, model) => {
-      self._RodinEditor.replaceInFolder(node, model);
     });
 
     this._$on("menu-bar:goToLine", (e, node, model) => {

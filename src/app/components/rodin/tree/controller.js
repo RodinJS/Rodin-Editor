@@ -7,21 +7,22 @@ import JSZip from "jszip/dist/jszip.min";
 import * as _ from "lodash/lodash.min";
 
 
+// import saveAs from "https://stuk.github.io/jszip/vendor/FileSaver.js";
+
 let self;
 
 class TreeCtrl {
 
-  constructor($scope, $timeout, Editor, VCS, $log, File, FileUtils, RodinTabs, RodinTabsConstants, RodinTree, RodinIdea, Modal, $on, $q, Notification, Storage, Utils) {
+  constructor($scope, $timeout, VCS, $log, File, FileUtils, RodinTabs, RodinTabsConstants, RodinTree, RodinEditor, RodinIdea, Modal, $on, $q, Notification, Storage, Utils) {
     'ngInject';
-
     self = this;
     this._$scope = $scope;
     this._$timeout = $timeout;
-    this._Editor = Editor;
     this._VCS = VCS;
     this._RodinTabs = RodinTabs;
     this._RodinTabsConstants = RodinTabsConstants;
     this._RodinTree = RodinTree;
+    this._RodinEditor = RodinEditor;
     this._FileUtils = FileUtils;
     this._File = File;
     this._RodinIdea = RodinIdea;
@@ -103,7 +104,7 @@ class TreeCtrl {
       ['New Folder', this._createFolder],
       ['Upload Folder', this._uploadFolder],
       ['Delete Folder', this._delete],
-      // ['Find in Folder', this._findInFolder]
+      ['Find in Folder', this._findInFolder]
     ];
 
     this.treeOptions = {
@@ -155,34 +156,7 @@ class TreeCtrl {
       return this._RodinIdea.getProjectId();
     }, (id) => {
       if (id) {
-        let state = this._Storage.projectScopeGet(this._RodinIdea.getProjectId(), "treeState");
-
-        let folderPath = _.concat([""], _.keys(_.pickBy(state, (v, k, o) => {
-          return v;
-        })));
-
-        let editor_tabs = this._Storage.projectScopeGet(this._RodinIdea.getProjectId(), this._RodinTabsConstants.editor);
-
-        if (editor_tabs) {
-
-          for (let i = 0, ln = editor_tabs.data.length; i < ln; i++) {
-            let tab = editor_tabs.data[i];
-            if (!tab.isBlank && !tab.isUnsaved) {
-              this._File.open(tab).then((data) => {
-                let file = this._RodinTabs.get(this._RodinTabsConstants.editor, tab);
-                file.content = data.content;
-                file.originalContent = data.content;
-              });
-            }
-          }
-        }
-
-        this._RodinTree.update({
-          firstCall: true,
-          folderPath: folderPath,
-          openFile: editor_tabs && editor_tabs.info ? null : ["index.js", "index.html", ".html", ".js"],
-          runFile: ["index.html", ".html"]
-        });
+        this.__initTree();
       }
     });
 
@@ -209,6 +183,44 @@ class TreeCtrl {
 
     this._$on("menu-bar:push", (e, node, model) => {
       self._push(null, null, node);
+    });
+
+    this._$on("menu-bar:findInFolder", (e, node, model) => {
+      self._findInFolder(null, null, node);
+    });
+
+    this._$on("menu-bar:replaceInFolder", (e, node, model) => {
+      self._replaceInFolder(null, null, node);
+    });
+
+  }
+
+  __initTree() {
+    let editor_tabs = this._Storage.projectScopeGet(this._RodinIdea.getProjectId(), this._RodinTabsConstants.editor);
+
+    if (editor_tabs) {
+
+      for (let i = 0, ln = editor_tabs.data.length; i < ln; i++) {
+        let tab = editor_tabs.data[i];
+        if (!tab.isBlank && !tab.isUnsaved) {
+          this._File.open(tab).then((data) => {
+            let file = this._RodinTabs.get(this._RodinTabsConstants.editor, tab);
+            file.content = data.content;
+            file.originalContent = data.content;
+          });
+        }
+      }
+    }
+
+    return this._RodinTree.update({
+      firstCall: true,
+      folderPath: this._Utils.getTreeActiveState(this._RodinIdea.getProjectId()),
+      openFile: editor_tabs && editor_tabs.info ? null : ["index.js", "index.html", ".html", ".js"],
+      // runFile: ["index.html", ".html"]
+    }).then(() => {
+    }, () => {
+      this._Storage.projectScopeSet(this._RodinIdea.getProjectId(), "treeState", {});
+      this.__initTree();
     });
   }
 
@@ -250,7 +262,7 @@ class TreeCtrl {
 
     scope.toggle();
 
-    this._Storage.projectScopeSet("treeState", state);
+    this._Storage.projectScopeSet(this._RodinIdea.getProjectId(), "treeState", state);
   };
 
   getFileOptions(...args) {
@@ -272,6 +284,19 @@ class TreeCtrl {
         return `Are you sure delete ${node.type}: ${node.name}`;
       }
     }).result.then((res) => {
+
+
+      let state = self._Storage.projectScopeGet(self._RodinIdea.getProjectId(), "treeState");
+
+      for (let i in state) {
+        /// TODO by Lyov: es stugum@ sxala vorovhetev recursiv krknvor nuyn anunov folderneri depqum harama linelu
+        if (i.indexOf(node.path) > -1) {
+          delete state[i];
+        }
+      }
+
+      self._Storage.projectScopeSet(self._RodinIdea.getProjectId(), "treeState", state);
+
       self._RodinTree.deleteFile(node);
     });
   }
@@ -285,6 +310,52 @@ class TreeCtrl {
 
       self._RodinTree.renameFile(node, {
         newName: res.newName
+      });
+
+    });
+  }
+
+  _findInFolder($itemScope, $event, node, text, $li) {
+    self._Modal.findAndReplace({
+      findText: () => {
+        return "";
+      },
+      path: () => {
+        return node.path;
+      }
+    }).result.then((res) => {
+
+      self._RodinEditor.findInFolder({
+        search: res.findText,
+        caseSensitive: res.caseSensitive,
+        regexp: res.regexp
+      });
+
+    });
+  }
+
+  _replaceInFolder($itemScope, $event, node, text, $li) {
+    return;
+    self._Modal.findAndReplace({
+      findText: () => {
+        return "";
+      },
+      replaceText: () => {
+        return "";
+      },
+      replace: () => {
+        return true;
+      },
+      path: () => {
+        return node.path;
+      }
+    }).result.then((res) => {
+
+      self._RodinEditor.replaceInFolder(node, {
+        search: res.findText,
+        replace: res.replaceText,
+        caseSensitive: res.caseSensitive,
+        regexp: res.regexp
       });
 
     });
@@ -440,6 +511,9 @@ class TreeCtrl {
       promise.then(() => {
         zip.generateAsync({type: "blob"})
           .then(function (content) {
+
+            // saveAs(content, "example.zip");
+
             self._RodinTree.uploadFolder([content], {
               path: res.path,
             });
@@ -461,7 +535,20 @@ class TreeCtrl {
           folderPath: this._Utils.filterTree(this._RodinTree.data, {active: true}, "path", "")
         });
       }, (err) => {
-        self._Notification.error("VCS pull failed.");
+        if (err && err.length) {
+          err = err.first();
+          let message;
+          switch (err.code) {
+            case 350:
+              message = "Please connect your github account for work with version control.";
+              break;
+            default:
+              message = "VCS pull failed.";
+              break;
+          }
+
+          this._Notification.error(message);
+        }
       });
 
     };
@@ -495,7 +582,20 @@ class TreeCtrl {
       }).then(() => {
         self._Notification.error("VCS push success.");
       }, (err) => {
-        self._Notification.error("VCS push failed.");
+        if (err && err.length) {
+          err = err.first();
+          let message;
+          switch (err.code) {
+            case 350:
+              message = "Please connect your github account for work with version control.";
+              break;
+            default:
+              message = "VCS push failed.";
+              break;
+          }
+
+          this._Notification.error(message);
+        }
       });
 
     };

@@ -155,7 +155,7 @@ function RodinTreeFactory(Editor, RodinEditor, RodinTabs, RodinTabsConstants, Ut
   function deleteFile(node) {
     return File.delete(node).then((data) => {
       model.update({
-        folderPath: Utils.filterTree(model.data, {active: true}, "path", node.parent)
+        folderPath: Utils.getTreeActiveState(RodinIdea.getProjectId())
       });
     });
   }
@@ -179,7 +179,7 @@ function RodinTreeFactory(Editor, RodinEditor, RodinTabs, RodinTabsConstants, Ut
       query.folderPath = folderPath;
     }
 
-    Editor.getProject(RodinIdea.getProjectId(), query).then((data) => {
+    return Editor.getProject(RodinIdea.getProjectId(), query).then((data) => {
       if ((_.isEmpty(folderPath) || firstCall) && !_.isArray(data.tree)) {
         model.root = data.root;
 
@@ -232,7 +232,7 @@ function RodinTreeFactory(Editor, RodinEditor, RodinTabs, RodinTabsConstants, Ut
         }
       }
 
-
+      return $q.resolve(data);
     });
   }
 

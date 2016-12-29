@@ -12,15 +12,16 @@ function RodinIdeaFactory(Storage) {
     resizeItemConfig: {
       vertical: [],
       horizontal: ["20%", "40%", "40%"]
+    },
+    windowActivity: {
+      tree: true,
+      preview: true,
+      inspector: true,
+      monitor: true
     }
   };
 
-  model.windowActivity = {
-    tree: Storage.get("window_tree") || true,
-    preview: Storage.get("window_preview") || true,
-    inspector: Storage.get("window_inspector") || true,
-    monitor: Storage.get("window_monitor") || true
-  };
+  model.windowActivity = Storage.projectScopeGet("windowActivity") || projectDefaultSett.windowActivity;
 
 
   model.setWindowActivity = setWindowActivity;
@@ -33,7 +34,7 @@ function RodinIdeaFactory(Storage) {
 
   function setWindowActivity(name = '', val = false) {
     model.windowActivity[name] = !!val;
-    Storage.set(`window_${name}`, model.windowActivity[name]);
+    Storage.projectScopeSet("windowActivity", model.windowActivity);
   }
 
   function getProjectId() {
