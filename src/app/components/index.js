@@ -23,6 +23,12 @@ componentsModule.factory('Ace', AceFactory);
 import Ace from './ace/index';
 componentsModule.directive('ace', Ace);
 
+import LoaderFactory from './loader/factory';
+componentsModule.factory('Loader', LoaderFactory);
+
+import Loader from './loader/index';
+componentsModule.directive('loader', Loader);
+
 /*
  * Modals modules
  */

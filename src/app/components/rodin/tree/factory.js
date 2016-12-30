@@ -4,7 +4,7 @@
 
 import * as _ from "lodash/lodash.min";
 
-function RodinTreeFactory(Editor, RodinEditor, RodinTabs, RodinTabsConstants, Utils, FileUtils, File, RodinIdea, RodinPreview, Storage, Modal, $q) {
+function RodinTreeFactory(Editor, RodinEditor, RodinTabs, RodinTabsConstants, Utils, FileUtils, File, RodinIdea, RodinPreview, Storage, Modal, $q, Loader) {
   'ngInject';
 
   let model = {};
@@ -52,6 +52,7 @@ function RodinTreeFactory(Editor, RodinEditor, RodinTabs, RodinTabsConstants, Ut
 
   function uploadFile(files = [], reqData = {}) {
     reqData.type = "file";
+    let loader = Loader.show();
 
     return File.upload(files, reqData).then((data) => {
 
@@ -70,12 +71,17 @@ function RodinTreeFactory(Editor, RodinEditor, RodinTabs, RodinTabsConstants, Ut
         folderPath: Utils.filterTree(model.data, {active: true}, "path", reqData.path),
         openFile: _.last(files).name
       });
+
+      return $q.resolve(data);
+    }).finally(() => {
+      Loader.hide(loader);
     });
   }
 
 
   function uploadFolder(files = [], reqData = {}) {
     reqData.type = "directory";
+    let loader = Loader.show();
 
     return File.upload(files, reqData).then((data) => {
 
@@ -93,6 +99,8 @@ function RodinTreeFactory(Editor, RodinEditor, RodinTabs, RodinTabsConstants, Ut
       model.update({
         folderPath: Utils.filterTree(model.data, {active: true}, "path", reqData.path),
       });
+    }).finally(() => {
+      Loader.hide(loader);
     });
   }
 
