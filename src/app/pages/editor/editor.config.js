@@ -3,7 +3,7 @@ function EditorConfig($stateProvider) {
 
   $stateProvider
     .state('app.editor', {
-      url: '/:projectFolder',
+      url: '/:username/:projectFolder',
       controller: 'EditorCtrl',
       controllerAs: '$ctrl',
       templateUrl: 'pages/editor/editor.html',
