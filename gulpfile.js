@@ -29,6 +29,7 @@ const sass = require('gulp-sass');
 const rename = require("gulp-rename");
 const concat = require('gulp-concat');
 const uglify = require('gulp-uglify');
+const gulpif = require('gulp-if');
 const watch = require('gulp-watch');
 const autoprefixer = require('gulp-autoprefixer');
 const sourcemaps = require('gulp-sourcemaps');
@@ -71,8 +72,13 @@ const UGLIFY_AGRESIVE = {
 };
 
 const ERROR_MESSAGE = {
-  errorHandler: notify.onError("Error: <%= error.message %>")
+  errorHandler: notify.onError("Error: <%= error %>")
 };
+
+function checkIsFileJS(file) {
+  return ((/[.]/.exec(file.path)) ? /[^.]+$/.exec(file.path)[0] : "unknown").toLowerCase() === "js";
+}
+
 
 gulp.task('vendor', () => {
   let vendor_tasks = generate_vendor(VENDOR);
@@ -86,7 +92,17 @@ gulp.task('vendor', () => {
     }
     dest = `./build/scripts/vendor/${item.dest || ""}`;
 
-    return gulp.src(src).pipe(gulp.dest(dest))
+    let task = gulp.src(src);
+
+    if (item.compress) {
+      task = task.pipe(gulpif(checkIsFileJS, uglify(UGLIFY_AGRESIVE))).on("error", function (err) {
+        console.error("compress -> ", err.cause);
+      });
+    }
+
+    task = task.pipe(gulp.dest(dest));
+
+    return task;
   });
 
   es.merge(_.concat(vendor_tasks, custom_vendor_tasks));
@@ -95,7 +111,7 @@ gulp.task('vendor', () => {
 function generate_vendor(vendor) {
   let list = [];
   return _.concat(list, _.map(vendor, (item, key) => {
-    let src, dest, dependencies;
+    let src, dest, dependencies, compress = false;
     let module = key;
     if (VENDORMAP && VENDORMAP[module]) {
       let moduleMap = VENDORMAP[module];
@@ -104,6 +120,8 @@ function generate_vendor(vendor) {
         throw new Error(`Please provide ${key} module src.`);
       }
       dest = `./build/scripts/vendor/${moduleMap.dest || key}`;
+
+      compress = moduleMap.compress;
     } else {
       dependencies = require(`./node_modules/${module}/package.json`).dependencies;
       src = `./node_modules/${module}/**/*.*`;
@@ -111,7 +129,16 @@ function generate_vendor(vendor) {
     }
 
     delete VENDORMAP[module];
-    let task = gulp.src(src).pipe(gulp.dest(dest));
+
+    let task = gulp.src(src);
+
+    if (compress) {
+      task = task.pipe(gulpif(checkIsFileJS, uglify(UGLIFY_AGRESIVE))).on("error", function (err) {
+        console.error("compress -> ", err.cause);
+      });
+    }
+
+    task = task.pipe(gulp.dest(dest));
 
     if (dependencies) {
       _.concat(list, generate_vendor(dependencies));
@@ -141,7 +168,9 @@ gulp.task('js-prod', () => {
   return gulp.src(JS)
     .pipe(plumber(ERROR_MESSAGE))
     .pipe(babel())
-    .pipe(uglify(UGLIFY_AGRESIVE))
+    .pipe(uglify(UGLIFY_AGRESIVE)).on("error", function (err) {
+      console.error("uglify -> ", err.cause);
+    })
     .pipe(s)
     .pipe(plumber.stop())
     .pipe(gulp.dest('./build/app'))

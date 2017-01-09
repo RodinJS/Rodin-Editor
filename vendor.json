@@ -1,10 +1,12 @@
 {
-  "ace-builds": {
-    "src": "./node_modules/ace/lib/ace/**/*.*",
-    "dest": "/ace/"
+  "ace": {
+    "src": "./node_modules/ace/lib/ace/**/*",
+    "dest": "ace/",
+    "compress": true
   },
   "systemjs-module": {
     "src": "./src/systemjs-module/**/*.*",
-    "dest": "/systemjs-module/"
+    "dest": "systemjs-module/",
+    "compress": false
   }
 }

@@ -42,6 +42,7 @@
     "gulp-clean-css": "^2.3.2",
     "gulp-concat": "^2.6.1",
     "gulp-connect": "^5.0.0",
+    "gulp-if": "^2.0.2",
     "gulp-ng-annotate": "^2.0.0",
     "gulp-notify": "^2.2.0",
     "gulp-plumber": "^1.1.0",
@@ -54,10 +55,9 @@
     "run-sequence": "^1.2.2"
   },
   "dependencies": {
-    "ace":"git+https://github.com/ajaxorg/ace#master",
+    "ace": "git+https://github.com/khlevon98/ace#master",
     "angular": "1.5.9",
     "angular-animate": "1.5.9",
-    "angular-ui-bootstrap": "2.3.0",
     "angular-bootstrap-contextmenu": "^0.9.9",
     "angular-cookies": "1.5.9",
     "angular-event-emitter": "0.0.1",
@@ -65,6 +65,7 @@
     "angular-storage": "0.0.15",
     "angular-touch": "1.5.9",
     "angular-ui-ace": "^0.2.3",
+    "angular-ui-bootstrap": "2.3.0",
     "angular-ui-notification": "^0.2.0",
     "angular-ui-router": "^0.3.2",
     "angular-ui-tree": "^2.22.1",
