@@ -149,12 +149,12 @@ function RodinMenuBarFactory(Utils, HotKeyFilter, RodinPreview, RodinIdea, Rodin
           "hotKey": Utils.bindKey("Ctrl-R", "Command-R"),
           "template": defaultTemplate,
         },
-        "replaceInFolder": {
+        /*"replaceInFolder": {
           "id": "replaceInFolder",
           "name": "Replace In Folder",
           "hotKey": Utils.bindKey("Ctrl-Shift-R", "Command-Shift-R"),
           "template": defaultTemplate,
-        },
+        },*/
         "goToLine": {
           "id": "goToLine",
           "name": "GoTo",
