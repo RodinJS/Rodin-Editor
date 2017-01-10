@@ -183,6 +183,7 @@ function RodinEditorFactory(Utils, RodinTabs, RodinIdea, Editor, FileUtils, Ace,
       let file = {
         "name": "Find result",
         "path": "...",
+        "parent": "...",
         "type": "file",
         "isUnsaved": false,
         "isEditable": true,
