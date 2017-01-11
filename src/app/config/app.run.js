@@ -31,7 +31,7 @@ function AppRun(AppConstants, $rootScope, Restangular, JWT, $state, $location, $
     if (toState.redirectToWhenAuthenticated && JWT.get()) {
       // User isn’t authenticated
       $state.go(toState.redirectToWhenAuthenticated);
-      Loader.hide();
+
       event.preventDefault();
     }
   });
@@ -40,7 +40,8 @@ function AppRun(AppConstants, $rootScope, Restangular, JWT, $state, $location, $
     $rootScope.setPageTitle(toState.title);
 
     $rootScope.setPageClass(toState.pageClass);
-    Loader.hide(loader);
+
+    Loader.hide();
   });
 
   // Helper method for setting the page's title

@@ -131,7 +131,7 @@ class Utils {
     let _list = [];
 
     if (startPath) {
-      _list.push(findNodeByPath(list, _.concat([""], startPath.split(/[\/|\\]/g))));
+      _list.push(this.findNodeByPath(list, startPath));
     } else {
       _list = list;
     }
@@ -139,6 +139,16 @@ class Utils {
     filterTreeRecurrentFn(_list, filter, field, filteredList);
 
     return filteredList.reverse();
+  }
+
+  findNodeByPath(list = [], path = "") {
+    let pathArr = path.split(/[\/|\\]/g);
+
+    if (pathArr[0] !== "") {
+      pathArr = _.concat([""], pathArr);
+    }
+
+    return findNodeByPath(list, pathArr);
   }
 
   replaceInTree(list = [], item = null) {

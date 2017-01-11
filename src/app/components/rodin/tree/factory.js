@@ -33,6 +33,7 @@ function RodinTreeFactory(Editor, RodinEditor, RodinTabs, RodinTabsConstants, Ut
         file = {
           name: node.name,
           path: node.path,
+          parent: node.parent,
           type: node.type,
           isUnsaved: false,
           isEditable: !FileUtils.isImage(node),

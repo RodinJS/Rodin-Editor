@@ -161,6 +161,35 @@ class TreeCtrl {
     });
 
 
+    this._$on("menu-bar:copyFile", (e, node, model) => {
+
+      let file = self._RodinTabs.get(self._RodinTabsConstants.editor);
+
+      console.log("file", file, self._Utils.findNodeByPath(self._RodinTree.data, file.parent));
+
+      self._copy(null, null, file);
+
+      self._paste(null, null, self._Utils.findNodeByPath(self._RodinTree.data, file.parent)).then((data) => {
+        this._Notification.success("File successfully copied.");
+      }, (err) => {
+        if (err && err.length) {
+          err = err.first();
+          let message;
+          switch (err.code) {
+            case 336:
+            case 333:
+              message = "File already exists.";
+              break;
+            default:
+              message = "Can't copy file";
+              break;
+          }
+
+          this._Notification.error(message);
+        }
+      });
+    });
+
     this._$on("menu-bar:uploadFile", (e, node, model) => {
       self._uploadFile(null, null, node);
     });
