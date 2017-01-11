@@ -1,4 +1,4 @@
-# Rodin-JS-front
+# Rodin-Editor
 
 ## Program dependencies
 1. [NodeJS](https://nodejs.org/en/) v4.2.0 or later.
@@ -12,15 +12,6 @@ Install node modules
 ```sh
 $ npm install
 ```
-Install [**bower**](https://github.com/bower/bower/blob/master/README.md)
-```sh
-$ npm install --global bower
-```
-Install bower modules
-```sh
-$ bower install
-```
-
 ## Build
 Run watcher and server
 ```sh
