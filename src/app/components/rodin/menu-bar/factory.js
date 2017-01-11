@@ -146,13 +146,13 @@ function RodinMenuBarFactory(Utils, HotKeyFilter, RodinPreview, RodinIdea, Rodin
         "replaceInFile": {
           "id": "replaceInFile",
           "name": "Replace In File",
-          "hotKey": Utils.bindKey("Ctrl-R", "Command-R"),
+          "hotKey": Utils.bindKey("Ctrl-H", "Command-H"),
           "template": defaultTemplate,
         },
         /*"replaceInFolder": {
           "id": "replaceInFolder",
           "name": "Replace In Folder",
-          "hotKey": Utils.bindKey("Ctrl-Shift-R", "Command-Shift-R"),
+          "hotKey": Utils.bindKey("Ctrl-Shift-H", "Command-Shift-H"),
           "template": defaultTemplate,
         },*/
         "goToLine": {
@@ -170,7 +170,7 @@ function RodinMenuBarFactory(Utils, HotKeyFilter, RodinPreview, RodinIdea, Rodin
         "run": {
           "id": "run",
           "name": "Run {{compileScope.model.name}}",
-          "hotKey": Utils.bindKey("Alt-R", "Alt-R"),
+          "hotKey": Utils.bindKey("Ctrl-R", "Ctrl-R"),
           "template": "<span class='text' data-compile='name' data-compile-scope='compileScope'></span><i class='hotkey' data-ng-show='hotKey' data-ng-bind-html='::hotKey'></i>",
           get model() {
             let openFile = RodinTabs.get(editorTabsComponentId);
