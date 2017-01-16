@@ -244,7 +244,7 @@ class TreeCtrl {
     return this._RodinTree.update({
       firstCall: true,
       folderPath: this._Utils.getTreeActiveState(this._RodinIdea.getProjectId()),
-      openFile: editor_tabs && editor_tabs.info ? null : ["index.js", "index.html", ".html", ".js"],
+      openFile: editor_tabs && editor_tabs.info ? null : ["index.html", "index.js", ".html", ".js"],
       // runFile: ["index.html", ".html"]
     }).then(() => {
     }, () => {

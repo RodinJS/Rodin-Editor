@@ -1,7 +1,7 @@
 /**
  * Created by kh.levon98 on 17-Oct-16.
  */
-function RodinPreviewFactory(Storage, RodinTabs, RodinTabsConstants, Utils, $stateParams, AppConstants, User) {
+function RodinPreviewFactory(Storage, RodinTabs, RodinTabsConstants, Utils, $stateParams, AppConstants, User, Notification) {
   'ngInject';
 
   let model = {};
@@ -11,6 +11,7 @@ function RodinPreviewFactory(Storage, RodinTabs, RodinTabsConstants, Utils, $sta
 
 
   model.setAutoReload = setAutoReload;
+  model._validFileExtensions = [".html", ".htm"];
 
 
   model.update = updatePreview;
@@ -67,6 +68,10 @@ function RodinPreviewFactory(Storage, RodinTabs, RodinTabsConstants, Utils, $sta
   function run(file = RodinTabs.get(RodinTabsConstants.editor)) {
     let path = `${AppConstants.PREVIEW}${User.current.username}/${$stateParams.projectFolder}/${file.path}`;
     let tab = RodinTabs.get(tabsComponentId, null, {"path": path});
+    if(!validateFileFormat(file, model._validFileExtensions)){
+      const message = `Allowed running files ${model._validFileExtensions.join(', ')}`;
+      return Notification.warning(message);
+    }
     if (!tab) {
       tab = {
         name: file.name,
@@ -74,7 +79,7 @@ function RodinPreviewFactory(Storage, RodinTabs, RodinTabsConstants, Utils, $sta
         url: `${generateUrl(path)}`,
         externalTabs: []
       };
-      RodinTabs.add(tabsComponentId, tab);
+      return RodinTabs.add(tabsComponentId, tab);
     }
 
     RodinTabs.setActive(tabsComponentId, tab);
@@ -89,6 +94,32 @@ function RodinPreviewFactory(Storage, RodinTabs, RodinTabsConstants, Utils, $sta
     parsedParams.refreshTime = Date.now();
     return `${path}?${Utils.stringifyQueryParams(parsedParams)}`;
   }
+
+    /**
+     * File format validation
+     * if validate passed return true
+     * @param file
+     * @returns {boolean}
+     */
+    function validateFileFormat(file, _validFileExtensions) {
+        const sFileName = file.name;
+        if (sFileName.length > 0) {
+            let blnValid = false;
+            for (var j = 0; j < _validFileExtensions.length; j++) {
+                let sCurExtension = _validFileExtensions[j];
+                if (sFileName.substr(sFileName.length - sCurExtension.length, sCurExtension.length).toLowerCase() == sCurExtension.toLowerCase()) {
+                    blnValid = true;
+                    break;
+                }
+            }
+
+            if (!blnValid) {
+                return false;
+            }
+        }
+
+        return true;
+    }
 }
 
 export default RodinPreviewFactory;

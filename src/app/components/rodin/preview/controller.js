@@ -32,7 +32,7 @@ class PreviewCtrl {
 
     this._$on(`tabs:${this.tabsComponentId}:change-active-tab`, () => {
       this.tab = this._RodinTabs.get(this.tabsComponentId);
-      if (!this._$scope.$$phase) {
+      if (!this._$scope.$$phase && !this._$scope.$root.$$phase) {
         this._$scope.$apply();
       }
     });

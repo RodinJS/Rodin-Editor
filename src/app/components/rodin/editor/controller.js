@@ -28,7 +28,7 @@ class EditorCtrl {
 
     $scope.$watch(() => Ace.session, () => {
 
-      console.log("watch", Ace.session)
+      console.log("watch", Ace.session);
       if (Ace.session) {
         let ll = function () {
           console.log("changeSession", arguments)
