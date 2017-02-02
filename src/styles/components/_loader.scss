@@ -11,3 +11,19 @@
   height: 100%;
   z-index: 99999;
 }
+
+#loading-bar{
+  position: absolute;
+  top: 30px;
+  height: 3px;
+  left: 0;
+  width: 100%;
+  padding: 0;
+  z-index: 1000;
+  .bar{
+    background: #2b9af3;
+    height: 3px;
+    position: absolute;
+    top: 0;
+  }
+}

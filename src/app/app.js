@@ -24,6 +24,7 @@ import 'mousetrap/plugins/global-bind/mousetrap-global-bind';
 import 'angular-ui-router/release/angular-ui-router.min';
 import 'angular-storage/dist/angular-storage.min';
 import 'lodash/lodash.min';
+import 'angular-loading-bar/build/loading-bar';
 
 import 'restangular/dist/restangular.min';
 import 'angular-ui-bootstrap/dist/ui-bootstrap-tpls';
@@ -66,7 +67,9 @@ const requires = [
   'app.services',
   'app.components',
   'app.layout',
-  'app.pages'
+  'app.pages',
+
+  'cfp.loadingBar'
 ];
 
 // Mount on window for testing
