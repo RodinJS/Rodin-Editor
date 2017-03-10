@@ -66,7 +66,7 @@
     "angular-touch": "1.5.9",
     "angular-ui-ace": "0.2.3",
     "angular-ui-bootstrap": "2.3.0",
-    "angular-ui-notification": "0.2.0",
+    "angular-ui-notification": "0.3.6",
     "angular-ui-router": "0.3.2",
     "angular-ui-tree": "2.22.1",
     "bootstrap-sass": "3.3.7",
