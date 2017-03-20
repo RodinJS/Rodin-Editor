@@ -609,7 +609,7 @@ class TreeCtrl {
             self._VCS.push(this._RodinIdea.getProjectId(), {
                 root: self._RodinTree.root
             }).then(() => {
-                self._Notification.error("VCS push success.");
+                self._Notification.success("VCS push success.");
             }, (err) => {
                 if (err && err.length) {
                     err = err.first();
