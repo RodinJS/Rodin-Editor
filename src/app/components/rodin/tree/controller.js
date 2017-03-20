@@ -559,7 +559,7 @@ class TreeCtrl {
             self._VCS.pull(this._RodinIdea.getProjectId(), {
                 root: self._RodinTree.root
             }).then(() => {
-                self._Notification.error("VCS pull success.");
+                self._Notification.success("VCS pull success.");
                 self._RodinTree.update({
                     folderPath: this._Utils.filterTree(this._RodinTree.data, {active: true}, "path", "")
                 });
