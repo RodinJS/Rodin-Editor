@@ -8,7 +8,7 @@ function AppRun(AppConstants, $rootScope, Restangular, JWT, $state, $location, $
 
   Restangular.addFullRequestInterceptor(function (element, operation, route, url, headers, params, httpConfig) {
     headers["x-access-token"] = JWT.get();
-    headers["Access-Control-Allow-Origin"] = "*";
+    //headers["Access-Control-Allow-Origin"] = "*";
     return {
       headers: headers
     };
