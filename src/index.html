@@ -78,7 +78,16 @@
     }
   });
 
-  System.import('app/app.js');
+  Promise.all([
+      System.import('ace/ace'),
+      System.import('angular/index'),
+      System.import('ace/ext/themelist')
+  ]).then(function(modules) {
+      angular.ace = modules[0];
+      angular.aceThemes = modules[2];
+      console.log(modules);
+      System.import('app/app.js');
+  });
 
 </script>
 <!-- Google Analytics -->
