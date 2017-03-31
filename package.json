@@ -67,7 +67,7 @@
   "dependencies": {
     "ace": "git+https://github.com/RodinJS/ace#master",
     "angular": "1.5.9",
-    "angular-animate": "1.5.9",
+    "angular-animate": "1.6.4",
     "angular-bootstrap-contextmenu": "0.9.9",
     "angular-cookies": "1.5.9",
     "angular-event-emitter": "0.0.1",
