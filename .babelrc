@@ -1,10 +1,1 @@
-{
-  "presets": [
-    "es2015"
-  ],
-  "plugins": [
-    "angularjs-annotate",
-    "transform-es2015-modules-systemjs",
-    "transform-class-properties"
-  ]
-}
+{}

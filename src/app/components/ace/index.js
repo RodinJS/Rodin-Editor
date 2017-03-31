@@ -1,11 +1,11 @@
-import ace from "ace/ace";
+//import ace from "ace/ace";
 import AceLink from './link';
 import AceCtrl from './controller';
 
 
 function AceEditor() {
   'ngInject';
-  if (angular.isUndefined(ace)) {
+  if (angular.isUndefined(angular.ace)) {
     throw new Error('ace directive need ace library to work...');
   }
 
