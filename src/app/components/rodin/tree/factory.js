@@ -27,8 +27,12 @@ function RodinTreeFactory(Editor, RodinEditor, RodinTabs, RodinTabsConstants, Ut
 
     return model;
 
-    function openFile(node) {
+    function openFile(node, update) {
         let file = RodinTabs.get(tabsComponentId, node, {"path": node.path});
+        if(update){
+            RodinTabs.remove(tabsComponentId, file);
+            file = false;
+        }
         if (!file) {
             if (validateFileFormat(node, InvalidExtensions)) {
                 return File.open(node).then((data) => {
@@ -222,7 +226,7 @@ function RodinTreeFactory(Editor, RodinEditor, RodinTabs, RodinTabsConstants, Ut
                 for (let i = 0, ln = openFile.length; i < ln; i++) {
                     node = Utils.findFileInTree(actionTree, openFile[i]);
                     if (node) {
-                        model.openFile(node);
+                        model.openFile(node, true);
                         break;
                     }
                 }
