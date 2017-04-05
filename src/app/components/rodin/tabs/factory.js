@@ -118,7 +118,7 @@ function RodinTabsFactory(Utils, RodinIdea, $emit, Storage) {
       tab = compInfo.activeIndex;
     }
 
-    const index = (_.isNumber(tab) ? tab : tab.index);
+    const index = (_.isNumber(tab) ? tab : tab ? tab.index : 0);
 
     return comp[index];
   }

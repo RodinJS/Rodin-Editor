@@ -9,7 +9,7 @@ function RodinTreeFactory(Editor, RodinEditor, RodinTabs, RodinTabsConstants, Ut
 
     let model = {};
     let tabsComponentId = RodinTabsConstants.editor;
-    const InvalidExtensions = ["zip", "rar", "jpg", "png"];
+    const InvalidExtensions = ["zip", "rar", "jpg", "png", "mp4", "avi", "mp3", "bmp", "gif", "mov", "pdf", "psd", "ai"];
 
     model.data = [];
     model.root = "";
@@ -29,7 +29,7 @@ function RodinTreeFactory(Editor, RodinEditor, RodinTabs, RodinTabsConstants, Ut
 
     function openFile(node, update) {
         let file = RodinTabs.get(tabsComponentId, node, {"path": node.path});
-        if(update){
+        if(update && validateFileFormat(node, InvalidExtensions)){
             RodinTabs.remove(tabsComponentId, file);
             file = false;
         }
