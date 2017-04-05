@@ -29,6 +29,7 @@ function RodinTreeFactory(Editor, RodinEditor, RodinTabs, RodinTabsConstants, Ut
 
     function openFile(node, update) {
         let file = RodinTabs.get(tabsComponentId, node, {"path": node.path});
+        console.log('FILE', file);
         if(update){
             RodinTabs.remove(tabsComponentId, file);
             file = false;
@@ -91,21 +92,25 @@ function RodinTreeFactory(Editor, RodinEditor, RodinTabs, RodinTabsConstants, Ut
         reqData.type = "directory";
         //let loader = Loader.show();
 
+
         return File.upload(files, reqData).then((data) => {
 
-            if (!_.isEmpty(data.files)) {
+            if (!_.isEmpty(data.folder)) {
                 return Modal.replace({
-                    files: () => {
-                        return files;
+                    folder: () => {
+                        return data.folder;
                     }
                 }).result.then((res) => {
+                    console.log(res);
                     reqData.action = "replace";
-                    uploadFile(res.files, reqData);
+                    uploadFolder(files, reqData);
                 });
             }
-
+            console.log(_.map(reqData.zippedFiles, (file) => file.name));
             model.update({
                 folderPath: Utils.filterTree(model.data, {active: true}, "path", reqData.path),
+                openFile: _.map(reqData.zippedFiles, (file) => file.name),
+                folderName:reqData.folderName
             });
         }).finally(() => {
             //Loader.hide(loader);
@@ -182,7 +187,8 @@ function RodinTreeFactory(Editor, RodinEditor, RodinTabs, RodinTabsConstants, Ut
         getAll = false,
         openFile = "",
         runFile = "",
-        firstCall = false
+        firstCall = false,
+        folderName = false,
     }) {
 
         let query = {};
@@ -215,7 +221,13 @@ function RodinTreeFactory(Editor, RodinEditor, RodinTabs, RodinTabsConstants, Ut
             }
 
             let actionTree = _.isArray(data.tree) ? data.tree.first().children : model.data.first().children;
-
+            console.log(actionTree, folderName);
+            if(folderName){
+                const tree = _.find(actionTree, (tree)=> tree.type == 'directory' && tree.name == folderName);
+                console.log(tree);
+                if(tree) actionTree = tree.children;
+            }
+            console.log(openFile);
             if (!_.isEmpty(openFile)) {
                 let node;
 
@@ -224,6 +236,7 @@ function RodinTreeFactory(Editor, RodinEditor, RodinTabs, RodinTabsConstants, Ut
                 }
 
                 for (let i = 0, ln = openFile.length; i < ln; i++) {
+                    console.log(actionTree);
                     node = Utils.findFileInTree(actionTree, openFile[i]);
                     if (node) {
                         model.openFile(node, true);

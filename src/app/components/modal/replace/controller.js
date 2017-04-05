@@ -25,15 +25,16 @@ class ReplaceCtrl {
 
 
   $onInit() {
-    this.files = this.resolve.files || [];
+    this.files = this.resolve.files || this.resolve.folder || [];
     this.path = this.resolve.path || "";
+    this.folder = this.resolve.folder;
 
     if (!_.isEmpty(this.files)) {
       for (let i = 0, ln = this.files.length; i < ln; i++) {
 
         let file = this.files[i];
 
-        let item = {
+        let item = this.folder ? {name:file} : {
           index: i,
           name: file.name,
           path: (file.webkitRelativePath || ""),
@@ -65,7 +66,7 @@ class ReplaceCtrl {
       }
     });
 
-    if (!files.length) {
+    if ((!files.length && !this.folder)) {
       return this.cancel();
     }
 
