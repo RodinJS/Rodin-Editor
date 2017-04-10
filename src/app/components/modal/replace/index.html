@@ -4,14 +4,14 @@
     <form action="" class="modal-form" enctype="multipart/form-data">
 
       <div class="form-group" data-ng-show="$ctrl.items.length">
-        <div class="form-label">The files already exist, replace them?</div>
+        <div class="form-label">The {{$ctrl.folder ? 'folder' : 'files'}} already exist, replace {{$ctrl.folder ? 'it' : 'them'}}?</div>
         <div class="files-list clearfix">
           <ul class="list-group files-list clearfix">
             <li class="list-group-item clearfix" data-ng-repeat="item in $ctrl.items track by item.index" title="{{item.path}}">
-              <span class="list-group-addon">
-                <input type="checkbox" name="{{item.name}}" data-ng-model="item.model">
+              <span class="list-group-addon" ng-if="!$ctrl.folder">
+                <input  type="checkbox" name="{{item.name}}" data-ng-model="item.model">
               </span>
-              <span class="badge">{{item.size | bytes}}</span>
+              <span  ng-if="!$ctrl.folder" class="badge">{{item.size | bytes}}</span>
               {{item.name}}
             </li>
           </ul>

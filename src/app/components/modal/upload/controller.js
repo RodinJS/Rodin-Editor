@@ -75,8 +75,10 @@ class UploadCtrl {
   }
 
   save() {
-    let res = {
+      const folderName = this.input.files[0]  ?  this.input.files[0].webkitRelativePath.split('/')[0] : false;
+      let res = {
       files: this.input.files,
+      folderName: folderName,
       path: this.path,
       type: this.type
     };

@@ -5,7 +5,11 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "gulp"
+    "start": "gulp",
+    "local":"export NODE_ENV=local; gulp bundle",
+    "dev":"export NODE_ENV=dev; gulp bundle",
+    "stage":"export NODE_ENV=stage; gulp bundle",
+    "prod":"export NODE_ENV=prod; gulp bundle"
   },
   "repository": {
     "type": "git",
@@ -28,10 +32,13 @@
   },
   "homepage": "https://github.com/RodinJS/Rodin-Editor#readme",
   "devDependencies": {
+    "babel-core": "^6.24.0",
+    "babel-loader": "^6.4.1",
     "babel-plugin-angularjs-annotate": "^0.6.0",
     "babel-plugin-transform-class-properties": "^6.18.0",
     "babel-plugin-transform-es2015-modules-systemjs": "^6.18.0",
     "babel-plugin-undeclared-variables-check": "^6.8.0",
+    "babel-preset-env": "^1.2.2",
     "babel-preset-es2015": "^6.18.0",
     "del": "^2.2.2",
     "events-stream": "^0.2.0",
@@ -46,12 +53,16 @@
     "gulp-notify": "^2.2.0",
     "gulp-plumber": "^1.1.0",
     "gulp-rename": "^1.2.2",
+    "gulp-replace": "^0.5.4",
     "gulp-sass": "^3.0.0",
     "gulp-size": "^2.1.0",
     "gulp-sourcemaps": "^2.2.1",
+    "gulp-strip-comments": "^2.4.5",
+    "gulp-strip-debug": "^1.1.0",
     "gulp-uglify": "^2.0.0",
     "gulp-watch": "^4.3.11",
-    "run-sequence": "^1.2.2"
+    "run-sequence": "^1.2.2",
+    "webpack": "^2.3.2"
   },
   "dependencies": {
     "ace": "git+https://github.com/RodinJS/ace#master",
