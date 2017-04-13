@@ -29,6 +29,7 @@ class TabsCtrl {
 
     this.info = RodinTabs.getInfo(this._componentId);
 
+
     if (!_.isObject(this.callbacks)) {
       this.callbacks = {};
     }

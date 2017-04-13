@@ -240,11 +240,11 @@ class TreeCtrl {
                 }
             }
         }
-
+        console.log('editor_tabs', editor_tabs);
         return this._RodinTree.update({
             firstCall: true,
             folderPath: this._Utils.getTreeActiveState(this._RodinIdea.getProjectId()),
-            openFile: editor_tabs && editor_tabs.info ? null : ["index.html", "index.js", ".html", ".js"],
+            openFile: editor_tabs && editor_tabs.info ? null : ["index.html"]//["index.html", "index.js", ".html", ".js"],
             // runFile: ["index.html", ".html"]
         }).then(() => {
         }, () => {
@@ -564,8 +564,18 @@ class TreeCtrl {
             }).then(() => {
                 self._Notification.success("VCS pull success.");
                 self._RodinTree.update({
-                    folderPath: this._Utils.filterTree(this._RodinTree.data, {active: true}, "path", "")
-                });
+                    folderPath: this._Utils.filterTree(this._RodinTree.data, {active: true}, "path", ""),
+                })
+                    .then(()=>{
+                        _.each(this._RodinTabs.getList('EDITOR_TABS'), (file)=> {
+                            setTimeout(()=>{
+                                const fileParams = _.pick(file, ['parent', 'path', 'name', 'type']);
+                                console.log('FFFILE', fileParams);
+                                this._RodinTree.openFile(fileParams, true);
+                            }, 0);
+                        });
+                    })
+
             }, (err) => {
                 if (err && err.length) {
                     err = err.first();
