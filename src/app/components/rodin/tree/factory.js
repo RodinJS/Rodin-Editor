@@ -28,6 +28,7 @@ function RodinTreeFactory(Editor, RodinEditor, RodinTabs, RodinTabsConstants, Ut
     return model;
 
     function openFile(node, update) {
+        console.log('openFILE', node);
         let file = RodinTabs.get(tabsComponentId, node, {"path": node.path});
 
         if(update && validateFileFormat(node, InvalidExtensions)){

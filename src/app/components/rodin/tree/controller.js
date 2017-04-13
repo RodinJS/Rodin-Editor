@@ -232,11 +232,16 @@ class TreeCtrl {
             for (let i = 0, ln = editor_tabs.data.length; i < ln; i++) {
                 let tab = editor_tabs.data[i];
                 if (!tab.isBlank && !tab.isUnsaved) {
-                    this._File.open(tab).then((data) => {
+                    setTimeout(()=>{
+                        const fileParams = _.pick(tab, ['parent', 'path', 'name', 'type']);
+                        console.log('tab FILE DATA', fileParams);
+                        this._RodinTree.openFile(fileParams, true);
+                    }, 0);
+                    /*this._File.open(tab).then((data) => {
                         let file = this._RodinTabs.get(this._RodinTabsConstants.editor, tab);
                         file.content = data.content;
                         file.originalContent = data.content;
-                    });
+                    });*/
                 }
             }
         }

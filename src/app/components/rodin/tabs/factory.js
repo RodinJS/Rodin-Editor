@@ -179,7 +179,7 @@ function RodinTabsFactory(Utils, RodinIdea, $emit, Storage) {
   }
 
   function saveState(compId, cb) {
-    return;
+    //return;
     let state = {
       data: data[compId],
       info: info[compId]
