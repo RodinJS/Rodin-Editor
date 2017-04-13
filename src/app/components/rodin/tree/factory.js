@@ -202,13 +202,14 @@ function RodinTreeFactory(Editor, RodinEditor, RodinTabs, RodinTabsConstants, Ut
         }
 
         return Editor.getProject(RodinIdea.getProjectId(), query).then((data) => {
+            console.log('data', data);
             if ((_.isEmpty(folderPath) || firstCall) && !_.isArray(data.tree)) {
                 model.root = data.root;
-
                 model.data.splice(0, 1, data.tree);
-
                 markActive(model.data);
-            } else {
+            }
+            else {
+                model.root = data.root;
                 if (firstCall) {
                     model.data.splice(0, 1, data.tree[0]);
                 }
@@ -221,13 +222,10 @@ function RodinTreeFactory(Editor, RodinEditor, RodinTabs, RodinTabsConstants, Ut
             }
 
             let actionTree = _.isArray(data.tree) ? data.tree.first().children : model.data.first().children;
-            console.log(actionTree, folderName);
             if(folderName){
                 const tree = _.find(actionTree, (tree)=> tree.type == 'directory' && tree.name == folderName);
-                console.log(tree);
                 if(tree) actionTree = tree.children;
             }
-            console.log(openFile);
             if (!_.isEmpty(openFile)) {
                 let node;
 
@@ -235,12 +233,10 @@ function RodinTreeFactory(Editor, RodinEditor, RodinTabs, RodinTabsConstants, Ut
                     openFile = [openFile];
                 }
 
-                for (let i = 0, ln = openFile.length; i < ln; i++) {
-                    console.log(actionTree);
+                for (let i = 0;  i < openFile.length; i++) {
                     node = Utils.findFileInTree(actionTree, openFile[i]);
                     if (node) {
                         model.openFile(node, true);
-                        break;
                     }
                 }
             }
@@ -310,7 +306,7 @@ function RodinTreeFactory(Editor, RodinEditor, RodinTabs, RodinTabsConstants, Ut
     function validateFileFormat(file, invalidFileExtensions) {
 
         let sFileName = file.name;
-        if (sFileName.length > 0) {
+        if (sFileName && sFileName.length > 0) {
             const re = /(?:\.([^.]+))?$/;
             const extension = re.exec(sFileName)[1];
 

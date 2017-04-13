@@ -79,7 +79,7 @@ function RodinTabsFactory(Utils, RodinIdea, $emit, Storage) {
       tab.index = comp.length;
 
       comp.push(tab);
-
+        console.log(data);
       this.setActive(compId, tab);
     }
   }
