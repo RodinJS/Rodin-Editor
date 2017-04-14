@@ -1,7 +1,7 @@
 /**
  * Created by kh.levon98 on 13-Sep-16.
  */
-import angular from 'angular/index';
+//import angular from 'angular/index';
 import './helpers';
 
 // Import our app config files

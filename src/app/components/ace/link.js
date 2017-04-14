@@ -2,9 +2,9 @@
  * Created by kh.levon98 on 24-Sep-16.
  */
 
-import ace from "ace/ace";
-import "ace/ext/language_tools";
-import {UndoManager} from "ace/undomanager";
+//import ace from "ace/ace";
+//import "ace/ext/language_tools";
+//import {UndoManager} from "ace/undomanager";
 
 /**
  * Sets editor options such as the wrapping mode or the syntax checker.
@@ -27,13 +27,13 @@ function setOptions(acee, session, opts) {
   // sets the ace worker path, if running from concatenated
   // or minified source
   if (angular.isDefined(opts.workerPath)) {
-    let config = ace.require('ace/config');
+    let config = angular.ace.config;//ace.require('ace/config');
     config.set('workerPath', opts.workerPath);
   }
   // ace requires loading
   if (angular.isDefined(opts.require)) {
     opts.require.forEach(function (n) {
-      ace.require(n);
+      angular.ace.require(n);
     });
   }
 
@@ -97,7 +97,7 @@ function setOptions(acee, session, opts) {
     }
   }
 
-  session.setUndoManager(new UndoManager());
+  session.setUndoManager(new angular.ace.UndoManager());
 
   if (angular.isDefined(opts.cursorPosition)) {
     acee.moveCursorToPosition(opts.cursorPosition);
@@ -128,7 +128,7 @@ function AceLink(scope, elm, attrs, ngModel) {
    * ACE editor
    * @type object
    */
-  AceFactory.editor = ace.edit(elm[0]);
+  AceFactory.editor = angular.ace.edit(elm[0]);
 
   AceFactory.editor.container.addEventListener("contextmenu", function (e) {
     e.preventDefault();

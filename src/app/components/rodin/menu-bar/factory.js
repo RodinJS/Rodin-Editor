@@ -4,10 +4,10 @@
 
 
 import * as _ from "lodash/lodash.min";
-import * as AceThems from 'ace/ext/themelist';
+//import * as AceThems from 'ace/ext/themelist';
 import angular from 'angular/index';
 
-
+const AceThems = angular.aceThemes;
 function RodinMenuBarFactory(Utils, HotKeyFilter, RodinPreview, RodinIdea, RodinTabs, RodinEditor, FileUtils, RodinTabsConstants, Storage) {
   'ngInject';
 

@@ -515,6 +515,7 @@ class TreeCtrl {
             let deferred = self._$q.defer();
             let promise = deferred.promise;
 
+
             for (let i = 0, ln = res.files.length; i < ln; ++i) {
                 let file = res.files[i];
                 let deferred = self._$q.defer();
@@ -545,6 +546,8 @@ class TreeCtrl {
 
                         self._RodinTree.uploadFolder([content], {
                             path: res.path,
+                            folderName:res.folderName,
+                            zippedFiles:res.files,
                         });
                     });
             });
