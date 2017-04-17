@@ -1,0 +1,19 @@
+<div class="modal-content">
+    <div class="modal-body">
+        <h2 class="modal-title" data-ng-bind-html="$ctrl.message"></h2>
+        <form action="" class="modal-form">
+            <div class="form-group clearfix">
+                <label for="flag_checkbox" class="radio_box">
+                    <p style="line-height: 24px">Warning, in case of version merge conflict, these changes will
+                        be automatically accepted from outside and your previous changes will be ignored.
+                    </p>
+
+                </label>
+            </div>
+            <div class="form-actions">
+                <a class="btn btn-link" data-ng-click="$ctrl.cancel()">cancel</a>
+                <button type="button" class="btn btn-primary" data-ng-click="$ctrl.save()">Sync and Push</button>
+            </div>
+        </form>
+    </div>
+</div>
