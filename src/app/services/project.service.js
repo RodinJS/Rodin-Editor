@@ -2,65 +2,73 @@
  * Created by kh.levon98 on 20-Sep-16.
  */
 class Project {
-  constructor(JWT, AppConstants, Restangular, Validator, $state, $q, Analyser) {
-    'ngInject';
-    this._JWT = JWT;
-    this._AppConstants = AppConstants;
+    constructor(JWT, AppConstants, Restangular, Validator, $state, $q, Analyser) {
+        'ngInject';
+        this._JWT = JWT;
+        this._AppConstants = AppConstants;
 
-    this._Projects = Restangular.all('project');
-    this._$state = $state;
-    this._$q = $q;
-    this._Validator = new Validator();
-    this._Analyser = Analyser;
-  }
+        this._Projects = Restangular.all('project');
+        this._Git = Restangular.all('git');
+        this._$state = $state;
+        this._$q = $q;
+        this._Validator = new Validator();
+        this._Analyser = Analyser;
+    }
 
-  get(projectId = null, fields) {
-    let Analyser = new this._Analyser();
+    get(projectId = null, fields) {
+        let Analyser = new this._Analyser();
 
-    this._Projects.one(projectId).get(fields).then(Analyser.resolve, Analyser.reject);
+        this._Projects.one(projectId).get(fields).then(Analyser.resolve, Analyser.reject);
 
-    return Analyser.promise;
-  }
+        return Analyser.promise;
+    }
 
-  getList(fields = {}) {
-    let Analyser = new this._Analyser();
+    getList(fields = {}) {
+        let Analyser = new this._Analyser();
 
-    this._Projects.one('').get(fields).then(Analyser.resolve, Analyser.reject);
+        this._Projects.one('').get(fields).then(Analyser.resolve, Analyser.reject);
 
-    return Analyser.promise;
-  }
+        return Analyser.promise;
+    }
 
-  update(projectId = null, fields = {}) {
-    let Analyser = new this._Analyser();
+    update(projectId = null, fields = {}) {
+        let Analyser = new this._Analyser();
 
-    this._Projects.one(projectId).put(fields).then(Analyser.resolve, Analyser.reject);
+        this._Projects.one(projectId).put(fields).then(Analyser.resolve, Analyser.reject);
 
-    return Analyser.promise;
-  }
+        return Analyser.promise;
+    }
 
-  create(fields = {}) {
-    let Analyser = new this._Analyser();
+    create(fields = {}) {
+        let Analyser = new this._Analyser();
 
-    this._Projects.post(fields).then(Analyser.resolve, Analyser.reject);
+        this._Projects.post(fields).then(Analyser.resolve, Analyser.reject);
 
-    return Analyser.promise;
-  }
+        return Analyser.promise;
+    }
 
-  remove(projectId = null, fields = {}) {
-    let Analyser = new this._Analyser();
+    remove(projectId = null, fields = {}) {
+        let Analyser = new this._Analyser();
 
-    this._Projects.one(projectId).remove(fields).then(Analyser.resolve, Analyser.reject);
+        this._Projects.one(projectId).remove(fields).then(Analyser.resolve, Analyser.reject);
 
-    return Analyser.promise;
-  }
+        return Analyser.promise;
+    }
 
-  buildCode(projectId = null, fields = {}) {
-    let Analyser = new this._Analyser();
+    buildCode(projectId = null, fields = {}) {
+        let Analyser = new this._Analyser();
 
-    this._Projects.one(projectId).one("build", "transpile").get(fields).then(Analyser.resolve, Analyser.reject);
+        this._Projects.one(projectId).one("build", "transpile").get(fields).then(Analyser.resolve, Analyser.reject);
 
-    return Analyser.promise;
-  }
+        return Analyser.promise;
+    }
+
+    gitSync(projectId) {
+        let Analyser = new this._Analyser();
+
+        this._Git.one(`syncProject/${projectId}`).customPOST({}).then(Analyser.resolve, Analyser.reject);
+        return Analyser.promise;
+    }
 
 }
 

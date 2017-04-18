@@ -18,6 +18,7 @@ function ModalFactory($uibModal) {
   model.upload = upload;
   model.replace = replace;
   model.findAndReplace = findAndReplace;
+  model.gitSync = gitSync;
 
   return model;
 
@@ -53,6 +54,18 @@ function ModalFactory($uibModal) {
     return openModal($uibModal.open({
       animation: true,
       component: 'confirmModal',
+      resolve: resolve
+    }));
+  }
+
+  function gitSync(resolve = {}, closeActiveModal = true) {
+    if (closeActiveModal) {
+      closeModal(openModals);
+    }
+
+    return openModal($uibModal.open({
+      animation: true,
+      component: 'gitSyncModal',
       resolve: resolve
     }));
   }

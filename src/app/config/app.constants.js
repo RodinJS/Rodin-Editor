@@ -16,6 +16,7 @@ const AppConstants = {
         PUBLIC: 'https://rodin.space/public/',
         PUBLISH: `https://rodin.space/`,
         EDITOR: 'http://localhost:8000/#/',
+        GITHUB: '2350afe57c144672285b',
     },
     dev: {
         COOKIEDOMAIN: ['.rodin.space'],
@@ -26,6 +27,8 @@ const AppConstants = {
         PUBLIC: 'https://rodin.space/public/',
         PUBLISH: `https://rodin.space/`,
         EDITOR: 'https://editor.rodin.space/',
+        GITHUB: 'fa69c03ad5758fce1f10',
+
     },
     prod: {
         COOKIEDOMAIN: ['.rodinapp.com', '.rodin.io', '.rodin.space'],
@@ -36,6 +39,8 @@ const AppConstants = {
         PUBLIC: `${window.location.protocol}//${window.extractDomain()}/public/`,
         PUBLISH: `${window.location.protocol}//${window.extractDomain()}/`,
         EDITOR: `${window.location.protocol}//editor.${window.extractDomain()}/`,
+        GITHUB: '5377f212205e0aa4b4cf',
+
     },
     stage: {
         COOKIEDOMAIN: ['.rodin.design'],
@@ -47,6 +52,7 @@ const AppConstants = {
         PUBLIC: `${window.location.protocol}//${window.extractDomain()}/public/`,
         PUBLISH: `${window.location.protocol}//${window.extractDomain()}/`,
         EDITOR: `${window.location.protocol}//editor.${window.extractDomain()}/`,
+        GITHUB: 'd2030c37902fa3d4d0c7',
     },
 
     get API() {
@@ -75,6 +81,10 @@ const AppConstants = {
 
     get COOKIEDOMAIN() {
         return this[this.env].COOKIEDOMAIN;
+    },
+
+    get GITHUB() {
+        return this[this.env].GITHUB;
     },
 
 
