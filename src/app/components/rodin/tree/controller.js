@@ -685,7 +685,7 @@ class TreeCtrl {
                     if (err.code == 350) {
                         return self._Modal.gitSync({
                             message: () => {
-                                return `You are not connected to a GitHub account. Please connect and continue.`
+                                return `To be able to push your changed you need to sync with a GitHub account first.`
                             },
                             showFlag: () => {
                                 return false;

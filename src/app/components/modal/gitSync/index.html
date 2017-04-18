@@ -4,10 +4,14 @@
         <form action="" class="modal-form">
             <div class="form-group clearfix">
                 <label for="flag_checkbox" class="radio_box">
-                    <p style="line-height: 24px">Warning, in case of version merge conflict, these changes will
-                        be automatically accepted from outside and your previous changes will be ignored.
+                    <p style="line-height: 24px">
+                        Warning: In case of version merge conflict, these changes will be automatically accepted
+                        from outside and your previous changes will be ignored.
                     </p>
-
+                    <span class="form-group-addon">
+                      <input type="checkbox" data-ng-model="$ctrl.flag" id="flag_checkbox">
+                    </span>
+                    Do not show this dialog again.
                 </label>
             </div>
             <div class="form-actions">
