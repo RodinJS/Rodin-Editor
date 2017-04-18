@@ -510,17 +510,40 @@ class TreeCtrl {
                     return "copy";
                 }
             }).result.then((res) => {
+                console.log(res);
                 if (res.type === "file") {
-                    self._RodinTree.copyFile(node, {
+
+                    if(res.flag === 'replace'){
+                        return self._RodinTree.replaceFile(node, {
+                            name: res.name,
+                            path: res.path,
+                            srcPath: res.srcPath,
+                            content:"",
+                            isUnsaved:true
+                        }).then((res) => {
+                            deferred.resolve(res);
+                        }, (err) => {
+                            deferred.reject(err);
+                        });
+                    }
+
+                    const data = {
                         name: res.name,
                         path: res.path,
                         srcPath: res.srcPath,
                         flag: res.flag
-                    }).then((res) => {
+                    };
+
+                    if(res.flag === 'rename'){
+                        data.name = data.name.replace(/(\.[\w\d_-]+)$/i, '_copy$1');
+                    }
+
+                    self._RodinTree.copyFile(node, data).then((res) => {
                         deferred.resolve(res);
                     }, (err) => {
                         deferred.reject(err);
                     });
+
                 } else {
                     self._RodinTree.copyFolder(node, {
                         name: res.name,

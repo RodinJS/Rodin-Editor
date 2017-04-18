@@ -24,6 +24,7 @@ function RodinTreeFactory(Editor, RodinEditor, RodinTabs, RodinTabsConstants, Ut
     model.copyFile = copyFile;
     model.copyFolder = copyFolder;
     model.update = updateTree;
+    model.replaceFile = replaceFile;
 
     return model;
 
@@ -121,7 +122,6 @@ function RodinTreeFactory(Editor, RodinEditor, RodinTabs, RodinTabsConstants, Ut
 
     function createFile(node, reqData = {}) {
         reqData.type = "file";
-
         return File.create(reqData).then((data) => {
             model.update({
                 folderPath: Utils.filterTree(model.data, {active: true}, "path", reqData.path),
@@ -130,6 +130,17 @@ function RodinTreeFactory(Editor, RodinEditor, RodinTabs, RodinTabsConstants, Ut
         });
     }
 
+
+    function replaceFile(node, reqData={}){
+        reqData.type = "file";
+        reqData.path = reqData.srcPath;
+        return File.save(reqData).then((data) => {
+            model.update({
+                folderPath: Utils.filterTree(model.data, {active: true}, "path", reqData.path),
+                openFile: reqData.name
+            });
+        })
+    }
 
     function createFolder(node, reqData = {}) {
         reqData.type = "directory";
