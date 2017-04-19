@@ -6,6 +6,7 @@ function RodinIdeaFactory(Storage) {
 
   let model = {};
   let projectId = null;
+  let Project = null;
 
   let projectDefaultSett = {
     treeState: {},
@@ -28,6 +29,8 @@ function RodinIdeaFactory(Storage) {
 
   model.getProjectId = getProjectId;
   model.setProjectId = setProjectId;
+  model.setProject = setProject;
+  model.getProject = getProject;
 
 
   return model;
@@ -39,6 +42,15 @@ function RodinIdeaFactory(Storage) {
 
   function getProjectId() {
     return projectId;
+  }
+
+  function setProject(project){
+      Project = project;
+      return Project;
+  }
+
+  function getProject(){
+    return Project;
   }
 
   function setProjectId(id = null) {
