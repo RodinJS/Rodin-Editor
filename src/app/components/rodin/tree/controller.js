@@ -169,7 +169,7 @@ class TreeCtrl {
 
             self._copy(null, null, file);
 
-            self._paste(null, null, self._Utils.findNodeByPath(self._RodinTree.data, file.parent)).then((data) => {
+            self._paste(null, null, self._Utils.findNodeByPath(self._RodinTree.data, file.parent), null, null, file).then((data) => {
                 this._Notification.success("File successfully copied.");
             }, (err) => {
                 if (err && err.length) {
@@ -438,7 +438,7 @@ class TreeCtrl {
         self._buffer = node;
     }
 
-    _paste($itemScope, $event, node, text, $li) {
+    _paste($itemScope, $event, node, text, $li, file) {
 
         let deferred = self._$q.defer();
 
@@ -460,7 +460,7 @@ class TreeCtrl {
                     return "copy";
                 }
             }).result.then((res) => {
-                console.log(res);
+                console.log(res, node, file);
                 if (res.type === "file") {
 
                     if(res.flag === 'replace'){
@@ -468,7 +468,7 @@ class TreeCtrl {
                             name: res.name,
                             path: res.path,
                             srcPath: res.srcPath,
-                            content:"",
+                            content:file ? file.content : '',
                             isUnsaved:true
                         }).then((res) => {
                             deferred.resolve(res);
@@ -598,7 +598,6 @@ class TreeCtrl {
                         _.each(this._RodinTabs.getList('EDITOR_TABS'), (file)=> {
                             setTimeout(()=>{
                                 const fileParams = _.pick(file, ['parent', 'path', 'name', 'type']);
-                                console.log('FFFILE', fileParams);
                                 this._RodinTree.openFile(fileParams, true);
                             }, 0);
                         });
