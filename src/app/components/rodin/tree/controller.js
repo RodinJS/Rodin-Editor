@@ -694,6 +694,46 @@ class TreeCtrl {
     _push($itemScope, $event, node, text, $li) {
 
 
+        console.log(this._User);
+        const Project = this._RodinIdea.getProject();
+
+        if(!this._User.current.github){
+            return self._Modal.gitSync({
+                message: () => {
+                    return `To be able to push your changed you need to sync with a GitHub account first.`
+                },
+                showFlag: () => {
+                    return false;
+                }
+            }).result.then((res) => {
+                self._$window.location.href = `https://github.com/login/oauth/authorize?client_id=${self._AppConstants.GITHUB}&redirect_uri=${self._AppConstants.API}/git/sync?projectId=${self._RodinIdea.getProjectId()}&scope=user%20repo`;
+            });
+        }
+
+        if(!Project.github){
+            return self._Modal.gitSync({
+                message: () => {
+                    return `To be able to push your changes you need to sync this project with GitHub first.`
+                },
+                showFlag: () => {
+                    return false;
+                }
+            }).result.then((res) => {
+                self._Project.gitSync(self._RodinIdea.getProjectId())
+                    .then((res) => {
+                        self._Project.get(self._$stateParams.projectFolder).then((data) => {
+                            self._RodinIdea.setProjectId(data._id);
+                            self._RodinIdea.setProject(data);
+                        })
+                        this._Notification.success(res);
+                    }, (err) => {
+                        console.log('SNYC ERR', err);
+                        this._Notification.error(`Can't sync project`);
+
+                    })
+            });
+        }
+
         let doRequest = () => {
 
             self._VCS.push(this._RodinIdea.getProjectId(), {
@@ -704,26 +744,10 @@ class TreeCtrl {
                 if (err && err.length) {
                     err = err.first();
                     let message;
-
-                    if (err.code == 350) {
-                        return self._Modal.gitSync({
-                            message: () => {
-                                return `To be able to push your changed you need to sync with a GitHub account first.`
-                            },
-                            showFlag: () => {
-                                return false;
-                            }
-                        }).result.then((res) => {
-                            self._$window.location.href = `https://github.com/login/oauth/authorize?client_id=${self._AppConstants.GITHUB}&redirect_uri=${self._AppConstants.API}/git/sync?projectId=${self._RodinIdea.getProjectId()}&scope=user%20repo`;
-                        });
-                    }
-
-
                     switch (err.code) {
-                        //case 350:
-                        //this._Modal.gitSync
-                        //    message = "Please connect your github account for work with version control.";
-                        //    break;
+                        case 350:
+                           message = "Please connect your github account for work with version control.";
+                           break;
                         default:
                             message = "VCS push failed.";
                             break;
