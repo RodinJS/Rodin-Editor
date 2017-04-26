@@ -269,6 +269,7 @@ class TreeCtrl {
                     .then((res) => {
                         this._$state.go('app.editor', {username:this._$stateParams.username, projectFolder:this._$stateParams.projectFolder, token: undefined, id: undefined, socialEmail: undefined});
                         this._Notification.success(res);
+                        location.reload();
                     }, (err) => {
                         console.log('SNYC ERR', err);
                     })
