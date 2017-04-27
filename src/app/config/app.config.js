@@ -2,7 +2,7 @@
  * Created by kh.levon98 on 13-Sep-16.
  */
 
-function AppConfig(RestangularProvider, $stateProvider, $locationProvider, $urlRouterProvider, AppConstants, $logProvider, NotificationProvider) {
+function AppConfig(RestangularProvider, $stateProvider, $locationProvider, $urlRouterProvider, AppConstants, $logProvider, NotificationProvider, cfpLoadingBarProvider) {
   'ngInject';
 
   RestangularProvider.setBaseUrl(AppConstants.API);
@@ -23,6 +23,9 @@ function AppConfig(RestangularProvider, $stateProvider, $locationProvider, $urlR
     positionX: 'right',
     positionY: 'top'
   });
+
+  cfpLoadingBarProvider.latencyThreshold = 1000;
+  cfpLoadingBarProvider.autoIncrement = false;
 
 
   if (AppConstants.env !== "local") {

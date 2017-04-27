@@ -2,7 +2,7 @@
  * Created by kh.levon98 on 28-Sep-16.
  */
 class Editor {
-    constructor(JWT, AppConstants, Restangular, Validator, Analyser, $state, $q, cfpLoadingBar) {
+    constructor(JWT, AppConstants, Restangular, Validator, Analyser, $state, $q, cfpLoadingBar, $interval) {
         'ngInject';
         this._JWT = JWT;
         this._AppConstants = AppConstants;
@@ -13,6 +13,7 @@ class Editor {
         this._Validator = new Validator();
         this._Analyser = Analyser;
         this._LoadingBar = cfpLoadingBar;
+        this._$interval = $interval;
     }
 
     getProject(projectId = null, fields = {}) {
@@ -59,21 +60,30 @@ class Editor {
     }
 
     uploadFile(projectId = null, files = [], fields = {}) {
-
-        this._LoadingBar.start();
-
         let Analyser = new this._Analyser();
 
+
+        let totalSize = 0;
         let formData = new FormData();
 
         for (let i = 0, ln = files.length; i < ln; ++i) {
             let file = files[i];
+            totalSize = totalSize+file.size;
             formData.append("file", file);
         }
 
         for (let i in fields) {
             formData.append(i, fields[i]);
         }
+
+
+        const totalSizeMB = (totalSize / (1024*1024)).toFixed(0);
+        let loaderProgress = 0;
+        this._LoadingBar.start();
+        this.timer = this._$interval(() => {
+            loaderProgress  += ((0.01*100)/totalSizeMB);
+            this._LoadingBar.set(loaderProgress)
+        }, 100);
 
 
         this._Editors.one("upload")
@@ -88,9 +98,11 @@ class Editor {
                     return undefined;
                 }
             }).then((response) => {
+            this._$interval.cancel(this.timer);
             this._LoadingBar.complete();
             Analyser.resolve(response);
         }, (error) => {
+            this._$interval.cancel(this.timer);
             this._LoadingBar.complete();
             Analyser.reject(error);
         });
