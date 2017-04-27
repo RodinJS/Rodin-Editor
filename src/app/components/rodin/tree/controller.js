@@ -701,7 +701,7 @@ class TreeCtrl {
         if(!this._User.current.github){
             return self._Modal.gitSync({
                 message: () => {
-                    return `To be able to push your changed you need to sync with a GitHub account first.`
+                    return `To be able to push your changes you need to sync with a GitHub account first.`
                 },
                 showFlag: () => {
                     return false;
