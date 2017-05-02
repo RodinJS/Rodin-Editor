@@ -317,7 +317,7 @@ function RodinTreeFactory(Editor, RodinEditor, RodinTabs, RodinTabsConstants, Ut
 
     function validateFileFormat(file, invalidFileExtensions) {
 
-        let sFileName = file.name;
+        let sFileName = file.name.toLowerCase();
         if (sFileName && sFileName.length > 0) {
             const re = /(?:\.([^.]+))?$/;
             const extension = re.exec(sFileName)[1];
