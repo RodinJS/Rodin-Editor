@@ -39,8 +39,7 @@ const AppConstants = {
         PUBLIC: `${window.location.protocol}//${window.extractDomain()}/public/`,
         PUBLISH: `${window.location.protocol}//${window.extractDomain()}/`,
         EDITOR: `${window.location.protocol}//editor.${window.extractDomain()}/`,
-        GITHUB: '5377f212205e0aa4b4cf',
-
+        GITHUB: 'd2030c37902fa3d4d0c7',
     },
     stage: {
         COOKIEDOMAIN: ['.rodin.design'],
@@ -52,7 +51,7 @@ const AppConstants = {
         PUBLIC: `${window.location.protocol}//${window.extractDomain()}/public/`,
         PUBLISH: `${window.location.protocol}//${window.extractDomain()}/`,
         EDITOR: `${window.location.protocol}//editor.${window.extractDomain()}/`,
-        GITHUB: 'd2030c37902fa3d4d0c7',
+        GITHUB: '5377f212205e0aa4b4cf',
     },
 
     get API() {
