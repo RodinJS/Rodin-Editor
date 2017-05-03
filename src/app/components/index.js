@@ -64,6 +64,10 @@ componentsModule.component('replaceModal', ReplaceModal);
 import FindAndReplaceModal from './modal/findandreplace/index';
 componentsModule.component('findAndReplaceModal', FindAndReplaceModal);
 
+//Git sync
+import GitSyncModal from './modal/gitSync/index';
+componentsModule.component('gitSyncModal', GitSyncModal);
+
 
 /*
  * End of Modals modules

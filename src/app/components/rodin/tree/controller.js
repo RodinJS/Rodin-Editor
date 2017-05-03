@@ -13,7 +13,29 @@ let self;
 
 class TreeCtrl {
 
-    constructor($scope, $timeout, VCS, $log, File, FileUtils, RodinTabs, RodinTabsConstants, RodinTree, RodinEditor, RodinIdea, Modal, $on, $q, Notification, Storage, Utils) {
+    constructor($scope,
+                $timeout,
+                VCS,
+                $log,
+                File,
+                FileUtils,
+                RodinTabs,
+                RodinTabsConstants,
+                RodinTree,
+                RodinEditor,
+                RodinIdea,
+                Modal,
+                $on,
+                $q,
+                Notification,
+                Storage,
+                Utils,
+                AppConstants,
+                $window,
+                $stateParams,
+                Project,
+                User,
+                $state) {
         'ngInject';
         self = this;
         this._$scope = $scope;
@@ -25,11 +47,17 @@ class TreeCtrl {
         this._RodinEditor = RodinEditor;
         this._FileUtils = FileUtils;
         this._File = File;
+        this._$window = $window;
         this._RodinIdea = RodinIdea;
         this._Modal = Modal;
         this._Storage = Storage;
         this._Utils = Utils;
         this._Notification = Notification;
+        this._AppConstants = AppConstants;
+        this._$stateParams = $stateParams;
+        this._$state = $state;
+        this._Project = Project;
+        this._User = User;
         this._$log = $log;
         this._$q = $q;
         this._$on = $on;
@@ -169,7 +197,7 @@ class TreeCtrl {
 
             self._copy(null, null, file);
 
-            self._paste(null, null, self._Utils.findNodeByPath(self._RodinTree.data, file.parent)).then((data) => {
+            self._paste(null, null, self._Utils.findNodeByPath(self._RodinTree.data, file.parent), null, null, file).then((data) => {
                 this._Notification.success("File successfully copied.");
             }, (err) => {
                 if (err && err.length) {
@@ -225,28 +253,57 @@ class TreeCtrl {
     }
 
     __initTree() {
+
+        if (this._$stateParams.token && this._$stateParams.id && this._User.current) {
+
+            let data = {
+                id: this._$stateParams.id,
+                token: this._$stateParams.token,
+                socialEmail: this._$stateParams.socialEmail,
+                email: this._User.current.email,
+                sync: true
+            };
+
+            this._User.gitAuth(data).then((res) => {
+                this._Project.gitSync(this._RodinIdea.getProjectId())
+                    .then((res) => {
+                        this._$state.go('app.editor', {username:this._$stateParams.username, projectFolder:this._$stateParams.projectFolder, token: undefined, id: undefined, socialEmail: undefined});
+                        this._Notification.success(res);
+                        location.reload();
+                    }, (err) => {
+                        console.log('SNYC ERR', err);
+                    })
+
+            }, (err) => {
+                console.log('GIT SYNC EERROR', err);
+            })
+
+        }
+
         let editor_tabs = this._Storage.projectScopeGet(this._RodinIdea.getProjectId(), this._RodinTabsConstants.editor);
 
-        if (editor_tabs) {
-
-            for (let i = 0, ln = editor_tabs.data.length; i < ln; i++) {
-                let tab = editor_tabs.data[i];
-                if (!tab.isBlank && !tab.isUnsaved) {
-                    this._File.open(tab).then((data) => {
-                        let file = this._RodinTabs.get(this._RodinTabsConstants.editor, tab);
-                        file.content = data.content;
-                        file.originalContent = data.content;
-                    });
-                }
-            }
-        }
 
         return this._RodinTree.update({
             firstCall: true,
             folderPath: this._Utils.getTreeActiveState(this._RodinIdea.getProjectId()),
-            openFile: editor_tabs && editor_tabs.info ? null : ["index.html", "index.js", ".html", ".js"],
+            openFile: editor_tabs && editor_tabs.info ? null : ["index.html"]//["index.html", "index.js", ".html", ".js"],
             // runFile: ["index.html", ".html"]
         }).then(() => {
+
+            if (editor_tabs) {
+
+                for (let i = 0, ln = editor_tabs.data.length; i < ln; i++) {
+                    let tab = editor_tabs.data[i];
+                    if (!tab.isBlank && !tab.isUnsaved) {
+                        setTimeout(() => {
+                            const fileParams = _.pick(tab, ['parent', 'path', 'name', 'type']);
+                            this._RodinTree.openFile(fileParams, true);
+                        }, 0);
+                    }
+                }
+            }
+
+
         }, () => {
             this._Storage.projectScopeSet(this._RodinIdea.getProjectId(), "treeState", {});
             this.__initTree();
@@ -305,7 +362,6 @@ class TreeCtrl {
     isVisible(node) {
         return !(this.treeFilter && this.treeFilter.length > 0 && node.name.indexOf(this.treeFilter) == -1);
     }
-
 
     _delete($itemScope, $event, node, text, $li) {
         self._Modal.confirm({
@@ -433,7 +489,7 @@ class TreeCtrl {
         self._buffer = node;
     }
 
-    _paste($itemScope, $event, node, text, $li) {
+    _paste($itemScope, $event, node, text, $li, file) {
 
         let deferred = self._$q.defer();
 
@@ -455,17 +511,40 @@ class TreeCtrl {
                     return "copy";
                 }
             }).result.then((res) => {
+                console.log(res, node, file);
                 if (res.type === "file") {
-                    self._RodinTree.copyFile(node, {
+
+                    if(res.flag === 'replace'){
+                        return self._RodinTree.replaceFile(node, {
+                            name: res.name,
+                            path: res.path,
+                            srcPath: res.srcPath,
+                            content:file ? file.content : '',
+                            isUnsaved:true
+                        }).then((res) => {
+                            deferred.resolve(res);
+                        }, (err) => {
+                            deferred.reject(err);
+                        });
+                    }
+
+                    const data = {
                         name: res.name,
                         path: res.path,
                         srcPath: res.srcPath,
                         flag: res.flag
-                    }).then((res) => {
+                    };
+
+                    if(res.flag === 'rename'){
+                        data.name = data.name.replace(/(\.[\w\d_-]+)$/i, '_copy$1');
+                    }
+
+                    self._RodinTree.copyFile(node, data).then((res) => {
                         deferred.resolve(res);
                     }, (err) => {
                         deferred.reject(err);
                     });
+
                 } else {
                     self._RodinTree.copyFolder(node, {
                         name: res.name,
@@ -546,8 +625,8 @@ class TreeCtrl {
 
                         self._RodinTree.uploadFolder([content], {
                             path: res.path,
-                            folderName:res.folderName,
-                            zippedFiles:res.files,
+                            folderName: res.folderName,
+                            zippedFiles: res.files,
                         });
                     });
             });
@@ -564,8 +643,17 @@ class TreeCtrl {
             }).then(() => {
                 self._Notification.success("VCS pull success.");
                 self._RodinTree.update({
-                    folderPath: this._Utils.filterTree(this._RodinTree.data, {active: true}, "path", "")
-                });
+                    folderPath: this._Utils.filterTree(this._RodinTree.data, {active: true}, "path", ""),
+                })
+                    .then(() => {
+                        _.each(this._RodinTabs.getList('EDITOR_TABS'), (file) => {
+                            setTimeout(() => {
+                                const fileParams = _.pick(file, ['parent', 'path', 'name', 'type']);
+                                this._RodinTree.openFile(fileParams, true);
+                            }, 0);
+                        });
+                    })
+
             }, (err) => {
                 if (err && err.length) {
                     err = err.first();
@@ -607,6 +695,46 @@ class TreeCtrl {
     _push($itemScope, $event, node, text, $li) {
 
 
+        console.log(this._User);
+        const Project = this._RodinIdea.getProject();
+
+        if(!this._User.current.github){
+            return self._Modal.gitSync({
+                message: () => {
+                    return `To be able to push your changes you need to sync with a GitHub account first.`
+                },
+                showFlag: () => {
+                    return false;
+                }
+            }).result.then((res) => {
+                self._$window.location.href = `https://github.com/login/oauth/authorize?client_id=${self._AppConstants.GITHUB}&redirect_uri=${self._AppConstants.API}/git/sync?projectId=${self._RodinIdea.getProjectId()}&scope=user%20repo`;
+            });
+        }
+
+        if(!Project.github){
+            return self._Modal.gitSync({
+                message: () => {
+                    return `To be able to push your changes you need to sync this project with GitHub first.`
+                },
+                showFlag: () => {
+                    return false;
+                }
+            }).result.then((res) => {
+                self._Project.gitSync(self._RodinIdea.getProjectId())
+                    .then((res) => {
+                        self._Project.get(self._$stateParams.projectFolder).then((data) => {
+                            self._RodinIdea.setProjectId(data._id);
+                            self._RodinIdea.setProject(data);
+                        })
+                        this._Notification.success(res);
+                    }, (err) => {
+                        console.log('SNYC ERR', err);
+                        this._Notification.error(`Can't sync project`);
+
+                    })
+            });
+        }
+
         let doRequest = () => {
 
             self._VCS.push(this._RodinIdea.getProjectId(), {
@@ -619,8 +747,8 @@ class TreeCtrl {
                     let message;
                     switch (err.code) {
                         case 350:
-                            message = "Please connect your github account for work with version control.";
-                            break;
+                           message = "Please connect your github account for work with version control.";
+                           break;
                         default:
                             message = "VCS push failed.";
                             break;

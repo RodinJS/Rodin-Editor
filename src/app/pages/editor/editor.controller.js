@@ -14,6 +14,7 @@ class EditorCtrl {
       this.project = data;
 
       this._RodinIdea.setProjectId(data._id);
+      this._RodinIdea.setProject(this.project);
 
       this.projectId = this._RodinIdea.getProjectId();
     }, (err) => {
