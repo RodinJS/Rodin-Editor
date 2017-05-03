@@ -81,9 +81,9 @@ class Editor {
         let loaderProgress = 0;
         this._LoadingBar.start();
         this.timer = this._$interval(() => {
-            loaderProgress  += ((0.01*100)/totalSizeMB);
+            loaderProgress  += ((0.001*100)/totalSizeMB);
             this._LoadingBar.set(loaderProgress)
-        }, 100);
+        }, 200);
 
 
         this._Editors.one("upload")
