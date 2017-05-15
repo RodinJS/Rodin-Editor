@@ -5,52 +5,55 @@
 let self;
 
 class CreateCtrl {
-  constructor($scope, RodinTree) {
-    'ngInject';
-    self = this;
+    constructor($scope, RodinTree) {
+        'ngInject';
+        self = this;
 
-    this._$scope = $scope;
+        this._$scope = $scope;
 
-    this.projectRoot = RodinTree.root;
+        this.projectRoot = RodinTree.root;
+        this.disabled = false;
+        this.name = "";
+        this.path = "";
+        this.type = "";
+        this.action = "";
 
-    this.name = "";
-    this.path = "";
-    this.type = "";
-    this.action = "";
-
-    /// copy fields
-    this.srcPath = "";
-  }
+        /// copy fields
+        this.srcPath = "";
+    }
 
 
-  $onInit() {
-    this.name = this.resolve.name || "";
-    this.path = this.resolve.path || "";
-    this.type = this.resolve.type || "";
-    this.flag = this.resolve.flag || "";
-    this.action = this.resolve.action || "create";
+    $onInit() {
+        this.name = this.resolve.name || "";
+        this.path = this.resolve.path || "";
+        this.type = this.resolve.type || "";
+        this.flag = this.resolve.flag || "";
+        this.action = this.resolve.action || "create";
 
-    /// copy fields
-    this.srcPath = this.resolve.srcPath || "";
-  }
+        /// copy fields
+        this.srcPath = this.resolve.srcPath || "";
+    }
 
-  cancel() {
-    this.dismiss({$value: 'cancel'});
-  }
+    cancel() {
+        this.dismiss({ $value: 'cancel' });
+    }
 
-  save() {
-    let res = {
-      name: this.name,
-      path: this.path,
-      type: this.type,
-      flag: this.flag,
+    save() {
+        if (this.name.length > 0) {
+            let res = {
+                name: this.name,
+                path: this.path,
+                type: this.type,
+                flag: this.flag,
 
-      /// copy fields
-      srcPath: this.srcPath
+                /// copy fields
+                srcPath: this.srcPath
+            };
+            this.close({ $value: res });
+        }
+
+
     };
-
-    this.close({$value: res});
-  };
 }
 
 export default CreateCtrl;
