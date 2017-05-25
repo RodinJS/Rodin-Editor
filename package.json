@@ -63,7 +63,7 @@
     "gulp-uglify": "^2.0.0",
     "gulp-watch": "^4.3.11",
     "run-sequence": "^1.2.2",
-    "webpack": "^2.3.2"
+    "webpack": "^2.6.1"
   },
   "dependencies": {
     "ace": "git+https://github.com/RodinJS/ace#master",
