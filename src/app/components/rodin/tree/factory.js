@@ -4,7 +4,7 @@
 
 import * as _ from "lodash/lodash.min";
 
-function RodinTreeFactory(Editor, RodinEditor, RodinTabs, RodinTabsConstants, Utils, FileUtils, File, RodinIdea, RodinPreview, Storage, Modal, $q, Loader) {
+function RodinTreeFactory(Editor, RodinEditor, RodinTabs, RodinTabsConstants, Utils, FileUtils, File, RodinIdea, RodinPreview, Storage, Modal, $q, Loader, Notification) {
     'ngInject';
 
     let model = {};
@@ -123,11 +123,14 @@ function RodinTreeFactory(Editor, RodinEditor, RodinTabs, RodinTabsConstants, Ut
     function createFile(node, reqData = {}) {
         reqData.type = "file";
         return File.create(reqData).then((data) => {
+            console.log(data)
             model.update({
                 folderPath: Utils.filterTree(model.data, {active: true}, "path", reqData.path),
                 openFile: reqData.name
             });
-        });
+        }, err => err.map(i => {
+            Notification.error(i.data)
+        }));
     }
 
 
@@ -149,7 +152,9 @@ function RodinTreeFactory(Editor, RodinEditor, RodinTabs, RodinTabsConstants, Ut
             model.update({
                 folderPath: Utils.filterTree(model.data, {active: true}, "path", reqData.path)
             });
-        });
+        }, err => err.map(i => {
+            Notification.error(i.data)
+        }));
     }
 
 
@@ -317,7 +322,7 @@ function RodinTreeFactory(Editor, RodinEditor, RodinTabs, RodinTabsConstants, Ut
 
     function validateFileFormat(file, invalidFileExtensions) {
 
-        let sFileName = file.name;
+        let sFileName = file.name.toLowerCase();
         if (sFileName && sFileName.length > 0) {
             const re = /(?:\.([^.]+))?$/;
             const extension = re.exec(sFileName)[1];
