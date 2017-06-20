@@ -32,15 +32,17 @@ class FindAndReplaceCtrl {
   }
 
   save() {
-    let res = {
-      findText: this.findText,
-      replaceText: this.replaceText,
-      path: this.path,
-      caseSensitive: this.caseSensitive,
-      regexp: this.regexp,
-    };
+    if(this.findText.length > 0) {
+        let res = {
+            findText: this.findText,
+            replaceText: this.replaceText,
+            path: this.path,
+            caseSensitive: this.caseSensitive,
+            regexp: this.regexp,
+        };
 
-    this.close({$value: res});
+        this.close({$value: res});
+    }
   };
 }
 
