@@ -18,6 +18,8 @@ class CreateCtrl {
         this.type = "";
         this.action = "";
 
+        this.pattern = new RegExp(/^[-!$%^&*()#_+|~=`{}\[\]:";'<>?,.\/]*?$/g);
+
         /// copy fields
         this.srcPath = "";
     }
@@ -39,7 +41,7 @@ class CreateCtrl {
     }
 
     save() {
-        if (this.name.length > 0) {
+        if (this.name.length > 0 && !this.pattern.test(this.name)) {
             let res = {
                 name: this.name,
                 path: this.path,
