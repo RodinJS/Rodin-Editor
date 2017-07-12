@@ -1,9 +1,9 @@
 # Pull base image.
 FROM yvnio/nginx
-ARG env=dev
 
 MAINTAINER Grigor Khachatryan <g@yvn.io>
 
+ARG env=dev
 
 # Install Global node packages
 RUN npm install -g gulp
