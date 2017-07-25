@@ -9,7 +9,8 @@
     "local": "export NODE_ENV=local; gulp bundle",
     "dev": "export NODE_ENV=dev; gulp bundle",
     "stage": "export NODE_ENV=stage; gulp bundle",
-    "prod": "export NODE_ENV=prod; gulp bundle"
+    "prod": "export NODE_ENV=prod; gulp bundle",
+    "test": "export NODE_ENV=test; gulp bundle"
   },
   "repository": {
     "type": "git",
