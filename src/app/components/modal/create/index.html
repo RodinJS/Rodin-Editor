@@ -38,7 +38,7 @@
             <div class="form-actions">
                 <a class="btn btn-link" data-ng-click="$ctrl.cancel()">cancel</a>
 
-                <button type="button" class="btn" ng-class="$ctrl.name.length > 0 ? 'btn-primary': 'btn-negative'" data-ng-click="$ctrl.save()">create</button>
+                <button type="button" class="btn" ng-class="($ctrl.name.length > 0 && !$ctrl.pattern.test($ctrl.name))? 'btn-primary': 'btn-negative'" data-ng-click="$ctrl.save()">create</button>
             </div>
         </form>
     </div>
