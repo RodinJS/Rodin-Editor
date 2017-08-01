@@ -5,6 +5,10 @@ MAINTAINER Grigor Khachatryan <g@yvn.io>
 
 ARG env=dev
 
+ADD package.json /tmp/package.json
+RUN cd /tmp && npm install
+RUN cp -a /tmp/node_modules /usr/share/nginx/html
+
 # Install Global node packages
 RUN npm install -g gulp
 
@@ -14,7 +18,6 @@ COPY default.conf /etc/nginx/conf.d
 # Pull project
 COPY ./ /usr/share/nginx/html
 WORKDIR /usr/share/nginx/html
-RUN npm i
 RUN gulp prod
 RUN npm run ${env}
 
