@@ -1,5 +1,7 @@
 # Rodin-Editor
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/RodinJS/Rodin-Editor.svg?token=ac939643d78dadd81b7300b600ba0c8b65684c5ecd672950b97d4bdf547bf892&ts=1502272761912)](https://greenkeeper.io/)
+
 ## Program dependencies
 1. [NodeJS](https://nodejs.org/en/) v4.2.0 or later.
 
