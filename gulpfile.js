@@ -399,11 +399,11 @@ gulp.task('env', ()=>{
 
 
 gulp.task('prod', (done) => {
-  sequence('clean', 'vendor', ['generate-index', 'template', 'js-prod', 'sass-prod', 'font', 'img'], done);
+  sequence('clean', 'vendor', 'generate-index', 'template', ['js-prod', 'sass-prod', 'font', 'img'], done);
 });
 
 gulp.task('default', (done) => {
-  sequence('clean', 'vendor', ['generate-index', 'template', 'js', 'sass', 'font', 'img', 'connect', 'watch'], done);
+  sequence('clean', 'vendor', 'generate-index', 'template', ['js', 'sass', 'font', 'img', 'connect', 'watch'], done);
 });
 
 gulp.task('bundle', (done) => {
